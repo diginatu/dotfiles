@@ -1,0 +1,19 @@
+
+# go path
+#if [ -d "/usr/local/go" ] ; then
+    #export GOBIN=$GOPATH/bin
+#fi
+
+# cuda path
+if [ -d "/usr/local/cuda" ] ; then
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
+    export CUDA_HOME=/usr/local/cuda
+fi
+
+path=(
+    $HOME/bin(N-/)
+    /usr/local/go/bin(N-/)
+    $HOME/go/bin(N-/)
+    $CUDA_HOME/bin(N-/)
+    $path
+)

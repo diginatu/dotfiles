@@ -1,0 +1,24 @@
+
+snippet if "if(){}"
+if (${1}) {
+	${VISUAL}${0}
+}
+endsnippet
+
+snippet pl "print with new line"
+std::cout << ${VISUAL}${0} << std::endl;
+endsnippet
+
+snippet p "print"
+std::cout << ${VISUAL}${0};
+endsnippet
+
+snippet readfile "read file (readF)"
+std::vector<char> v;
+if (FILE *fp = fopen(${1:"filename"}, "r")) {
+	char buf[1024];
+	while(size_t len = fread(buf, 1, sizeof(buf), fp))
+		v.insert(v.end(), buf, buf + len);
+	fclose(fp);
+}
+endsnippet

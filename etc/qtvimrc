@@ -1,0 +1,67 @@
+scriptencoding utf-8
+
+set ignorecase		" Do case insensitive matching
+set smartcase		" Do smart case matching
+set incsearch		" Incremental search
+set autowrite		" Automatically save before commands like :next and :make
+set hidden         " Hide buffers when they are abandoned
+
+" カーソル移動時余裕を開けてスクロール
+set scrolloff=3
+
+"ステータスバー
+set laststatus=2 
+
+"クリップボード
+set clipboard=unnamedplus
+
+" バックスペースでインデントや改行を削除
+set backspace=indent,eol,start
+
+"マウスをノーマルモードのみ有効にする
+set mouse=nv
+set ttymouse=xterm2
+
+"行番号表示
+set number
+
+"コマンドライン補完の拡張モード
+set wildmenu
+set wildmode=longest:full
+
+"インデント
+set expandtab
+set tabstop=4 shiftwidth=4 softtabstop=4
+
+"シフトの時シフト幅に丸める
+set shiftround
+
+"自動的にインデントする
+set smartindent
+
+"シンタックスによる折りたたみ
+set foldmethod=syntax foldlevel=100 foldcolumn=3
+
+" Altで行移動
+nnoremap <A-j> :m+<CR>==
+nnoremap <A-k> :m-2<CR>==
+vnoremap <A-j> :m'>+<CR>gv=gv
+vnoremap <A-k> :m-2<CR>gv=gv
+
+" Ctrl-j to Esc
+noremap <c-j> <esc>
+inoremap <c-j> <esc>
+cnoremap <c-j> <esc>
+
+"検索時ハイライト
+set hlsearch
+nnoremap <c-j><c-j> :nohl<CR>
+
+" improve Ctrl-w [hjkl]
+nnoremap <C-w><C-h> <C-w>h
+nnoremap <C-w><C-j> <C-w>j
+nnoremap <C-w><C-k> <C-w>k
+nnoremap <C-w><C-l> <C-w>l
+
+" comment out
+nnoremap <leader>c<space> <C-X>

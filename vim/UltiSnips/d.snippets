@@ -1,0 +1,219 @@
+
+# Branches
+
+snippet if "if .. (if)"
+if(${1:/*condition*/}) {
+	${VISUAL}${0}
+}
+endsnippet
+
+snippet ife "if .. else (ife)" b
+if(${1:/*condition*/}) {
+	${2}
+} else {
+	${3:/*else*/}
+}
+endsnippet
+
+snippet el "else (el)" b
+else {
+	${VISUAL}${1}
+}
+endsnippet
+
+snippet elif "else if (elif)" b
+else if(${1:/*condition*/}) {
+	${VISUAL}${0}
+}
+endsnippet
+
+snippet sw "switch (sw)"
+switch(${1:/*var*/}) {
+	case ${2:/*value*/}:
+		${3}
+		break;
+	case ${4:/*value*/}:
+		${5}
+		break;
+	${7:/*more cases*/}
+	default:
+		${6:assert(false);}
+}
+endsnippet
+
+snippet fsw "final switch (fsw)"
+final switch(${1:/*var*/}) {
+	case ${2:/*value*/}:
+		${3}
+		break;
+	case ${4:/*value*/}:
+		${5}
+		break;
+	${7:/*more cases*/}
+}
+endsnippet
+
+
+# Loops
+
+snippet do "do while (do)" b
+do {
+	${VISUAL}${2}
+} while(${1:/*condition*/});
+endsnippet
+
+snippet wh "while (wh)" b
+while(${1:/*condition*/}) {
+	${VISUAL}${2}
+}
+endsnippet
+
+snippet for "for (for)" b
+for (${4:size_t} ${2:i} = 0; $2 < ${1:count}; ${3:++$2}) {
+	${VISUAL}${0}
+}
+endsnippet
+
+snippet forever "forever (forever)" b
+for(;;) {
+	${VISUAL}${0}
+}
+endsnippet
+
+snippet fore "foreach (fore)"
+foreach(${1:/*elem*/}; ${2:/*range*/}) {
+	${VISUAL}${3}
+}
+endsnippet
+
+snippet forif "foreach if (forif)" b
+foreach(${1:/*elem*/}; ${2:/*range*/}) if(${3:/*condition*/}) {
+	${VISUAL}${4}
+}
+endsnippet
+
+# Contracts
+snippet in "in contract (in)" b
+in {
+	assert(${1:/*condition*/}, "${2:error message}");
+	${3}
+}
+body
+endsnippet
+
+snippet out "out contract (out)" b
+out${1:(result)} {
+	assert(${2:/*condition*/}, "${3:error message}");
+	${4}
+} body
+endsnippet
+
+snippet inv "invariant (inv)" b
+invariant() {
+	assert(${1:/*condition*/}, "${2:error message}");
+	${3}
+}
+endsnippet
+
+# Functions (generic)
+
+snippet fun "function definition (fun)"
+${1:void} ${2:/*function name*/}(${3:/*args*/}) ${4:@safe pure nothrow} {
+	${VISUAL}${5}
+}
+endsnippet
+
+snippet void "void function definition (void)"
+void ${1:/*function name*/}(${2:/*args*/}) ${3:@safe pure nothrow} {
+	${VISUAL}${4}
+}
+endsnippet
+
+snippet this "ctor (this)" w
+this(${1:/*args*/}) {
+	${VISUAL}${2}
+}
+endsnippet
+
+# Functions (concrete)
+
+snippet main "Main" b
+void main(string[] args) {
+	${VISUAL}${0: /*code*/}
+}
+endsnippet
+
+# Scope
+
+snippet scope "scope (scope)" b
+scope(${1:exit}) {
+	${VISUAL}${2}
+}
+endsnippet
+
+# With
+
+snippet with "with (with)"
+with(${1}) {
+	${VISUAL}${2}
+}
+endsnippet
+
+# Exception handling
+
+snippet try "try/catch (try)" b
+try {
+	${VISUAL}${1:/*code to try*/}
+} catch(${2}Exception e) {
+	${3:/*handle exception*/}
+}
+endsnippet
+
+snippet tryf "try/catch/finally (tryf)" b
+try {
+	${VISUAL}${1:/*code to try*/}
+} catch(${2}Exception e) {
+	${3:/*handle exception*/}
+} finally {
+	${4:/*cleanup*/}
+}
+endsnippet
+
+snippet catch "catch (catch)" b
+catch(${1}Exception e) {
+	${2:/*handle exception*/}
+}
+endsnippet
+
+# Type declarations
+
+snippet struct "struct (struct)"
+struct ${1:`!p snip.rv = (snip.basename or "name")`} {
+	${2}
+}
+endsnippet
+
+snippet union "union (union)"
+union ${1:`!p snip.rv = (snip.basename or "name")`} {
+	${2}
+}
+endsnippet
+
+snippet class "class (class)"
+class ${1:`!p snip.rv = (snip.basename or "name")`} {
+	${2}
+}
+endsnippet
+
+snippet inter "interface (inter)"
+interface ${1:`!p snip.rv = (snip.basename or "name")`} {
+	${2}
+}
+endsnippet
+
+snippet enum "enum (enum)"
+enum ${1:`!p snip.rv = (snip.basename or "name")`} {
+	${2}
+}
+endsnippet
+

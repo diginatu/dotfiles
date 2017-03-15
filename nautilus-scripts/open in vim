@@ -1,0 +1,6 @@
+#!/bin/sh
+echo "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" | while read filename; do
+    gtk-launch neovim "$filename"
+    break
+done
+

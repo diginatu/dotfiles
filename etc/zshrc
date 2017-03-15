@@ -1,0 +1,152 @@
+
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+bindkey -v
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '~/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+DIRSTACKSIZE=100
+disable r
+
+# key bind
+bindkey -M viins '^j' vi-cmd-mode
+bindkey -M vicmd '^j' vi-cmd-mode
+
+bindkey -M viins '^P' up-line-or-search
+bindkey -M viins '^N' down-line-or-search
+
+bindkey -M vicmd '/' history-incremental-search-backward
+bindkey -M vicmd '?' history-incremental-search-backward
+
+bindkey -M isearch '^P' history-incremental-search-backward
+bindkey -M isearch '^N' history-incremental-search-forward
+
+# aliases
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+alias sumn='paste -sd+ - | bc'
+
+alias ll='ls -alhF'
+alias la='ls -A'
+alias l='ls -CF'
+
+alias rm='echo "Do you mean tp?"'
+alias tp='trash-put'
+alias sudo='sudo '
+
+alias -s rb='ruby'
+alias -s py='python'
+alias -s php='php -f'
+
+# color definition
+local DEFAULT=$'\033[0m'
+local RED=$'\033[0;31m'
+local GREEN=$'\033[0;32m'
+local YELLOW=$'\033[0;33m'
+local BLUE=$'\033[0;34m'
+local PURPLE=$'\033[0;35m'
+local LIGHT_BLUE=$'\033[1;34m'
+local WHITE=$'\033[1;37m'
+
+# options
+setopt print_eight_bit
+setopt globdots
+# もしかして機能
+setopt correct
+# 毎回PROMPTで設定されている文字列を評価
+setopt prompt_subst
+setopt AUTO_PUSHD
+# not to save duplicated histry
+setopt hist_ignore_dups
+
+# styles
+zstyle ':completion:*' menu select=2
+
+# 補完を強化・説明を表示
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
+zstyle ':completion:*:messages' format $YELLOW'%d'$DEFAULT
+zstyle ':completion:*:warnings' format $RED'No matches for:'$YELLOW' %d'$DEFAULT
+zstyle ':completion:*:descriptions' format $YELLOW'completing %B%d%b'$DEFAULT
+zstyle ':completion:*:corrections' format $YELLOW'%B%d '$RED'(errors: %e)%b'$DEFAULT
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*' group-name ''
+
+zstyle ':completion:*' use-cache true
+
+# man での補完をセクション番号別に表示
+zstyle ':completion:*:manuals' separate-sections true
+# cd で親ディレクトリからカレントディレクトリを補完しない
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
+# オブジェクトファイルとか中間ファイルとかはfileとして補完させない
+zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
+#ファイル補完候補に色を付ける
+export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+
+# ----- PROMPT -----
+## PROMPT
+PROMPT=$'[%~] %# ' # %~はpwd
+## RPROMPT
+RPROMPT=$'`branch-status-check`'
+
+# github user contents
+######################
+
+# {{{ methods for RPROMPT
+# fg[color]表記と$reset_colorを使いたい
+# @see https://wiki.archlinux.org/index.php/zsh
+autoload -U colors; colors
+function branch-status-check {
+    local prefix branchname suffix
+        # .gitの中だから除外
+        if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
+            return
+        fi
+        branchname=`get-branch-name`
+        # ブランチ名が無いので除外
+        if [[ -z $branchname ]]; then
+            return
+        fi
+        prefix=`get-branch-status` #色だけ返ってくる
+        suffix='%{'${reset_color}'%}'
+        echo ${prefix}${branchname}${suffix}
+}
+function get-branch-name {
+    # gitディレクトリじゃない場合のエラーは捨てます
+    echo `git rev-parse --abbrev-ref HEAD 2> /dev/null`
+}
+function get-branch-status {
+    local res color
+        output=`git status --short 2> /dev/null`
+        if [ -z "$output" ]; then
+            res=':' # status Clean
+            color='%{'${fg[green]}'%}'
+        elif [[ $output =~ "[\n]?\?\? " ]]; then
+            res='?:' # Untracked
+            color='%{'${fg[yellow]}'%}'
+        elif [[ $output =~ "[\n]? M " ]]; then
+            res='M:' # Modified
+            color='%{'${fg[red]}'%}'
+        else
+            res='A:' # Added to commit
+            color='%{'${fg[cyan]}'%}'
+        fi
+        # echo ${color}${res}'%{'${reset_color}'%}'
+        echo ${color} # 色だけ返す
+}
+# }}}
+
+# added by travis gem
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh

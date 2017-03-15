@@ -1,0 +1,21 @@
+priority 0
+
+snippet pf "print"
+fmt.Printf("${1:%s}\n"${1/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$2${1/([^%]|%%)*(%.)?.*/(?2:\))/}
+endsnippet
+
+snippet pl "println"
+fmt.Println(${1:var})
+endsnippet
+
+snippet lf "log printf"
+log.Printf("${1:%s}\n"${1/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$2${1/([^%]|%%)*(%.)?.*/(?2:\))/}
+endsnippet
+
+snippet ll "log println"
+log.Println(${1:var})
+endsnippet
+
+snippet wait "wait time"
+<-time.After(time.${1:Second})
+endsnippet
