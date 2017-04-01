@@ -42,7 +42,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'itchyny/lightline.vim'
 " Plug 'Hackerpilot/DCD', {'rtp': 'editors/vim'}
-Plug 'cohama/lexima.vim'
+"Plug 'cohama/lexima.vim'
 Plug 'w0ng/vim-hybrid'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
@@ -160,22 +160,24 @@ endif
 " Lexima
 " ------
 
-imap <C-h> <BS>
-cmap <C-h> <BS>
-let g:lexima_map_escape = '<C-j>'
-let g:lexima_enable_space_rules = 0
-" braces only in basic rules
-let g:lexima_enable_basic_rules = 0
-call lexima#add_rule({'char': '(', 'input_after': ')'})
-call lexima#add_rule({'char': '(', 'at': '\\\%#'})
-call lexima#add_rule({'char': ')', 'at': '\%#)', 'leave': 1})
-call lexima#add_rule({'char': '<BS>', 'at': '(\%#)', 'delete': 1})
-call lexima#add_rule({'char': '{', 'input_after': '}'})
-call lexima#add_rule({'char': '}', 'at': '\%#}', 'leave': 1})
-call lexima#add_rule({'char': '<BS>', 'at': '{\%#}', 'delete': 1})
-call lexima#add_rule({'char': '[', 'input_after': ']'})
-call lexima#add_rule({'char': '[', 'at': '\\\%#'})
-call lexima#add_rule({'char': ']', 'at': '\%#]', 'leave': 1})
+if index(plugs_order, 'lexima.vim') >= 0
+    imap <C-h> <BS>
+    cmap <C-h> <BS>
+    let g:lexima_map_escape = '<C-j>'
+    let g:lexima_enable_space_rules = 0
+    " braces only in basic rules
+    let g:lexima_enable_basic_rules = 0
+    call lexima#add_rule({'char': '(', 'input_after': ')'})
+    call lexima#add_rule({'char': '(', 'at': '\\\%#'})
+    call lexima#add_rule({'char': ')', 'at': '\%#)', 'leave': 1})
+    call lexima#add_rule({'char': '<BS>', 'at': '(\%#)', 'delete': 1})
+    call lexima#add_rule({'char': '{', 'input_after': '}'})
+    call lexima#add_rule({'char': '}', 'at': '\%#}', 'leave': 1})
+    call lexima#add_rule({'char': '<BS>', 'at': '{\%#}', 'delete': 1})
+    call lexima#add_rule({'char': '[', 'input_after': ']'})
+    call lexima#add_rule({'char': '[', 'at': '\\\%#'})
+    call lexima#add_rule({'char': ']', 'at': '\%#]', 'leave': 1})
+endif
 
 
 " Tagber
