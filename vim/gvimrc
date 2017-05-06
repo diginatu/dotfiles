@@ -18,9 +18,7 @@
 "  source /etc/vim/gvimrc.local
 "endif
 
-" 縦幅　デフォルトは24
 set lines=50
-" 横幅　デフォルトは80
 set columns=82
 
 let fontname="Ricty Diminished "
@@ -28,9 +26,9 @@ let &guifont=fontname."13"
 " set size command
 command! -nargs=1 FontSize let &guifont=fontname.<args>
 
-"ツールバー非表示
+" disable toolbar
 set guioptions-=T
 
-"ポップアップ出す
+" enable popup
 set mousemodel=popup
 
