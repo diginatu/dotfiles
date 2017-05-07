@@ -24,6 +24,15 @@ ln -fs "${FROMDIR}/vim/spell/en.utf-8.add" ${DISTDIR}/.config/nvim/spell/
 mkdir -p ${DISTDIR}/.local/share/nautilus/scripts/
 ln -fs ${FROMDIR}/nautilus-scripts/* ${DISTDIR}/.local/share/nautilus/scripts/
 
+# byobu
 mkdir -p ${DISTDIR}/.byobu/
 ln -fs ${FROMDIR}/byobu/tmux.conf ${DISTDIR}/.byobu/.tmux.conf
 ln -fs ${FROMDIR}/byobu/keybindings.tmux ${DISTDIR}/.byobu/keybindings.tmux
+
+# firefox
+ln -fs ${FROMDIR}/firefox/vimperatorrc ${DISTDIR}/.vimperatorrc
+FIREFOX_PROFILE_DIR=`find ${DISTDIR}/.mozilla/firefox/ -maxdepth 1 -type d -name '*default*' | head -1`
+if [[ ! $FIREFOX_PROFILE_DIR = "" ]]; then
+    mkdir -p ${FIREFOX_PROFILE_DIR}/chrome
+    ln -fs ${FROMDIR}/firefox/userContent.css ${FIREFOX_PROFILE_DIR}/chrome/
+fi

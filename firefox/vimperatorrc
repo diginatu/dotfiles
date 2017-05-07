@@ -1,0 +1,63 @@
+colorscheme indigo
+set cpt=Slt
+
+set hintchars=ifjklasdhguonmerwc
+
+nnoremap j <Down>
+nnoremap k <Up>
+nnoremap l <Right>
+nnoremap h <Left>
+
+" IME off key bindings
+noremap <silent> f :!fcitx-remote -c<cr>qf
+noremap <silent> F :!fcitx-remote -c<cr>qF
+noremap <silent> : :!fcitx-remote -c<cr>:
+
+" Ctrl-j to Esc
+map <C-j> <esc>
+imap <C-j> <esc>
+cmap <C-j> <esc>
+
+nnoremap <C-j><C-j> :nohl<CR>
+
+cmap <C-n> <Tab>
+cmap <C-p> <S-Tab>
+" imap <C-n> <Down>
+" imap <C-p> <Up>
+" map <C-n> <Down>
+" map <C-p> <Up>
+
+"javascript to hide statusbar
+noremap <leader>st :js toggle_bottombar();<CR>
+
+:js << EOF
+var hl = highlight.get('ContentSeparator');
+var cs_current = hl.value;
+
+function toggle_bottombar(p) {
+    var bb = document.getElementById('liberator-bottombar');
+    if (!bb)
+        return;
+    if (p == 'on') {
+        show_bottombar(bb);
+        return;
+    }
+    if (p == 'off') {
+        hide_bottombar(bb)
+        return;
+    }
+    bb.style.height == '' ? hide_bottombar(bb) : show_bottombar(bb);
+}
+
+function show_bottombar(bb) {
+    bb.style.height = '';
+    bb.style.overflow = '';
+    liberator.execute('highlight ContentSeparator ' + cs_current);
+}
+
+function hide_bottombar(bb) {
+    bb.style.height = '0px';
+    bb.style.overflow = 'hidden';
+    liberator.execute('highlight ContentSeparator display: none;');
+}
+EOF
