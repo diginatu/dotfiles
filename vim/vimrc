@@ -216,10 +216,6 @@ if index(plugs_order, 'vim-go') >= 0
     let g:go_fmt_options = '-s'
     let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck', 'gosimple', 'staticcheck', 'unused']
 
-    let g:neomake_go_errcheck_maker = {
-                \ 'append_file': 0,
-                \ 'errorformat': '%f:%l:%c:\ %m, %f:%l:%c\ %#%m',
-                \ }
 endif
 
 
@@ -357,6 +353,11 @@ if index(plugs_order, 'neomake') >= 0
     let g:neomake_javascript_eslint_args = ['-f', 'compact', '--fix']
     let g:neomake_javascript_enabled_makers = ['eslint']
     let g:neomake_hook_context = { 'file_mode': 1, 'make_id': 1 }
+
+    let g:neomake_go_errcheck_maker = {
+                \ 'append_file': 0,
+                \ 'errorformat': '%f:%l:%c:\ %m, %f:%l:%c\ %#%m',
+                \ }
 endif
 
 
@@ -407,7 +408,16 @@ endif
 if has('nvim')
     let $NVIM_TUI_ENABLE_CURSOR_SHAPE=2
 endif
-
+if !has('nvim') && &term =~ '256color'
+    " disable Background Color Erase (BCE) so that color schemes
+    " render properly when inside 256-color tmux and GNU screen.
+    " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
+    set term=xterm-256color
+    set t_ut=
+endif
+if has('termguicolors')
+    set termguicolors
+endif
 set spelllang=en,cjk " use spell check
 set showcmd          " Show (partial) command in status line.
 set showmatch        " Show matching brackets.
@@ -449,7 +459,6 @@ set breakindentopt=sbr
 set showbreak=>
 set emoji
 set autoread
-set termguicolors
 
 " indent
 set smartindent
