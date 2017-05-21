@@ -212,7 +212,9 @@ if index(plugs_order, 'vim-go') >= 0
     let g:go_highlight_types = 1
     let g:go_highlight_operators = 1
     let g:go_highlight_build_constraints = 1
+    let g:go_fmt_options = '-s'
     let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck', 'gosimple', 'staticcheck', 'unused']
+
 endif
 
 
@@ -331,11 +333,11 @@ endif
 if index(plugs_order, 'neomake') >= 0
     " Callback for reloading file in buffer when eslint has finished and maybe has
     " autofixed some stuff
-    "function! s:Neomake_callback()
-        "if (&filetype ==? 'javascript')
-            "edit
-        "endif
-    "endfunction
+    function! s:Neomake_callback()
+        if (&filetype ==? 'javascript')
+            edit
+        endif
+    endfunction
 
     augroup vimrc_neomake_aug
         au!
@@ -343,18 +345,18 @@ if index(plugs_order, 'neomake') >= 0
         " inject the callback
         "au BufWritePost * call neomake#Make(1, [], function('g:Neomake_callback'))
         au BufWritePost * Neomake
-        "au User NeomakeFinished call s:Neomake_callback()
+        au User NeomakeFinished call s:Neomake_callback()
     augroup END
 
     let g:neomake_open_list = 2
-    "let g:neomake_javascript_eslint_args = ['-f', 'compact', '--fix']
-    "let g:neomake_javascript_enabled_makers = ['eslint']
-    "let g:neomake_hook_context = { 'file_mode': 1, 'make_id': 1 }
+    let g:neomake_javascript_eslint_args = ['-f', 'compact', '--fix']
+    let g:neomake_javascript_enabled_makers = ['eslint']
+    let g:neomake_hook_context = { 'file_mode': 1, 'make_id': 1 }
 
-    "let g:neomake_go_errcheck_maker = {
-                "\ 'append_file': 0,
-                "\ 'errorformat': '%f:%l:%c:\ %m, %f:%l:%c\ %#%m',
-                "\ }
+    let g:neomake_go_errcheck_maker = {
+                \ 'append_file': 0,
+                \ 'errorformat': '%f:%l:%c:\ %m, %f:%l:%c\ %#%m',
+                \ }
 endif
 
 
