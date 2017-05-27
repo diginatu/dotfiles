@@ -1,3 +1,6 @@
+ignorekeys add -except=j,k,/,f,F,d,:,q,<C-n>,<C-p>,H,L,gg,G https://www.amazon.co.jp/gp/video/
+ignorekeys add -except=/,d,:,q,<C-n>,<C-p>,H,L,gg,G https://tweetdeck.twitter.com/
+
 colorscheme indigo
 set cpt=Slt
 
