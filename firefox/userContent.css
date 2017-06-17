@@ -18,7 +18,7 @@ select {
     color: black;
     -moz-appearance: none !important;
 
-    background: url('/usr/share/themes/Arc-Dark/gtk-2.0/assets/arrow-down.png') no-repeat;
+    background: url('/usr/share/themes/Adwaita/gtk-2.0/menu-pan-down.png') no-repeat;
     background-position: right center;
     background-repeat: no-repeat;
 }
