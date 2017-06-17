@@ -22,8 +22,9 @@ if [ -d "$HOME/bin" ] ; then
 fi
 
 # go path
-if [ -d "$HOME/go" ] ; then
-    GOPATH=$HOME/go/code
-    GOROOT=$HOME/go
-    PATH="$GOROOT/bin:$GOPATH/bin:$PATH"
+if [ -d "/usr/local/go/bin" ] ; then
+    PATH="/usr/local/go/bin:$PATH"
 fi
+#if [ -d "$HOME/go" ] ; then
+    #PATH="$GOROOT/bin:$GOPATH/bin:$PATH"
+#fi
