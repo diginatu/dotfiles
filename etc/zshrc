@@ -15,18 +15,8 @@ compinit
 DIRSTACKSIZE=100
 disable r
 
-# key bind
-bindkey -M viins '^j' vi-cmd-mode
-bindkey -M vicmd '^j' vi-cmd-mode
-
-bindkey -M viins '^P' up-line-or-search
-bindkey -M viins '^N' down-line-or-search
-
-bindkey -M vicmd '/' history-incremental-search-backward
-bindkey -M vicmd '?' history-incremental-search-backward
-
-bindkey -M isearch '^P' history-incremental-search-backward
-bindkey -M isearch '^N' history-incremental-search-forward
+bindkey "^r" history-incremental-pattern-search-backward
+bindkey "^s" history-incremental-pattern-search-forward
 
 # aliases
 alias ls='ls --color=auto'
