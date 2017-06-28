@@ -11,12 +11,13 @@ ln -fs ${FROMDIR}/etc/zshrc ${DISTDIR}/.zshrc
 
 # vim
 mkdir -p ${DISTDIR}/.config/nvim/spell
-mkdir -p ${DISTDIR}/.vim/
+mkdir -p ${DISTDIR}/.vim/spell
 ln -fs ${FROMDIR}/vim/gvimrc ${DISTDIR}/.gvimrc
 ln -fs ${FROMDIR}/vim/vimrc ${DISTDIR}/.vimrc
 ln -fs ${FROMDIR}/vim/vimrc ${DISTDIR}/.config/nvim/init.vim
 ln -fs ${FROMDIR}/vim/UltiSnips ${DISTDIR}/.vim/
 ln -fs "${FROMDIR}/vim/spell/en.utf-8.add" ${DISTDIR}/.config/nvim/spell/
+ln -fs "${FROMDIR}/vim/spell/en.utf-8.add" ${DISTDIR}/.vim/spell/
 
 # byobu
 mkdir -p ${DISTDIR}/.byobu/
