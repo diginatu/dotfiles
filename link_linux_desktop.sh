@@ -11,8 +11,8 @@ ln -fs ${FROMDIR}/nautilus-scripts/* ${DISTDIR}/.local/share/nautilus/scripts/
 
 # firefox
 ln -fs ${FROMDIR}/firefox/vimperatorrc ${DISTDIR}/.vimperatorrc
-FIREFOX_PROFILE_DIR=`find ${DISTDIR}/.mozilla/firefox/ -maxdepth 1 -type d -name '*default*' | head -1`
-if [[ ! $FIREFOX_PROFILE_DIR = "" ]]; then
-    mkdir -p ${FIREFOX_PROFILE_DIR}/chrome
-    ln -fs ${FROMDIR}/firefox/userContent.css ${FIREFOX_PROFILE_DIR}/chrome/
-fi
+#FIREFOX_PROFILE_DIR=`find ${DISTDIR}/.mozilla/firefox/ -maxdepth 1 -type d -name '*default*' | head -1`
+#if [[ ! $FIREFOX_PROFILE_DIR = "" ]]; then
+    #mkdir -p ${FIREFOX_PROFILE_DIR}/chrome
+    #ln -fs ${FROMDIR}/firefox/userContent.css ${FIREFOX_PROFILE_DIR}/chrome/
+#fi
