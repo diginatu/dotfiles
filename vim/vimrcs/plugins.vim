@@ -12,7 +12,6 @@ else
     Plug 'Shougo/unite.vim'
     Plug 'Shougo/unite-outline'
     Plug 'Shougo/neomru.vim'
-    Plug 'haya14busa/incsearch.vim'
 endif
 Plug 'vim-scripts/sudo.vim'
 Plug 'thinca/vim-quickrun'
@@ -98,7 +97,7 @@ if index(plugs_order, 'denite.nvim') >= 0
     nnoremap <Leader>un  :<C-u>Denite<Space>
     nnoremap <Leader>uo  :<C-u>Denite outline<CR>
     nnoremap <Leader>ur  :<C-u>Denite file_rec<CR>
-    nnoremap <Leader>ua  :<C-u>Denite file_mru buffer<CR>
+    nnoremap <Leader>ua  :<C-u>Denite file_old buffer file<CR>
     nnoremap <Leader>b   :<C-u>Denite buffer<CR>
 
     call denite#custom#map('insert', '<C-j>', '<denite:leave_mode>', 'noremap')
