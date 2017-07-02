@@ -3,6 +3,7 @@
 source ./link_config.sh
 
 # etc
+mkdir -p ${DISTDIR}/.local/share
 ln -fs ${FROMDIR}/etc/bashrc ${DISTDIR}/.bashrc
 ln -fs ${FROMDIR}/etc/profile ${DISTDIR}/.profile
 ln -fs ${FROMDIR}/etc/zshenv ${DISTDIR}/.zshenv
