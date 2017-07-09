@@ -1,7 +1,8 @@
-ignorekeys add -except=i,j,k,/,f,F,d,:,q,<C-n>,<C-p>,H,L,gg,G https://www.amazon.co.jp/gp/video/
-ignorekeys add -except=i,/,d,:,q,<C-n>,<C-p>,H,L,gg,G https://tweetdeck.twitter.com/
+ignorekeys clear
+ignorekeys add -except=i,j,k,/,f,F,d,:,q,<C-n>,<C-p>,<C-u>,<C-d>,H,L,gg,G https://www\.amazon\.co\.jp/gp/video/
+ignorekeys add -except=i,j,k,/,f,F,d,:,q,<C-n>,<C-p>,<C-u>,<C-d>,H,L,gg,G http://www\.nicovideo\.jp/watch/
+ignorekeys add -except=i,/,d,:,q,<C-n>,<C-p>,H,L,gg,G https://tweetdeck\.twitter\.com/
 
-colorscheme indigo
 set cpt=Slt
 
 set hintchars=ifjklasdhguonmerwc
