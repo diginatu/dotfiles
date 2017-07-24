@@ -91,7 +91,6 @@ set fileformats=unix,dos,mac
 set breakindent
 set breakindentopt=sbr
 set showbreak=>
-set emoji
 set autoread
 
 " indent
@@ -120,8 +119,8 @@ vnoremap x "_x
 vnoremap p "_dP
 
 " Ctrl-j to Esc
-noremap  <C-j> <esc>
-inoremap <C-j> <esc>
+noremap  <C-j> <ESC>
+inoremap <C-j> <ESC>
 cnoremap <C-j> <C-c>
 
 " off highlight
@@ -129,9 +128,9 @@ nnoremap <esc><esc> :<C-u>nohl<CR>
 nnoremap <C-j><C-j> :<C-u>nohl<CR>
 
 nnoremap <Leader>mk :<C-u>make -j2<CR>
-nnoremap <Leader>mr :<c-u>make -j2 run<CR>
-nnoremap <Leader>mi :<c-u>make -j2 install<CR>
-nnoremap <Leader>sp :<c-u>set spell!<CR>
+nnoremap <Leader>mr :<C-u>make -j2 run<CR>
+nnoremap <Leader>mi :<C-u>make -j2 install<CR>
+nnoremap <Leader>sp :<C-u>set spell!<CR>
 
 augroup vimrc_cd_to_current_directry
     au!

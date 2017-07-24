@@ -287,10 +287,30 @@ endif
 " im_control
 " ----------
 
-" fcitx
-let g:IM_CtrlMode = 6
-inoremap <silent> <C-j> <C-r>=IMState('FixMode')<CR>
-set timeout timeoutlen=3000 ttimeoutlen=100
+if has("mac")
+    let g:IM_CtrlOnKey = 'osascript -e "tell application \"System Events\" to key code 104"'
+    let g:IM_CtrlOffKey = 'osascript -e "tell application \"System Events\" to key code 102"'
+else
+    let g:IM_CtrlOnKey = 'xdotool key 100'
+    let g:IM_CtrlOffKey = 'xdotool key --clearmodifiers 102'
+endif
+
+function! IMCtrl(cmd)
+    let cmd = a:cmd
+    if cmd == 'On'
+        let res = system(g:IM_CtrlOnKey)
+    elseif cmd == 'Off'
+        let res = system(g:IM_CtrlOffKey)
+    elseif cmd == 'Toggle'
+    endif
+    return ''
+endfunction
+
+let g:IM_CtrlMode = 1
+inoremap <silent> <C-x> <C-r>=IMState('FixMode')<CR>
+"inoremap <silent> <C-j> <ESC>:echo IMCtrl('Off')<CR>:echo IMCtrl('Off')<CR>
+"inoremap <silent> <C-[> <ESC>:echo IMCtrl('Off')<CR>
+"set timeout timeoutlen=3000 ttimeoutlen=100
 
 
 " Colorscheme
@@ -309,9 +329,9 @@ if index(plugs_order, 'neomake') >= 0
     " Callback for reloading file in buffer when eslint has finished and maybe has
     " autofixed some stuff
     "function! s:Neomake_callback()
-        "if (&filetype ==? 'javascript')
-            "edit
-        "endif
+    "if (&filetype ==? 'javascript')
+    "edit
+    "endif
     "endfunction
 
     augroup vimrc_neomake_aug
@@ -329,8 +349,8 @@ if index(plugs_order, 'neomake') >= 0
     "let g:neomake_hook_context = { 'file_mode': 1, 'make_id': 1 }
 
     "let g:neomake_go_errcheck_maker = {
-                "\ 'append_file': 0,
-                "\ 'errorformat': '%f:%l:%c:\ %m, %f:%l:%c\ %#%m',
-                "\ }
+    "\ 'append_file': 0,
+    "\ 'errorformat': '%f:%l:%c:\ %m, %f:%l:%c\ %#%m',
+    "\ }
 endif
 
