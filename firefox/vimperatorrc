@@ -13,9 +13,9 @@ nnoremap l <Right>
 nnoremap h <Left>
 
 " IME off key bindings
-noremap <silent> f :!fcitx-remote -c<cr>qf
-noremap <silent> F :!fcitx-remote -c<cr>qF
-noremap <silent> : :!fcitx-remote -c<cr>:
+noremap <silent> f :!xdotool key --clearmodifiers 102<cr>qf
+noremap <silent> F :!xdotool key --clearmodifiers 102cr>qF
+noremap <silent> : :!xdotool key --clearmodifiers 102cr>:
 
 " Ctrl-j to Esc
 map <C-j> <esc>
