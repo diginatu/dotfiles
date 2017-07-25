@@ -291,7 +291,7 @@ if has("mac")
     let g:IM_CtrlOnKey = 'osascript -e "tell application \"System Events\" to key code 104"'
     let g:IM_CtrlOffKey = 'osascript -e "tell application \"System Events\" to key code 102"'
 else
-    let g:IM_CtrlOnKey = 'xdotool key 100'
+    let g:IM_CtrlOnKey = 'xdotool key --clearmodifiers 100'
     let g:IM_CtrlOffKey = 'xdotool key --clearmodifiers 102'
 endif
 
@@ -308,9 +308,6 @@ endfunction
 
 let g:IM_CtrlMode = 1
 inoremap <silent> <C-x> <C-r>=IMState('FixMode')<CR>
-"inoremap <silent> <C-j> <ESC>:echo IMCtrl('Off')<CR>:echo IMCtrl('Off')<CR>
-"inoremap <silent> <C-[> <ESC>:echo IMCtrl('Off')<CR>
-"set timeout timeoutlen=3000 ttimeoutlen=100
 
 
 " Colorscheme
