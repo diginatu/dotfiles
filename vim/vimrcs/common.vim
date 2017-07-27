@@ -38,9 +38,6 @@ if has('persistent_undo')
     set undoreload=1000 " number of lines to save for undo
 endif
 
-if has('nvim')
-    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=2
-endif
 if !has('nvim') && &term =~ '256color'
     " disable Background Color Erase (BCE) so that color schemes
     " render properly when inside 256-color tmux and GNU screen.
