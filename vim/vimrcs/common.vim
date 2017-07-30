@@ -18,11 +18,30 @@ if has('nvim')
     tnoremap <C-w><C-j> <C-\><C-n><C-w>j
     tnoremap <C-w><C-k> <C-\><C-n><C-w>k
     tnoremap <C-w><C-l> <C-\><C-n><C-w>l
+
     augroup vimrc_terminal
         au!
         au BufWinEnter,WinEnter term://* startinsert
         au TermOpen term://* setlocal foldcolumn=0 | setlocal winfixheight
     augroup END
+
+    " set hybrid color
+    let g:terminal_color_0 = "#282A2E"
+    let g:terminal_color_1 = "#A54242"
+    let g:terminal_color_2 = "#8C9440"
+    let g:terminal_color_3 = "#DE935F"
+    let g:terminal_color_4 = "#5F819D"
+    let g:terminal_color_5 = "#85678F"
+    let g:terminal_color_6 = "#5E8D87"
+    let g:terminal_color_7 = "#707880"
+    let g:terminal_color_8 = "#373B41"
+    let g:terminal_color_9 = "#CC6666"
+    let g:terminal_color_10 = "#B5BD68"
+    let g:terminal_color_11 = "#F0C674"
+    let g:terminal_color_12 = "#81A2BE"
+    let g:terminal_color_13 = "#B294BB"
+    let g:terminal_color_14 = "#8ABEB7"
+    let g:terminal_color_15 = "#C5C8C6"
 endif
 
 " options
