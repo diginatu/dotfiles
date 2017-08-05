@@ -14,8 +14,8 @@ nnoremap h <Left>
 
 " IME off key bindings
 noremap <silent> f :!xdotool key --clearmodifiers 102<cr>qf
-noremap <silent> F :!xdotool key --clearmodifiers 102cr>qF
-noremap <silent> : :!xdotool key --clearmodifiers 102cr>:
+noremap <silent> F :!xdotool key --clearmodifiers 102<cr>qF
+noremap <silent> : :!xdotool key --clearmodifiers 102<cr>:
 
 " Ctrl-j to Esc
 map <C-j> <esc>
