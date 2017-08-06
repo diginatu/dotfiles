@@ -351,3 +351,16 @@ if index(plugs_order, 'neomake') >= 0
     "\ }
 endif
 
+
+" GitGutter
+" ---------
+
+if index(plugs_order, 'vim-gitgutter') >= 0
+    let g:gitgutter_map_keys = 0
+    nmap <Leader>hN <Plug>GitGutterPrevHunk
+    nmap <Leader>hn <Plug>GitGutterNextHunk
+    nmap <Leader>hs <Plug>GitGutterStageHunk
+    nmap <Leader>hu <Plug>GitGutterUndoHunk
+    nmap <Leader>hp <Plug>GitGutterPreviewHunk
+endif
+
