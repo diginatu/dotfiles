@@ -20,7 +20,5 @@ ln -fs ${FROMDIR}/vim/UltiSnips ${DISTDIR}/.vim/
 ln -fs "${FROMDIR}/vim/spell/en.utf-8.add" ${DISTDIR}/.config/nvim/spell/
 ln -fs "${FROMDIR}/vim/spell/en.utf-8.add" ${DISTDIR}/.vim/spell/
 
-# byobu
-mkdir -p ${DISTDIR}/.byobu/
-ln -fs ${FROMDIR}/byobu/tmux.conf ${DISTDIR}/.byobu/.tmux.conf
-ln -fs ${FROMDIR}/byobu/keybindings.tmux ${DISTDIR}/.byobu/keybindings.tmux
+# tmux
+ln -fs ${FROMDIR}/etc/tmux.conf ${DISTDIR}/.tmux.conf

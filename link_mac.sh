@@ -19,3 +19,6 @@ ln -fs ${FROMDIR}/vim/vimrc ${DISTDIR}/.config/nvim/init.vim
 ln -fs ${FROMDIR}/vim/UltiSnips ${DISTDIR}/.vim/
 ln -fs "${FROMDIR}/vim/spell/en.utf-8.add" ${DISTDIR}/.config/nvim/spell/
 ln -fs "${FROMDIR}/vim/spell/en.utf-8.add" ${DISTDIR}/.vim/spell/
+
+# tmux
+ln -fs ${FROMDIR}/etc/tmux.conf ${DISTDIR}/.tmux.conf
