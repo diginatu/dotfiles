@@ -307,7 +307,7 @@ function! IMCtrl(cmd)
 endfunction
 
 let g:IM_CtrlMode = 1
-inoremap <silent> <C-x> <C-r>=IMState('FixMode')<CR>
+inoremap <silent> <C-w> <C-r>=IMState('FixMode')<CR>
 
 
 " Colorscheme
