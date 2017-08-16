@@ -146,7 +146,7 @@ nnoremap <C-j><C-j> :<C-u>nohl<CR>
 nnoremap <Leader>mk :<C-u>make -j2<CR>
 nnoremap <Leader>mr :<C-u>make -j2 run<CR>
 nnoremap <Leader>mi :<C-u>make -j2 install<CR>
-nnoremap <Leader>sp :<C-u>set spell!<CR>
+nnoremap <Leader>sp :<C-u>setlocal spell!<CR>
 
 augroup vimrc_cd_to_current_directry
     au!
