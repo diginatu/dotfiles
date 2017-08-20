@@ -287,26 +287,32 @@ endif
 " im_control
 " ----------
 
+let g:IM_CtrlEnable = 1
+
 if has("mac")
     let g:IM_CtrlOnKey = 'osascript -e "tell application \"System Events\" to key code 104"'
     let g:IM_CtrlOffKey = 'osascript -e "tell application \"System Events\" to key code 102"'
+    let g:IM_CtrlEnable = 0
 else
-    let g:IM_CtrlOnKey = 'xdotool key --clearmodifiers 100'
     let g:IM_CtrlOffKey = 'xdotool key --clearmodifiers 102'
 endif
 
 function! IMCtrl(cmd)
-    let cmd = a:cmd
-    if cmd == 'On'
-        let res = system(g:IM_CtrlOnKey)
-    elseif cmd == 'Off'
-        let res = system(g:IM_CtrlOffKey)
-    elseif cmd == 'Toggle'
+    if g:IM_CtrlEnable
+        let cmd = a:cmd
+        if cmd == 'On'
+            let res = system(g:IM_CtrlOnKey)
+        elseif cmd == 'Off'
+            let res = system(g:IM_CtrlOffKey)
+        elseif cmd == 'Toggle'
+        endif
     endif
     return ''
 endfunction
 
 let g:IM_CtrlMode = 1
+
+nnoremap <Leader>jp :<C-u>let g:IM_CtrlEnable = !g:IM_CtrlEnable<CR>:echo 'IM Ctrl : ' . (g:IM_CtrlEnable?'On':'Off')<CR>
 inoremap <silent> <C-w> <C-r>=IMState('FixMode')<CR>
 
 
