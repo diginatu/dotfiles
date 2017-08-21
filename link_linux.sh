@@ -2,13 +2,14 @@
 
 source ./link_config.sh
 
-# etc
 mkdir -p ${DISTDIR}/.local/share
-ln -fs ${FROMDIR}/etc/bashrc ${DISTDIR}/.bashrc
-ln -fs ${FROMDIR}/etc/profile ${DISTDIR}/.profile
-ln -fs ${FROMDIR}/etc/zshenv ${DISTDIR}/.zshenv
-ln -fs ${FROMDIR}/etc/zshprofile ${DISTDIR}/.zshprofile
-ln -fs ${FROMDIR}/etc/zshrc ${DISTDIR}/.zshrc
+
+# shell
+ln -fs ${FROMDIR}/shell/bashrc ${DISTDIR}/.bashrc
+ln -fs ${FROMDIR}/shell/profile ${DISTDIR}/.profile
+ln -fs ${FROMDIR}/shell/zshenv ${DISTDIR}/.zshenv
+ln -fs ${FROMDIR}/shell/zshprofile ${DISTDIR}/.zshprofile
+ln -fs ${FROMDIR}/shell/zshrc ${DISTDIR}/.zshrc
 
 # vim
 mkdir -p ${DISTDIR}/.config/nvim/spell

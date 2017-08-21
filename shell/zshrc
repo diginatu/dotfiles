@@ -1,4 +1,4 @@
-source ~/dotfiles/etc/shell_common.sh
+source ~/dotfiles/shell/shell_common.sh
 
 bindkey -e
 

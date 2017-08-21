@@ -64,8 +64,8 @@ fi
 unset color_prompt force_color_prompt
 
 # load common settings
-if [ -f ~/dotfiles/etc/shell_common.sh ]; then
-    . ~/dotfiles/etc/shell_common.sh
+if [ -f ~/dotfiles/shell/shell_common.sh ]; then
+    . ~/dotfiles/shell/shell_common.sh
 fi
 
 # enable programmable completion features (you don't need to enable

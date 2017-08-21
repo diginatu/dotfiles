@@ -2,13 +2,14 @@
 
 source ./link_config.sh
 
-# etc
 mkdir -p ${DISTDIR}/.local/share
-ln -fs ${FROMDIR}/etc/bashrc_mac.bash ${DISTDIR}/.bashrc
-ln -fs ${FROMDIR}/etc/profile_mac.bash ${DISTDIR}/.profile
-ln -fs ${FROMDIR}/etc/zshenv_mac.zsh ${DISTDIR}/.zshenv
-ln -fs ${FROMDIR}/etc/zshprofile ${DISTDIR}/.zshprofile
-ln -fs ${FROMDIR}/etc/zshrc_mac.zsh ${DISTDIR}/.zshrc
+
+# shell
+ln -fs ${FROMDIR}/shell/bashrc_mac.bash ${DISTDIR}/.bashrc
+ln -fs ${FROMDIR}/shell/profile_mac.bash ${DISTDIR}/.profile
+ln -fs ${FROMDIR}/shell/zshenv_mac.zsh ${DISTDIR}/.zshenv
+ln -fs ${FROMDIR}/shell/zshprofile ${DISTDIR}/.zshprofile
+ln -fs ${FROMDIR}/shell/zshrc_mac.zsh ${DISTDIR}/.zshrc
 
 # vim
 mkdir -p ${DISTDIR}/.config/nvim/spell
