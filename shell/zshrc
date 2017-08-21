@@ -23,11 +23,21 @@ bindkey "^s" history-incremental-pattern-search-forward
 bindkey "^n" history-beginning-search-forward
 bindkey "^p" history-beginning-search-backward
 
-
 # execution without the command
 alias -s rb='ruby'
 alias -s py='python'
 alias -s php='php -f'
+
+setopt print_eight_bit
+setopt globdots
+# correct spell
+setopt correct
+# evaluate prompt every time
+setopt prompt_subst
+setopt AUTO_PUSHD
+# enable comments in interactive terminal
+setopt interactivecomments
+
 
 # color definition
 local DEFAULT=$'\033[0m'
@@ -38,14 +48,6 @@ local BLUE=$'\033[0;34m'
 local PURPLE=$'\033[0;35m'
 local LIGHT_BLUE=$'\033[1;34m'
 local WHITE=$'\033[1;37m'
-
-setopt print_eight_bit
-setopt globdots
-# correct spell
-setopt correct
-# evaluate prompt every time
-setopt prompt_subst
-setopt AUTO_PUSHD
 
 # styles
 zstyle ':completion:*' menu select=2
