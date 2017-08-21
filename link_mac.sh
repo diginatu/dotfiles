@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source ./link_config.sh
+. ./link_config.sh
 
 mkdir -p ${DISTDIR}/.local/share
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source ./link_linux.sh
+. ./link_linux.sh
 
 # etc
 ln -fs ${FROMDIR}/etc/qtvimrc ${DISTDIR}/.qtvimrc
