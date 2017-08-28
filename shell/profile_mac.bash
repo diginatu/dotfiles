@@ -1,4 +1,4 @@
-source ~/dotfiles/etc/profile
+source ~/dotfiles/shell/profile
 
 # pyenv
 if [ -d "$HOME/.pyenv" ] ; then

@@ -1,3 +1,3 @@
-source ~/dotfiles/etc/zshenv
+source ~/dotfiles/shell/zshenv
 
 export LANG=c
