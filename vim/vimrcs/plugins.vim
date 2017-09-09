@@ -46,10 +46,6 @@ if has('nvim')
     let g:tern_show_signature_in_pum = 0  " This do disable full signature type on autocomplete
 endif
 
-" Use tern_for_vim.
-let g:tern#command = ["tern"]
-let g:tern#arguments = ["--persistent"]
-
 augroup vimrc_turn_keymap
     au!
     au filetype javascript nnoremap <buffer> <leader>if :<c-u>TernType<cr>
