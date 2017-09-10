@@ -290,8 +290,10 @@ if has("mac")
     let g:IM_CtrlOffKey = 'osascript -e "tell application \"System Events\" to key code 102"'
     let g:IM_CtrlEnable = 0
 else
-    let g:IM_CtrlOnKey = 'xdotool key --clearmodifiers 100'
-    let g:IM_CtrlOffKey = 'xdotool key --clearmodifiers 102'
+    let g:IM_CtrlOnKey = 'fcitx-remote -o'
+    let g:IM_CtrlOffKey = 'fcitx-remote -c'
+    "let g:IM_CtrlOnKey = 'xdotool key --clearmodifiers 100'
+    "let g:IM_CtrlOffKey = 'xdotool key --clearmodifiers 102'
 endif
 
 function! IMCtrl(cmd)
