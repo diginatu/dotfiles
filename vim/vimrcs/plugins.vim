@@ -34,6 +34,7 @@ Plug 'maxmellon/vim-jsx-pretty'
 "Plug 'othree/yajs.vim'
 Plug 'airblade/vim-gitgutter'
 "Plug 'cohama/lexima.vim'
+Plug 'dkarter/bullets.vim'
 call plug#end()
 
 
