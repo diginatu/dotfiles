@@ -41,21 +41,23 @@ call plug#end()
 " Tern
 " ----
 
-if has('nvim')
-    " Use deoplete.
-    let g:tern_request_timeout = 1
-    let g:tern_show_signature_in_pum = 0  " This do disable full signature type on autocomplete
+if index(plugs_order, 'tern_for_vim') >= 0
+    if has('nvim')
+        " Use deoplete.
+        let g:tern_request_timeout = 1
+        let g:tern_show_signature_in_pum = 0  " disables full signature type on autocomplete
+    endif
+
+    augroup vimrc_turn_keymap
+        au!
+        au filetype javascript nnoremap <buffer> <leader>if :<c-u>TernType<cr>
+        au filetype javascript nnoremap <buffer> <leader>nm :<c-u>TernRename<cr>
+        au filetype javascript nnoremap <buffer> <leader>us :<c-u>TernRefs<cr>
+
+        au filetype javascript nnoremap <buffer> <C-]>      :<c-u>TernDef<cr>
+        au filetype javascript nnoremap <buffer> <C-w><C-]> :<c-u>TernDefsplit<cr>
+    augroup end
 endif
-
-augroup vimrc_turn_keymap
-    au!
-    au filetype javascript nnoremap <buffer> <leader>if :<c-u>TernType<cr>
-    au filetype javascript nnoremap <buffer> <leader>nm :<c-u>TernRename<cr>
-    au filetype javascript nnoremap <buffer> <leader>us :<c-u>TernRefs<cr>
-
-    au filetype javascript nnoremap <buffer> <C-]>      :<c-u>TernDef<cr>
-    au filetype javascript nnoremap <buffer> <C-w><C-]> :<c-u>TernDefsplit<cr>
-augroup end
 
 
 " Unite
