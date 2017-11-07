@@ -14,3 +14,7 @@ alias rm='echo "Do you mean tp?"'
 alias tp='trash-put'
 alias sudo='sudo '
 
+if ! [ -z ${TMUX} ]; then
+    alias fixssh='export $(tmux showenv SSH_AUTH_SOCK)'
+    $fixssh
+fi
