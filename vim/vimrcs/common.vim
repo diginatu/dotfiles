@@ -92,7 +92,9 @@ set wildmenu
 set wildmode=longest:full
 set ambiwidth=double " wide characters
 set shiftround
-set belloff=all
+if exists('belloff')
+    set belloff=all
+endif
 set viminfo=!,'200,<100,s10,h
 if ! isdirectory($VIMTMP.'/swapfiles')
     call mkdir($VIMTMP.'/swapfiles')
@@ -104,8 +106,10 @@ set foldmethod=indent
 set foldlevel=100 foldcolumn=0
 set fileencodings=utf-8,iso-2022-jp,cp932,sjis,euc-jp,latin1
 set fileformats=unix,dos,mac
-set breakindent
-set breakindentopt=sbr
+if exists('breakindent')
+    set breakindent
+    set breakindentopt=sbr
+endif
 set showbreak=>
 set autoread
 
