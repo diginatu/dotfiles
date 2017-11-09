@@ -165,8 +165,8 @@ augroup END
 
 augroup vimrc_spell_on_in_git_commit_message
     au!
-    au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
-    au FileType gitcommit setlocal spell
+    au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | setlocal spellcapcheck=
+    au FileType gitcommit setlocal spell | setlocal spellcapcheck=
 augroup END
 
 filetype plugin indent on
