@@ -163,6 +163,12 @@ augroup vimrc_cursorline_only_active_window
     au WinLeave * setlocal nocursorline
 augroup END
 
+augroup vimrc_spell_on_in_git_commit_message
+    au!
+    au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
+    au FileType gitcommit setlocal spell
+augroup END
+
 filetype plugin indent on
 
 if has("syntax")
