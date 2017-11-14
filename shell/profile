@@ -29,6 +29,15 @@ if [ -d "$HOME/go" ] ; then
     PATH="$HOME/go/bin:$PATH"
 fi
 
+# cuda path
+if [ -d "/usr/local/cuda" ] ; then
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
+    export CUDA_HOME=/usr/local/cuda
+    if [ -d "$CUDA_HOME/bin" ] ; then
+        PATH="$CUDA_HOME/bin:$PATH"
+    fi
+fi
+
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US
 export LC_CTYPE=en_US.UTF-8

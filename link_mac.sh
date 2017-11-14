@@ -7,6 +7,7 @@ mkdir -p ${DISTDIR}/.local/share
 # shell
 ln -fs ${FROMDIR}/shell/bashrc_mac.bash ${DISTDIR}/.bashrc
 ln -fs ${FROMDIR}/shell/profile_mac.bash ${DISTDIR}/.profile
+ln -fs ${FROMDIR}/shell/profile_mac.bash ${DISTDIR}/.bash_profile
 ln -fs ${FROMDIR}/shell/zshenv_mac.zsh ${DISTDIR}/.zshenv
 ln -fs ${FROMDIR}/shell/zshprofile ${DISTDIR}/.zshprofile
 ln -fs ${FROMDIR}/shell/zshrc_mac.zsh ${DISTDIR}/.zshrc
