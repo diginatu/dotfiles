@@ -189,7 +189,6 @@ if index(plugs_order, 'vim-go') >= 0
     let g:go_highlight_types = 1
     let g:go_highlight_operators = 1
     let g:go_highlight_build_constraints = 1
-    let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck', 'gosimple', 'staticcheck', 'unused']
 endif
 
 
@@ -349,11 +348,7 @@ if index(plugs_order, 'neomake') >= 0
     "let g:neomake_javascript_eslint_args = ['-f', 'compact', '--fix']
     "let g:neomake_javascript_enabled_makers = ['eslint']
     "let g:neomake_hook_context = { 'file_mode': 1, 'make_id': 1 }
-
-    "let g:neomake_go_errcheck_maker = {
-    "\ 'append_file': 0,
-    "\ 'errorformat': '%f:%l:%c:\ %m, %f:%l:%c\ %#%m',
-    "\ }
+    let g:neomake_go_gometalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint', '--enable=vet']
 endif
 
 
