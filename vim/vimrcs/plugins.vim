@@ -330,7 +330,7 @@ if index(plugs_order, 'neomake') >= 0
     " Callback for reloading file in buffer when eslint has finished and maybe has
     " autofixed some stuff
     function! s:Neomake_callback()
-        if (&filetype ==? 'javascript')
+        if (g:neomake_hook_context.jobinfo.ft ==? 'javascript')
             edit
         endif
     endfunction
@@ -343,7 +343,6 @@ if index(plugs_order, 'neomake') >= 0
 
     let g:neomake_open_list = 2
     let g:neomake_javascript_eslint_args = ['-f', 'compact', '--fix']
-    "let g:neomake_hook_context = { 'file_mode': 1, 'make_id': 1 }
     let g:neomake_go_gometalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint', '--enable=vet']
 endif
 
