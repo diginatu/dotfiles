@@ -329,24 +329,20 @@ endif
 if index(plugs_order, 'neomake') >= 0
     " Callback for reloading file in buffer when eslint has finished and maybe has
     " autofixed some stuff
-    "function! s:Neomake_callback()
-    "if (&filetype ==? 'javascript')
-    "edit
-    "endif
-    "endfunction
+    function! s:Neomake_callback()
+        if (&filetype ==? 'javascript')
+            edit
+        endif
+    endfunction
 
     augroup vimrc_neomake_aug
         au!
-        " Call neomake#Make directly instead of the Neomake provided command so we can
-        " inject the callback
-        "au BufWritePost * call neomake#Make(1, [], function('g:Neomake_callback'))
         au BufWritePost * Neomake
-        "au User NeomakeFinished call s:Neomake_callback()
+        au User NeomakeFinished call s:Neomake_callback()
     augroup END
 
     let g:neomake_open_list = 2
-    "let g:neomake_javascript_eslint_args = ['-f', 'compact', '--fix']
-    "let g:neomake_javascript_enabled_makers = ['eslint']
+    let g:neomake_javascript_eslint_args = ['-f', 'compact', '--fix']
     "let g:neomake_hook_context = { 'file_mode': 1, 'make_id': 1 }
     let g:neomake_go_gometalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint', '--enable=vet']
 endif
