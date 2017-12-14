@@ -96,12 +96,22 @@ if index(plugs_order, 'denite.nvim') >= 0
     nnoremap <Leader>un  :<C-u>Denite<Space>
     nnoremap <Leader>uo  :<C-u>Denite outline<CR>
     nnoremap <Leader>ur  :<C-u>Denite file_rec<CR>
+    nnoremap <Leader>ug  :<C-u>Denite file_rec/git<CR>
     nnoremap <Leader>ua  :<C-u>Denite file_old buffer file<CR>
     nnoremap <Leader>b   :<C-u>Denite buffer<CR>
 
     call denite#custom#map('insert', '<C-j>', '<denite:leave_mode>', 'noremap')
     call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
     call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
+
+    call denite#custom#var('file_rec', 'command',
+                \ ['find', '-L', ':directory',
+                \ '-path', '*/.git/*', '-prune', '-o',
+                \ '-path', '*/node_modules/*', '-prune', '-o',
+                \ '-type', 'l', '-print', '-o', '-type', 'f', '-print'])
+    call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+    call denite#custom#var('file_rec/git', 'command',
+                \ ['git', 'ls-files', '-co', '--exclude-standard'])
 endif
 
 " Deoplete
