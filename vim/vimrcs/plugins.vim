@@ -33,7 +33,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 "Plug 'othree/yajs.vim'
 Plug 'airblade/vim-gitgutter'
-"Plug 'cohama/lexima.vim'
+Plug 'cohama/lexima.vim'
 Plug 'dkarter/bullets.vim'
 call plug#end()
 
@@ -340,15 +340,13 @@ if index(plugs_order, 'neomake') >= 0
     " Callback for reloading file in buffer when eslint has finished and maybe has
     " autofixed some stuff
     function! s:Neomake_callback()
-        if (g:neomake_hook_context.jobinfo.ft ==? 'javascript')
-            edit
-        endif
+        edit
     endfunction
 
     augroup vimrc_neomake_aug
         au!
         au BufWritePost * Neomake
-        au User NeomakeFinished call s:Neomake_callback()
+        au filetype javascript au User NeomakeJobFinished call s:Neomake_callback()
     augroup END
 
     let g:neomake_open_list = 2
