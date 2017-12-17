@@ -67,22 +67,23 @@ endif
 if has('termguicolors')
     set termguicolors
 endif
-set spelllang=en,cjk " use spell check
-set showcmd          " Show (partial) command in status line.
-set showmatch        " Show matching brackets.
-set ignorecase       " Do case insensitive matching
-set smartcase        " Do smart case matching
-set incsearch        " Incremental search
+set spelllang=en,cjk   " use spell check
+set showcmd            " Show (partial) command in status line.
+set showmatch          " Show matching brackets.
+set ignorecase         " Do case insensitive matching
+set smartcase          " Do smart case matching
+set incsearch          " Incremental search
 set hlsearch
 set laststatus=2
-set autowrite        " Save before commands like :next and :make
+set autowrite          " Save before commands like :next and :make
 set autoread
-set hidden           " Hide buffers when they are abandoned
+set hidden             " Hide buffers when they are abandoned
 set incsearch
-set virtualedit=block " Free move in block selection
+set virtualedit=block  " Free move in block selection
 set title
-set formatoptions+=mM " Multi-byte character format
-set list              " Show invisible characters
+set formatoptions+=mM  " Multi-byte character format
+set formatoptions-=cro " Disable auto continuation of comments
+set list               " Show invisible characters
 set listchars=tab:-\ ,trail:-,extends:»,precedes:«,nbsp:+
 set scrolloff=3
 set clipboard=unnamedplus,unnamed
@@ -90,7 +91,7 @@ set mouse=nv
 set nonumber
 set wildmenu
 set wildmode=longest:full
-set ambiwidth=double " wide characters
+set ambiwidth=double   " wide characters
 set shiftround
 if exists('belloff')
     set belloff=all
@@ -151,11 +152,6 @@ nnoremap <Leader>mk :<C-u>make -j2<CR>
 nnoremap <Leader>mr :<C-u>make -j2 run<CR>
 nnoremap <Leader>mi :<C-u>make -j2 install<CR>
 nnoremap <Leader>sp :<C-u>setlocal spell!<CR>
-
-augroup vimrc_cd_to_current_directry
-    au!
-    au VimEnter * Cdc
-augroup END
 
 augroup vimrc_cursorline_only_active_window
     au!
