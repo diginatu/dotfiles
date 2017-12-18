@@ -14,5 +14,8 @@ if ! isdirectory($VIMTMP)
     call mkdir($VIMTMP)
 endif
 
-source ~/dotfiles/vim/vimrcs/plugins.vim
+let $HASPLUGIN = isdirectory($VIMDIR.'/plugged')
+if $HASPLUGIN
+    source ~/dotfiles/vim/vimrcs/plugins.vim
+endif
 source ~/dotfiles/vim/vimrcs/common.vim
