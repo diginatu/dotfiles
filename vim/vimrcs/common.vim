@@ -72,13 +72,11 @@ set showcmd            " Show (partial) command in status line.
 set showmatch          " Show matching brackets.
 set ignorecase         " Do case insensitive matching
 set smartcase          " Do smart case matching
-set incsearch          " Incremental search
 set hlsearch
 set laststatus=2
 set autowrite          " Save before commands like :next and :make
 set autoread
 set hidden             " Hide buffers when they are abandoned
-set incsearch
 set virtualedit=block  " Free move in block selection
 set title
 set formatoptions+=mM  " Multi-byte character format
@@ -93,7 +91,7 @@ set wildmenu
 set wildmode=longest:full
 set ambiwidth=double   " wide characters
 set shiftround
-if exists('belloff')
+if exists('+belloff')
     set belloff=all
 endif
 set viminfo=!,'200,<100,s10,h
@@ -113,6 +111,18 @@ if exists('breakindent')
 endif
 set showbreak=>
 set autoread
+
+" Incremental search
+set incsearch
+if exists('+inccommand')
+    set inccommand=nosplit
+endif
+if !$HASPLUGIN
+    nnoremap / /\v
+    nnoremap ? ?\v
+    vnoremap / /\v
+    vnoremap ? ?\v
+endif
 
 " indent
 set smartindent
