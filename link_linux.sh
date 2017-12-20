@@ -9,7 +9,7 @@ ln -fs ${FROMDIR}/shell/bashrc ${DISTDIR}/.bashrc
 ln -fs ${FROMDIR}/shell/profile ${DISTDIR}/.profile
 ln -fs ${FROMDIR}/shell/profile ${DISTDIR}/.bash_profile
 ln -fs ${FROMDIR}/shell/zshenv ${DISTDIR}/.zshenv
-ln -fs ${FROMDIR}/shell/zshprofile ${DISTDIR}/.zshprofile
+ln -fs ${FROMDIR}/shell/zprofile ${DISTDIR}/.zprofile
 ln -fs ${FROMDIR}/shell/zshrc ${DISTDIR}/.zshrc
 
 # vim
