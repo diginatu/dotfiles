@@ -340,13 +340,15 @@ if index(plugs_order, 'neomake') >= 0
     " Callback for reloading file in buffer when eslint has finished and maybe has
     " autofixed some stuff
     function! s:Neomake_callback()
-        edit
+        if (g:neomake_hook_context.jobinfo.ft ==? 'javascript')
+            edit
+        endif
     endfunction
 
     augroup vimrc_neomake_aug
         au!
         au BufWritePost * Neomake
-        au filetype javascript au User NeomakeJobFinished call s:Neomake_callback()
+        au User NeomakeJobFinished call s:Neomake_callback()
     augroup END
 
     let g:neomake_open_list = 2
