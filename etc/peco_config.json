@@ -1,0 +1,7 @@
+{
+    "StickySelection": true,
+    "Keymap": {
+        "Tab": "peco.RotateFilter",
+        "C-j": "peco.Cancel"
+    }
+}
