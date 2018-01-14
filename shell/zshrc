@@ -50,27 +50,16 @@ setopt AUTO_PUSHD
 # enable comments in interactive terminal
 setopt interactivecomments
 
-
-# color definition
-local DEFAULT=$'\033[0m'
-local RED=$'\033[0;31m'
-local GREEN=$'\033[0;32m'
-local YELLOW=$'\033[0;33m'
-local BLUE=$'\033[0;34m'
-local PURPLE=$'\033[0;35m'
-local LIGHT_BLUE=$'\033[1;34m'
-local WHITE=$'\033[1;37m'
-
-# styles
-zstyle ':completion:*' menu select=2
+autoload -U colors; colors
 
 # completions
+zstyle ':completion:*' menu select=2
 zstyle ':completion:*' verbose yes
-zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
-zstyle ':completion:*:messages' format $YELLOW'%d'$DEFAULT
-zstyle ':completion:*:warnings' format $RED'No matches for:'$YELLOW' %d'$DEFAULT
-zstyle ':completion:*:descriptions' format $YELLOW'completing %B%d%b'$DEFAULT
-zstyle ':completion:*:corrections' format $YELLOW'%B%d '$RED'(errors: %e)%b'$DEFAULT
+zstyle ':completion:*' completer _ssh _complete _match _approximate _prefix _list _expand _history
+zstyle ':completion:*:messages' format ${fg_bold[yellow]}'%d'${reset_color}
+zstyle ':completion:*:warnings' format ${fg[red]}'No matches for:'${fg[yellow]}' %d'${reset_color}
+zstyle ':completion:*:descriptions' format ${fg[yellow]}'%B%d%b'${reset_color}
+zstyle ':completion:*:corrections' format ${fg_bold[yellow]}'%B%d '${fg[red]}'(errors: %e)%b'${reset_color}
 zstyle ':completion:*:options' description 'yes'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' use-cache true
@@ -83,29 +72,25 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # ----- PROMPT -----
 ## PROMPT
-PROMPT=$'[%~] %# ' # %~ is pwd
+PROMPT=$'[%~] %# ' # %~: pwd
 ## RPROMPT
 RPROMPT=$'`branch-status-check`'
 
 # github user contents
 # https://gist.github.com/otiai10/8034038
-#############################################
-
 # {{{ methods for RPROMPT
-# @see https://wiki.archlinux.org/index.php/zsh
-autoload -U colors; colors
 function branch-status-check {
     local prefix branchname suffix
-        # .gitの中だから除外
+        # Skip in the .git firectory
         if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
             return
         fi
         branchname=`get-branch-name`
-        # ブランチ名が無いので除外
+        # No branch name
         if [[ -z $branchname ]]; then
             return
         fi
-        prefix=`get-branch-status` #色だけ返ってくる
+        prefix=`get-branch-status` # Returns color
         suffix='%{'${reset_color}'%}'
         echo ${prefix}${branchname}${suffix}
 }
