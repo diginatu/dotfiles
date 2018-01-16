@@ -120,3 +120,17 @@ function get-branch-status {
 
 # added by travis gem
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+
+# Functions
+function local cd_using_peco {
+    eval local selected_dir=$(eval "$1 | peco")
+    if [ -n "$selected_dir" ]; then
+        cd "${selected_dir}"
+    fi
+}
+function pr {
+    cd_using_peco "find -type d 2>/dev/null | sort"
+}
+function ph {
+    cd_using_peco "cdr -l | awk '{ print \$2 }'"
+}
