@@ -74,7 +74,7 @@ if index(plugs_order, 'unite.vim') >= 0
     nnoremap <Leader>uo  :<C-u>Unite outline<CR>
     nnoremap <Leader>uf  :<C-u>Unite file<CR>
     nnoremap <Leader>ur  :<C-u>Unite file_rec<CR>
-    nnoremap <Leader>ua  :<C-u>Unite file_mru buffer file<CR>
+    nnoremap <Leader>uh  :<C-u>Unite file_mru buffer file<CR>
     nnoremap <Leader>b   :<C-u>Unite buffer<CR>
     nnoremap <Leader>ubm :<C-u>Unite bookmark<CR>
 
@@ -97,7 +97,7 @@ if index(plugs_order, 'denite.nvim') >= 0
     nnoremap <Leader>uo  :<C-u>Denite outline<CR>
     nnoremap <Leader>ur  :<C-u>Denite file_rec<CR>
     nnoremap <Leader>ug  :<C-u>Denite file_rec/git<CR>
-    nnoremap <Leader>ua  :<C-u>Denite file_old buffer file<CR>
+    nnoremap <Leader>uh  :<C-u>Denite file_old buffer file<CR>
     nnoremap <Leader>b   :<C-u>Denite buffer<CR>
 
     call denite#custom#map('insert', '<C-j>', '<denite:leave_mode>', 'noremap')
