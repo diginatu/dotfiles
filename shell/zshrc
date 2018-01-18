@@ -134,3 +134,16 @@ function pr {
 function ph {
     cd_using_peco "cdr -l | awk '{ print \$2 }'"
 }
+
+# Plugins
+if [ -f ~/.zplug/init.zsh ]; then
+    source ~/.zplug/init.zsh
+    zplug mafredri/zsh-async, from:github
+    zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
+    zplug load
+
+    # Pure theme
+    PURE_PROMPT_SYMBOL='>'
+    RPROMPT=''
+fi
+
