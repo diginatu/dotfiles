@@ -72,51 +72,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # ----- PROMPT -----
 ## PROMPT
-PROMPT=$'[%~] %# ' # %~: pwd
-## RPROMPT
-RPROMPT=$'`branch-status-check`'
-
-# github user contents
-# https://gist.github.com/otiai10/8034038
-# {{{ methods for RPROMPT
-function branch-status-check {
-    local prefix branchname suffix
-        # Skip in the .git firectory
-        if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
-            return
-        fi
-        branchname=`get-branch-name`
-        # No branch name
-        if [[ -z $branchname ]]; then
-            return
-        fi
-        prefix=`get-branch-status` # Returns color
-        suffix='%{'${reset_color}'%}'
-        echo ${prefix}${branchname}${suffix}
-}
-function get-branch-name {
-    echo `git rev-parse --abbrev-ref HEAD 2> /dev/null`
-}
-function get-branch-status {
-    local res color
-        output=`git status --short 2> /dev/null`
-        if [ -z "$output" ]; then
-            res=':' # status Clean
-            color='%{'${fg[green]}'%}'
-        elif [[ $output =~ "[\n]?\?\? " ]]; then
-            res='?:' # Untracked
-            color='%{'${fg[yellow]}'%}'
-        elif [[ $output =~ "[\n]? M " ]]; then
-            res='M:' # Modified
-            color='%{'${fg[red]}'%}'
-        else
-            res='A:' # Added to commit
-            color='%{'${fg[cyan]}'%}'
-        fi
-        # echo ${color}${res}'%{'${reset_color}'%}'
-        echo ${color}
-}
-# }}}
+PROMPT=$'\n${fg[blue]}%~${reset_color}\n> ' # %~: pwd
 
 # added by travis gem
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
@@ -124,7 +80,7 @@ function get-branch-status {
 # Functions
 function cd_using_peco {
     eval local selected_dir=$(eval "$1 | peco")
-    if [ -n "$selected_dir" ]; then
+    if [[ -n $selected_dir ]]; then
         cd "${selected_dir}"
     fi
 }
@@ -136,7 +92,7 @@ function ph {
 }
 
 # Plugins
-if [ -f ~/.zplug/init.zsh ]; then
+if [[ -f ~/.zplug/init.zsh ]]; then
     source ~/.zplug/init.zsh
     zplug mafredri/zsh-async, from:github
     zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
