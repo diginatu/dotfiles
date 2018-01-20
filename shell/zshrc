@@ -85,7 +85,7 @@ function cd_using_peco {
     fi
 }
 function pr {
-    cd_using_peco "find . -type d 2>/dev/null | sort"
+    cd_using_peco "find . -type d 2>/dev/null"
 }
 function ph {
     cd_using_peco "cdr -l | awk '{ print \$2 }'"
