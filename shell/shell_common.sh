@@ -13,6 +13,9 @@ alias l='ls -CF'
 alias rm='echo "Do you mean tp?"'
 alias tp='trash-put'
 alias g='git'
+if type nvim > /dev/null; then
+    alias vim=nvim
+fi
 alias sudo='sudo '
 
 if ! [ -z ${TMUX} ]; then
