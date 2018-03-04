@@ -105,7 +105,7 @@ set foldmethod=indent
 set foldlevel=100 foldcolumn=0
 set fileencodings=utf-8,iso-2022-jp,cp932,sjis,euc-jp,latin1
 set fileformats=unix,dos,mac
-if exists('breakindent')
+if exists('+breakindent')
     set breakindent
     set breakindentopt=sbr
 endif
