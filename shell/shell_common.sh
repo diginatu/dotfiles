@@ -14,6 +14,12 @@ alias rm='echo "Do you mean tp?"'
 alias tp='trash-put'
 alias g='git'
 
+# Open
+if type 'xdg-open' > /dev/null; then
+    alias open='xdg-open'
+fi
+
+# Clipboard
 if type xclip > /dev/null; then
     alias clip='xclip -sel c'
     alias clipo='xclip -o -sel c'
@@ -26,6 +32,8 @@ if type pbcopy > /dev/null; then
     alias clip=pbcopy
     alias clipo=pbpaste
 fi
+
+
 if type nvim > /dev/null; then
     alias vim=nvim
 fi
