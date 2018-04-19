@@ -13,6 +13,19 @@ alias l='ls -CF'
 alias rm='echo "Do you mean tp?"'
 alias tp='trash-put'
 alias g='git'
+
+if type xclip > /dev/null; then
+    alias clip='xclip -sel c'
+    alias clipo='xclip -o -sel c'
+fi
+if type xsel > /dev/null; then
+    alias clip='xsel -bi'
+    alias clipo='xsel -bo'
+fi
+if type pbcopy > /dev/null; then
+    alias clip=pbcopy
+    alias clipo=pbpaste
+fi
 if type nvim > /dev/null; then
     alias vim=nvim
 fi
