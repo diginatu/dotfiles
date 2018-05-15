@@ -36,6 +36,7 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'airblade/vim-gitgutter'
 Plug 'cohama/lexima.vim'
 Plug 'dkarter/bullets.vim'
+Plug 'landaire/deoplete-d'
 call plug#end()
 
 
