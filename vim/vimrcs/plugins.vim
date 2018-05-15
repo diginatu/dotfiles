@@ -302,6 +302,7 @@ let g:IM_CtrlEnable = 1
 if has("mac")
     let g:IM_CtrlOnKey = 'osascript -e "tell application \"System Events\" to key code 104"'
     let g:IM_CtrlOffKey = 'osascript -e "tell application \"System Events\" to key code 102"'
+    let g:IM_CtrlEnable = 0
 else
     let g:IM_CtrlOnKey = 'fcitx-remote -o'
     let g:IM_CtrlOffKey = 'fcitx-remote -c'
