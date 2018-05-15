@@ -14,7 +14,7 @@ if ! isdirectory($VIMTMP)
     call mkdir($VIMTMP)
 endif
 
-let $HASPLUGIN = isdirectory($VIMDIR.'/plugged')
+let $HASPLUGIN = filereadable($VIMDIR.'/autoload/plug.vim')
 if $HASPLUGIN
     source ~/dotfiles/vim/vimrcs/plugins.vim
 endif
