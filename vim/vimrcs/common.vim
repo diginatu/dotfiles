@@ -163,6 +163,12 @@ nnoremap <Leader>mr :<C-u>make -j2 run<CR>
 nnoremap <Leader>mi :<C-u>make -j2 install<CR>
 nnoremap <Leader>sp :<C-u>setlocal spell!<CR>
 
+" Yank file path
+nnoremap <Leader>pf :<C-u>let @+=expand("%")<CR>
+nnoremap <Leader>pl :<C-u>let @+=printf("%s:%d", expand("%"), line('.'))<CR>
+vnoremap <Leader>pl :<C-u>let @+=printf("%s:%d-%d", expand("%"), line("'<"), line("'>"))<CR>
+nnoremap <Leader>pc :<C-u>let @+=printf("%s:%d:%d", expand("%"), line('.'), col('.'))<CR>
+
 augroup vimrc_cursorline_only_active_window
     au!
     au VimEnter,BufWinEnter,WinEnter * setlocal cursorline
