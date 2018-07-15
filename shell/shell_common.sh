@@ -19,7 +19,8 @@ if type 'xdg-open' > /dev/null; then
     alias open='xdg-open'
 fi
 
-alias gopen="open \`git remote -v | awk '/fetch/{print \$2}' | sed -Ee 's#(git@|git://)#http://#' -e 's@com:@com/@'\`"
+alias ghopen="open \`git remote -v | awk '/fetch/{print \$2}' | sed -Ee 's@:@/@' -e 's#(git@|git://)#https://#'\`"
+alias ghurl="echo \`git remote -v | awk '/fetch/{print \$2}' | sed -Ee 's@:@/@' -e 's#(git@|git://)#https://#'\`"
 
 # Clipboard
 if type xclip > /dev/null; then
