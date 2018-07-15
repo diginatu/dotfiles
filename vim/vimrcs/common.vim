@@ -130,7 +130,7 @@ set expandtab
 set tabstop=4 shiftwidth=4 softtabstop=4
 augroup vimrc_tab_group
     au!
-    au FileType html setlocal tabstop=2 shiftwidth=2 softtabstop=2
+    au FileType html,yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
 augroup END
 
 " :Cdc Changes Directory to Current file location
