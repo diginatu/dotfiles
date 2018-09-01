@@ -175,6 +175,16 @@ augroup vimrc_cursorline_only_active_window
     au WinLeave * setlocal nocursorline
 augroup END
 
+" Git
+function! s:chomp(string)
+    return substitute(a:string, '\n\+$', '', '')
+endfunction
+function! s:get_giturl()
+    return s:chomp(system("git remote -v | awk '/fetch/{print $2}' | sed -Ee 's@:@/@' -e 's\#(git@|git://)\#https://\#' -e 's/.git$//'")) . '/blob/' . s:chomp(system('git rev-parse --abbrev-ref HEAD')) . '/' . @% . "\#L" . line('.')
+endfunction
+command! Gurl echo s:get_giturl()
+command! Gurlyank let @+ = s:get_giturl()
+
 augroup vimrc_spell_on_in_git_commit_message
     au!
     au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | setlocal spellcapcheck=
