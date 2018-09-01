@@ -1,0 +1,7 @@
+" Remove all settings
+sanitise tridactyllocal tridactylsync
+
+bind J tabnext
+bind K tabprev
+
+" vim: set filetype=vim:
