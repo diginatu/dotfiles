@@ -10,8 +10,10 @@ alias ll='ls -alhF'
 alias la='ls -A'
 alias l='ls -CF'
 
-alias rm='echo "Do you mean tp?"'
-alias tp='trash-put'
+if type 'trash-put' > /dev/null; then
+    alias rm='echo "Do you mean tp?"'
+    alias tp='trash-put'
+fi
 alias g='git'
 
 # Open
