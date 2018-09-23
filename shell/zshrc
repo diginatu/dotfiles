@@ -74,8 +74,6 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 ## PROMPT
 PROMPT=$'\n${fg[blue]}%~${reset_color}\n> ' # %~: pwd
 
-# added by travis gem
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
 # Functions
 function cd_using_peco {

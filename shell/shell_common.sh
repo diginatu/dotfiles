@@ -48,3 +48,6 @@ if ! [ -z ${TMUX} ]; then
     alias fixssh='export $(tmux showenv SSH_AUTH_SOCK)'
     $fixssh
 fi
+
+# added by travis gem
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
