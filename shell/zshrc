@@ -74,8 +74,9 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 ## PROMPT
 PROMPT=$'\n${fg[blue]}%~${reset_color}\n> ' # %~: pwd
 
+# ----- Functions ------
 
-# Functions
+# cd using Peco
 function cd_using_peco {
     eval local selected_dir=$(eval "$1 | peco")
     if [[ -n $selected_dir ]]; then
@@ -89,6 +90,16 @@ function ph {
     cd_using_peco "cdr -l | awk '{ print \$2 }'"
 }
 
+# Man page using vim
+vman() {
+    if [ -z $1 ]; then
+        echo "What manual page do you want?"
+        return 1
+    fi
+    vim "-c Man $1 | only"
+}
+
+
 # Plugins
 if [[ -f ~/.zplug/init.zsh ]]; then
     source ~/.zplug/init.zsh
@@ -100,4 +111,3 @@ if [[ -f ~/.zplug/init.zsh ]]; then
     PURE_PROMPT_SYMBOL='>'
     RPROMPT=''
 fi
-
