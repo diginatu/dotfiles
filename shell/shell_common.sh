@@ -49,5 +49,11 @@ if ! [ -z ${TMUX} ]; then
     $fixssh
 fi
 
+# Disable Ctrl-S
+if [[ -t 0 ]]; then
+    stty stop undef
+    stty start undef
+fi
+
 # added by travis gem
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
