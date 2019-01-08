@@ -169,6 +169,9 @@ nnoremap <Leader>pl :<C-u>let @+=printf("%s:%d", expand("%"), line('.'))<CR>
 vnoremap <Leader>pl :<C-u>let @+=printf("%s:%d-%d", expand("%"), line("'<"), line("'>"))<CR>
 nnoremap <Leader>pc :<C-u>let @+=printf("%s:%d:%d", expand("%"), line('.'), col('.'))<CR>
 
+" prevent to make a file named ]
+cnoreabbrev w] w
+
 augroup vimrc_cursorline_only_active_window
     au!
     au VimEnter,BufWinEnter,WinEnter * setlocal cursorline
