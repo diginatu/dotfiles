@@ -155,14 +155,14 @@ if index(plugs_order, 'lexima.vim') >= 0
     let g:lexima_enable_space_rules = 0
     " braces only in basic rules
     let g:lexima_enable_basic_rules = 0
-    call lexima#add_rule({'char': '(', 'input_after': ')'})
+    call lexima#add_rule({'char': '(', 'input_after': ')', 'at': '\%#[)}\]]*$'})
     call lexima#add_rule({'char': '(', 'at': '\\\%#'})
     call lexima#add_rule({'char': ')', 'at': '\%#)', 'leave': 1})
     call lexima#add_rule({'char': '<BS>', 'at': '(\%#)', 'delete': 1})
-    call lexima#add_rule({'char': '{', 'input_after': '}'})
+    call lexima#add_rule({'char': '{', 'input_after': '}', 'at': '\%#[)}\]]*$'})
     call lexima#add_rule({'char': '}', 'at': '\%#}', 'leave': 1})
     call lexima#add_rule({'char': '<BS>', 'at': '{\%#}', 'delete': 1})
-    call lexima#add_rule({'char': '[', 'input_after': ']'})
+    call lexima#add_rule({'char': '[', 'input_after': ']', 'at': '\%#[)}\]]*$'})
     call lexima#add_rule({'char': '[', 'at': '\\\%#'})
     call lexima#add_rule({'char': ']', 'at': '\%#]', 'leave': 1})
 endif
