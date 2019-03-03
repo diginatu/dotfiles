@@ -66,6 +66,9 @@ if !has('nvim') && &term =~ '256color'
 endif
 if has('termguicolors')
     set termguicolors
+    if has('pumblend')
+        set pumblend=30
+    endif
 endif
 set spelllang=en,cjk   " use spell check
 set showcmd            " Show (partial) command in status line.
