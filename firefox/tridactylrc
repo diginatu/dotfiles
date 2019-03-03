@@ -3,5 +3,6 @@ sanitise tridactyllocal tridactylsync
 
 bind J tabnext
 bind K tabprev
+unbind <C-f>
 
 " vim: set filetype=vim:
