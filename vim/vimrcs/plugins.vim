@@ -4,11 +4,11 @@ endfunction
 call plug#begin($VIMDIR.'/plugged')
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': function('UpdateRemote') }
-    Plug 'zchee/deoplete-go'
-    Plug 'carlitux/deoplete-ternjs'
+    "Plug 'zchee/deoplete-go'
+    "Plug 'landaire/deoplete-d'
+    "Plug 'carlitux/deoplete-ternjs'
     Plug 'Shougo/denite.nvim', { 'do': function('UpdateRemote') }
 else
-    Plug 'Shougo/neocomplete.vim'
     Plug 'Shougo/unite.vim'
     Plug 'Shougo/unite-outline'
     Plug 'Shougo/neomru.vim'
@@ -17,8 +17,7 @@ Plug 'vim-scripts/sudo.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'lilydjwg/colorizer'
 Plug 'scrooloose/nerdcommenter'
-Plug 'benekastah/neomake'
-Plug 'fatih/vim-go'
+"Plug 'benekastah/neomake'
 Plug 'majutsushi/tagbar'
 Plug 'fuenor/im_control.vim'
 Plug 'SirVer/ultisnips'
@@ -27,18 +26,53 @@ Plug 'itchyny/lightline.vim'
 Plug 'w0ng/vim-hybrid'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
-Plug 'ternjs/tern_for_vim'
 Plug 'zchee/deoplete-jedi'
 Plug 'kshenoy/vim-signature'
-Plug 'pangloss/vim-javascript'
-Plug 'maxmellon/vim-jsx-pretty'
-"Plug 'othree/yajs.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'cohama/lexima.vim'
 Plug 'dkarter/bullets.vim'
-Plug 'landaire/deoplete-d'
+
+" Language support
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-buffer.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+"Plug 'fatih/vim-go'
+
+Plug 'pangloss/vim-javascript'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'ternjs/tern_for_vim'
+
 call plug#end()
 
+"call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+    "\ 'name': 'buffer',
+    "\ 'whitelist': ['*'],
+    "\ 'blacklist': [''],
+    "\ 'completor': function('asyncomplete#sources#buffer#completor'),
+    "\ }))
+
+" vim-lsp
+" -------
+
+if index(plugs_order, 'vim-lsp') >= 0
+    let g:lsp_signs_enabled = 1           " enable signs
+    let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+
+    if executable('gopls')
+      augroup vimrc_lsp_go
+        au!
+        autocmd User lsp_setup call lsp#register_server({
+            \ 'name': 'go-lang',
+            \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+            \ 'whitelist': ['go'],
+            \ })
+        autocmd FileType go setlocal omnifunc=lsp#complete
+      augroup END
+    endif
+endif
 
 " Tern
 " ----
@@ -119,19 +153,11 @@ endif
 " Deoplete
 " --------
 
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
-let g:deoplete#sources#go = 'vim-go'
-
-
-" Neocomplete
-" -----------
-
-let g:acp_enableAtStartup = 0
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#auto_completion_start_length = 3
+if index(plugs_order, 'deoplete.nvim') >= 0
+    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_smart_case = 1
+    " let g:deoplete#sources#go = 'vim-go'
+endif
 
 
 " Neosnippet
