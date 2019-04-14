@@ -356,7 +356,7 @@ inoremap <silent> <C-w> <C-r>=IMState('FixMode')<CR>
 " Colorscheme
 " -----------
 
-if index(plugs_order, 'colorizer') >= 0
+if index(plugs_order, 'vim-hybrid') >= 0
     set background=dark
     colorscheme hybrid
 endif

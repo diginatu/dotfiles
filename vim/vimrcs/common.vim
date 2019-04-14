@@ -150,7 +150,6 @@ noremap Y y$
 " not to yank
 nnoremap x "_x
 vnoremap x "_x
-vnoremap p "_dP
 
 " Ctrl-j to Esc
 noremap  <C-j> <ESC>
