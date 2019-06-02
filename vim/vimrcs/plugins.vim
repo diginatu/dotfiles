@@ -44,6 +44,7 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'ternjs/tern_for_vim'
+Plug 'aklt/plantuml-syntax'
 
 call plug#end()
 
@@ -398,3 +399,6 @@ if index(plugs_order, 'vim-gitgutter') >= 0
     nmap <Leader>hp <Plug>GitGutterPreviewHunk
 endif
 
+if index(plugs_order, 'plantuml-syntax') >= 0
+    let g:plantuml_set_makeprg=0
+endif
