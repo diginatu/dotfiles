@@ -199,5 +199,5 @@ augroup END
 filetype plugin indent on
 
 if has("syntax")
-    syntax on
+    syntax enable
 endif
