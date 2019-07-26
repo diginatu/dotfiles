@@ -97,34 +97,6 @@ if index(plugs_order, 'tern_for_vim') >= 0
 endif
 
 
-" Unite
-" -----
-
-if index(plugs_order, 'unite.vim') >= 0
-    call unite#custom#profile('default', 'context', {
-                \   'start_insert': 1,
-                \   'winheight': 10,
-                \   'direction': 'botright',
-                \ })
-
-    nnoremap <Leader>un  :<C-u>Unite<Space>
-    nnoremap <Leader>uo  :<C-u>Unite outline<CR>
-    nnoremap <Leader>uf  :<C-u>Unite file<CR>
-    nnoremap <Leader>ur  :<C-u>Unite file_rec<CR>
-    nnoremap <Leader>uh  :<C-u>Unite file_mru buffer file<CR>
-    nnoremap <Leader>b   :<C-u>Unite buffer<CR>
-    nnoremap <Leader>ubm :<C-u>Unite bookmark<CR>
-
-    let g:unite_source_menu_menus = {}
-
-    augroup vimrc_unite_map
-        au!
-        autocmd FileType unite imap <buffer> <ESC> <Plug>(unite_exit)
-        autocmd FileType unite imap <buffer> <C-[> <Plug>(unite_exit)
-        autocmd FileType unite imap <buffer> <C-j> <Plug>(unite_exit)
-    augroup end
-endif
-
 
 " Denite
 " ------
@@ -132,23 +104,33 @@ endif
 if index(plugs_order, 'denite.nvim') >= 0
     nnoremap <Leader>un  :<C-u>Denite<Space>
     nnoremap <Leader>uo  :<C-u>Denite outline<CR>
-    nnoremap <Leader>ur  :<C-u>Denite file_rec<CR>
-    nnoremap <Leader>ug  :<C-u>Denite file_rec/git<CR>
-    nnoremap <Leader>uh  :<C-u>Denite file_old buffer file<CR>
+    nnoremap <Leader>ur  :<C-u>Denite file/rec<CR>
+    nnoremap <Leader>ug  :<C-u>Denite file/rec/git<CR>
+    nnoremap <Leader>uh  :<C-u>Denite file/old buffer file<CR>
     nnoremap <Leader>b   :<C-u>Denite buffer<CR>
 
-    call denite#custom#map('insert', '<C-j>', '<denite:leave_mode>', 'noremap')
-    call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
-    call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
+    augroup vimrc_denite_map
+        au!
+        autocmd FileType denite call s:denite_my_settings()
+        function! s:denite_my_settings() abort
+            nnoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
+            nnoremap <silent><buffer><expr> d denite#do_map('do_action', 'delete')
+            nnoremap <silent><buffer><expr> p denite#do_map('do_action', 'preview')
+            nnoremap <silent><buffer><expr><nowait> <C-j> denite#do_map('quit')
+            nnoremap <silent><buffer><expr> q denite#do_map('quit')
+            nnoremap <silent><buffer><expr> i denite#do_map('open_filter_buffer')
+            nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
+            nnoremap <silent><buffer><expr> <Tab> denite#do_map('choose_action')
+        endfunction
+        autocmd FileType denite-filter call s:denite_filter_my_settings()
+        function! s:denite_filter_my_settings() abort
+            imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+        endfunction
+    augroup end
 
-    call denite#custom#var('file_rec', 'command',
-                \ ['find', '-L', ':directory',
-                \ '-path', '*/.git/*', '-prune', '-o',
-                \ '-path', '*/node_modules/*', '-prune', '-o',
-                \ '-type', 'l', '-print', '-o', '-type', 'f', '-print'])
-    call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-    call denite#custom#var('file_rec/git', 'command',
-                \ ['git', 'ls-files', '-co', '--exclude-standard'])
+	call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+	call denite#custom#var('file/rec/git', 'command',
+	      \ ['git', 'ls-files', '-co', '--exclude-standard'])
 endif
 
 " Deoplete
