@@ -2,22 +2,15 @@ function! UpdateRemote(arg)
     UpdateRemotePlugins
 endfunction
 call plug#begin($VIMDIR.'/plugged')
-if has('nvim')
+if has('python3')
     Plug 'Shougo/deoplete.nvim', { 'do': function('UpdateRemote') }
-    "Plug 'zchee/deoplete-go'
-    "Plug 'landaire/deoplete-d'
-    "Plug 'carlitux/deoplete-ternjs'
     Plug 'Shougo/denite.nvim', { 'do': function('UpdateRemote') }
-else
-    Plug 'Shougo/unite.vim'
-    Plug 'Shougo/unite-outline'
-    Plug 'Shougo/neomru.vim'
+    Plug 'lighttiger2505/deoplete-vim-lsp'
 endif
 Plug 'vim-scripts/sudo.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'lilydjwg/colorizer'
 Plug 'scrooloose/nerdcommenter'
-"Plug 'benekastah/neomake'
 Plug 'majutsushi/tagbar'
 Plug 'fuenor/im_control.vim'
 Plug 'SirVer/ultisnips'
@@ -26,7 +19,6 @@ Plug 'itchyny/lightline.vim'
 Plug 'w0ng/vim-hybrid'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
-Plug 'zchee/deoplete-jedi'
 Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
 Plug 'cohama/lexima.vim'
@@ -35,25 +27,13 @@ Plug 'dkarter/bullets.vim'
 " Language support
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-buffer.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-"Plug 'fatih/vim-go'
-
+Plug 'fatih/vim-go'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
-Plug 'ternjs/tern_for_vim'
 Plug 'aklt/plantuml-syntax'
 
 call plug#end()
-
-"call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-    "\ 'name': 'buffer',
-    "\ 'whitelist': ['*'],
-    "\ 'blacklist': [''],
-    "\ 'completor': function('asyncomplete#sources#buffer#completor'),
-    "\ }))
 
 " vim-lsp
 " -------
@@ -62,18 +42,31 @@ if index(plugs_order, 'vim-lsp') >= 0
     let g:lsp_signs_enabled = 1           " enable signs
     let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 
-    if executable('gopls')
-      augroup vimrc_lsp_go
-        au!
-        autocmd User lsp_setup call lsp#register_server({
-            \ 'name': 'go-lang',
-            \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-            \ 'whitelist': ['go'],
-            \ })
-        autocmd FileType go setlocal omnifunc=lsp#complete
-      augroup END
+    function! s:map_lsp_funcs() abort
+        nmap <buffer> <Leader>ac <Plug>(lsp-code-action)
+        nmap <buffer> <Leader>ft <Plug>(lsp-document-format)
+        nmap <buffer> <Leader>if <Plug>(lsp-hover)
+        nmap <buffer> <Leader>ua <Plug>(lsp-workspace-symbol)
+        nmap <buffer> <Leader>nm <Plug>(lsp-rename)
+        nmap <buffer> <Leader>us <Plug>(lsp-references)
+        nmap <buffer> <C-]>      <Plug>(lsp-definition)
+        nmap <buffer> <C-w><C-]> <Plug>(lsp-peek-definition)
+    endfunction
+
+    if executable('typescript-language-server')
+        augroup vimrc_lsp_typescript
+            au!
+            au User lsp_setup call lsp#register_server({
+                        \ 'name': 'javascript support using typescript-language-server',
+                        \ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+                        \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
+                        \ 'whitelist': ['javascript', 'javascript.jsx']
+                        \ })
+            au FileType javascript,javascript.jsx call s:map_lsp_funcs()
+        augroup end
     endif
 endif
+
 
 " Tern
 " ----
@@ -139,7 +132,8 @@ endif
 if index(plugs_order, 'deoplete.nvim') >= 0
     let g:deoplete#enable_at_startup = 1
     let g:deoplete#enable_smart_case = 1
-    " let g:deoplete#sources#go = 'vim-go'
+
+    call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
 endif
 
 
@@ -180,7 +174,9 @@ endif
 " Tagber
 " ------
 
-nnoremap <Leader>tg :TagbarToggle<CR>
+if index(plugs_order, 'tagbar') >= 0
+    nnoremap <Leader>tg :TagbarToggle<CR>
+endif
 
 
 " Vim-go
@@ -216,51 +212,55 @@ endif
 " lightline
 " ---------
 
-set noshowmode
+if index(plugs_order, 'lightline.vim') >= 0
+    set noshowmode
 
-let g:lightline = {
-            \ 'colorscheme': 'wombat',
-            \ 'active': {
-            \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
-            \ },
-            \ 'component': {
-            \   'readonly': '%{&filetype=="help"?"":&readonly?"✖":""}',
-            \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-            \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
-            \ },
-            \ 'component_visible_condition': {
-            \   'readonly': '(&filetype!="help"&& &readonly)',
-            \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-            \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-            \ }
-            \ }
+    let g:lightline = {
+                \ 'colorscheme': 'wombat',
+                \ 'active': {
+                \   'left': [ [ 'mode', 'paste' ],
+                \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
+                \ },
+                \ 'component': {
+                \   'readonly': '%{&filetype=="help"?"":&readonly?"✖":""}',
+                \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+                \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+                \ },
+                \ 'component_visible_condition': {
+                \   'readonly': '(&filetype!="help"&& &readonly)',
+                \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+                \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+                \ }
+                \ }
+endif
 
 
 " quick run
 " ---------
 
-let g:quickrun_config = get(g:, 'quickrun_config', {})
-let g:quickrun_config._ = {
-            \ 'outputter' : 'error',
-            \ 'outputter/error/success' : 'buffer',
-            \ 'outputter/error/error'   : 'quickfix',
-            \ 'outputter/buffer/split' : ':botright 8sp',
-            \ 'outputter/buffer/close_on_empty' : 1,
-            \ }
-let g:quickrun_config.cpp = {
-            \   'command': 'g++',
-            \   'cmdopt': '-std=c++11'
-            \ }
+if index(plugs_order, 'vim-quickrun') >= 0
+    let g:quickrun_config = get(g:, 'quickrun_config', {})
+    let g:quickrun_config._ = {
+                \ 'outputter' : 'error',
+                \ 'outputter/error/success' : 'buffer',
+                \ 'outputter/error/error'   : 'quickfix',
+                \ 'outputter/buffer/split' : ':botright 8sp',
+                \ 'outputter/buffer/close_on_empty' : 1,
+                \ }
+    let g:quickrun_config.cpp = {
+                \   'command': 'g++',
+                \   'cmdopt': '-std=c++11'
+                \ }
 
-" press q to close quickfix
-augroup vimrc_quickfix_q
-    au!
-    au FileType qf nnoremap <silent><buffer>q :quit<CR>
-augroup END
+    " press q to close quickfix
+    augroup vimrc_quickfix_q
+        au!
+        au FileType qf nnoremap <silent><buffer>q :quit<CR>
+    augroup END
 
-" C-c to stop quickrun
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+    " C-c to stop quickrun
+    nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+endif
 
 
 " ultisnipets
