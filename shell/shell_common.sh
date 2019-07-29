@@ -10,6 +10,10 @@ alias ll='ls -alhF'
 alias la='ls -A'
 alias l='ls -CF'
 
+# gradle wrapper
+alias gr='gradle'
+alias gradle='./gradlew'
+
 if type 'trash-put' > /dev/null; then
     alias rm='echo "Do you mean tp?"'
     alias tp='trash-put'
