@@ -147,10 +147,10 @@ endif
 " indent
 set smartindent
 set expandtab
-set tabstop=4 shiftwidth=4 softtabstop=4
+set shiftwidth=0 tabstop=4 softtabstop=4
 augroup vimrc_tab_group
     au!
-    au FileType html,yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
+    au FileType html,yaml setlocal tabstop=2 softtabstop=2
 augroup END
 
 " :Cdc Changes Directory to Current file location
@@ -187,6 +187,10 @@ nnoremap <Leader>pf :<C-u>let @+=expand("%")<CR>
 nnoremap <Leader>pl :<C-u>let @+=printf("%s:%d", expand("%"), line('.'))<CR>
 vnoremap <Leader>pl :<C-u>let @+=printf("%s:%d-%d", expand("%"), line("'<"), line("'>"))<CR>
 nnoremap <Leader>pc :<C-u>let @+=printf("%s:%d:%d", expand("%"), line('.'), col('.'))<CR>
+
+" Auto indent paste
+nnoremap p p=`]
+nnoremap _p p
 
 " prevent to make a file named ]
 cnoreabbrev w] w
