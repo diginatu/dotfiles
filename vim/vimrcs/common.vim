@@ -189,8 +189,15 @@ vnoremap <Leader>pl :<C-u>let @+=printf("%s:%d-%d", expand("%"), line("'<"), lin
 nnoremap <Leader>pc :<C-u>let @+=printf("%s:%d:%d", expand("%"), line('.'), col('.'))<CR>
 
 " Auto indent paste
-nnoremap p p=`]
-nnoremap _p p
+function! s:map_auto_indent_paste()
+    nnoremap <buffer> p p=`]
+    nnoremap <buffer> _p p
+endfunction
+augroup vimrc_auto_indent_paste
+    au!
+    au FileType javascript,javascript.jsx,vim,java,ruby,c,cpp,go
+                \ call s:map_auto_indent_paste()
+augroup END
 
 " prevent to make a file named ]
 cnoreabbrev w] w
