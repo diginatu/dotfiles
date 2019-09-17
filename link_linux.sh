@@ -19,6 +19,7 @@ ln -fs ${FROMDIR}/vim/gvimrc ${DISTDIR}/.gvimrc
 ln -fs ${FROMDIR}/vim/vimrc ${DISTDIR}/.vimrc
 ln -fs ${FROMDIR}/vim/vimrc ${DISTDIR}/.config/nvim/init.vim
 ln -fs ${FROMDIR}/vim/UltiSnips ${DISTDIR}/.vim/
+ln -fs ${FROMDIR}/vim/UltiSnips ${DISTDIR}/.config/nvim/
 ln -fs "${FROMDIR}/vim/spell/en.utf-8.add" ${DISTDIR}/.config/nvim/spell/
 ln -fs "${FROMDIR}/vim/spell/en.utf-8.add" ${DISTDIR}/.vim/spell/
 

@@ -172,6 +172,7 @@ vnoremap x "_x
 noremap  <C-j> <ESC>
 inoremap <C-j> <ESC>
 cnoremap <C-j> <C-c>
+snoremap <C-j> <C-c>
 
 " off highlight
 nnoremap <esc><esc> :<C-u>nohl<CR>

@@ -267,12 +267,12 @@ endif
 " -----------
 
 if index(plugs_order, 'ultisnips') >= 0
-    let g:UltiSnipsExpandTrigger="<tab>"
-    let g:UltiSnipsJumpForwardTrigger="<c-l>"
-    let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+    let g:UltiSnipsExpandTrigger = "<tab>"
+    let g:UltiSnipsJumpForwardTrigger = "<c-l>"
+    let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
 
-    let g:UltiSnipsEditSplit="vertical"
-    let g:UltiSnipsSnippetsDir=$VIMDIR
+    let g:UltiSnipsEditSplit = "vertical"
+    let g:UltiSnipsRemoveSelectModeMappings = 0
 endif
 
 " incsearch
