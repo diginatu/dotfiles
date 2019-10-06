@@ -3,9 +3,9 @@ function! UpdateRemote(arg)
 endfunction
 call plug#begin($VIMDIR.'/plugged')
 if has('python3')
-    Plug 'Shougo/deoplete.nvim', { 'do': function('UpdateRemote') }
+    "Plug 'Shougo/deoplete.nvim', { 'do': function('UpdateRemote') }
     Plug 'Shougo/denite.nvim', { 'do': function('UpdateRemote') }
-    Plug 'lighttiger2505/deoplete-vim-lsp'
+    "Plug 'lighttiger2505/deoplete-vim-lsp'
 endif
 Plug 'vim-scripts/sudo.vim'
 Plug 'thinca/vim-quickrun'
@@ -25,8 +25,9 @@ Plug 'cohama/lexima.vim'
 Plug 'dkarter/bullets.vim'
 
 " Language support
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'prabirshrestha/async.vim'
+"Plug 'prabirshrestha/vim-lsp'
 
 Plug 'fatih/vim-go'
 Plug 'pangloss/vim-javascript'
@@ -34,6 +35,26 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'aklt/plantuml-syntax'
 
 call plug#end()
+
+" Coc
+" ---
+
+if index(plugs_order, 'coc.nvim') >= 0
+    call coc#add_extension('coc-json', 'coc-ultisnips')
+    " Web
+    "call coc#add_extension('coc-html', 'coc-css', 'coc-tsserver', 'coc-angular')
+
+    nmap <Leader>ac <Plug>(coc-codeaction)
+    nmap <Leader>fx <Plug>(coc-fix-current)
+    nmap <Leader>if <Plug>(coc-diagnostic-info)
+    nmap <Leader>fm <Plug>(coc-format)
+    nmap <Leader>ua <Plug>(lsp-workspace-symbol)
+    nmap <Leader>nm <Plug>(coc-rename)
+    nmap <Leader>us <Plug>(coc-references)
+    nmap <Leader>dc <Plug>(coc-declaration)
+    nmap <Leader>dc <Plug>(coc-refactor)
+    nmap <expr> <C-]> CocHasProvider("definition") ? '<Plug>(coc-definition)' : '<C-]>'
+endif
 
 " vim-lsp
 " -------
