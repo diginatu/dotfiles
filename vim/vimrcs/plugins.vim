@@ -394,12 +394,13 @@ endif
 " ---------
 
 if index(plugs_order, 'vim-gitgutter') >= 0
+    set updatetime=1000
     let g:gitgutter_map_keys = 0
-    nmap <Leader>hN <Plug>GitGutterPrevHunk
-    nmap <Leader>hn <Plug>GitGutterNextHunk
-    nmap <Leader>hs <Plug>GitGutterStageHunk
-    nmap <Leader>hu <Plug>GitGutterUndoHunk
-    nmap <Leader>hp <Plug>GitGutterPreviewHunk
+    nmap <Leader>hN <Plug>(GitGutterPrevHunk)
+    nmap <Leader>hn <Plug>(GitGutterNextHunk)
+    nmap <Leader>hs <Plug>(GitGutterStageHunk)
+    nmap <Leader>hu <Plug>(GitGutterUndoHunk)
+    nmap <Leader>hp <Plug>(GitGutterPreviewHunk)
 endif
 
 if index(plugs_order, 'plantuml-syntax') >= 0
