@@ -48,11 +48,11 @@ if index(plugs_order, 'coc.nvim') >= 0
     nmap <Leader>fx <Plug>(coc-fix-current)
     nmap <Leader>if <Plug>(coc-diagnostic-info)
     nmap <Leader>fm <Plug>(coc-format)
-    nmap <Leader>ua <Plug>(lsp-workspace-symbol)
     nmap <Leader>nm <Plug>(coc-rename)
     nmap <Leader>us <Plug>(coc-references)
     nmap <Leader>dc <Plug>(coc-declaration)
-    nmap <Leader>dc <Plug>(coc-refactor)
+    nmap <Leader>rf <Plug>(coc-refactor)
+    nmap <Leader>wf <Plug>(coc-float-jump)
     nmap <expr> <C-]> CocHasProvider("definition") ? '<Plug>(coc-definition)' : '<C-]>'
 endif
 
