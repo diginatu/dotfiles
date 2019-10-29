@@ -53,6 +53,7 @@ if index(plugs_order, 'coc.nvim') >= 0
     nmap <Leader>dc <Plug>(coc-declaration)
     nmap <Leader>rf <Plug>(coc-refactor)
     nmap <Leader>wf <Plug>(coc-float-jump)
+    nmap <Leader>ln <Plug>(coc-codelens-action)
     nmap <expr> <C-]> CocHasProvider("definition") ? '<Plug>(coc-definition)' : '<C-]>'
 endif
 

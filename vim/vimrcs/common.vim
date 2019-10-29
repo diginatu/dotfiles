@@ -150,7 +150,7 @@ set expandtab
 set shiftwidth=0 tabstop=4 softtabstop=4
 augroup vimrc_tab_group
     au!
-    au FileType html,yaml setlocal tabstop=2 softtabstop=2
+    au FileType html,yaml,json,javascript,typescript setlocal tabstop=2 softtabstop=2
 augroup END
 
 " :Cdc Changes Directory to Current file location
@@ -196,7 +196,7 @@ function! s:map_auto_indent_paste()
 endfunction
 augroup vimrc_auto_indent_paste
     au!
-    au FileType javascript,javascript.jsx,vim,java,ruby,c,cpp,go
+    au FileType javascript,javascript.jsx,json,typescript,vim,java,ruby,c,cpp,go
                 \ call s:map_auto_indent_paste()
 augroup END
 
