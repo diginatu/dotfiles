@@ -9,11 +9,7 @@ SAVEHIST=1000
 setopt hist_ignore_dups
 setopt share_history
 
-# The following lines were added by compinstall
 zstyle :compinstall filename '~/.zshrc'
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
 
 DIRSTACKSIZE=100
 disable r
@@ -115,4 +111,7 @@ if [[ -f ~/.zplug/init.zsh ]]; then
     # Pure theme
     PURE_PROMPT_SYMBOL='>'
     RPROMPT=''
+else
+    autoload -Uz compinit
+    compinit
 fi
