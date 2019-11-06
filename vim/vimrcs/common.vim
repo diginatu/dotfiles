@@ -196,7 +196,7 @@ function! s:map_auto_indent_paste()
 endfunction
 augroup vimrc_auto_indent_paste
     au!
-    au FileType javascript,javascript.jsx,json,typescript,vim,java,ruby,c,cpp,go
+    au FileType javascript,javascript.jsx,json,typescript,vim,java,ruby,c,cpp,go,bash,sh,zsh
                 \ call s:map_auto_indent_paste()
 augroup END
 
