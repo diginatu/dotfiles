@@ -189,6 +189,12 @@ nnoremap <Leader>pl :<C-u>let @+=printf("%s:%d", expand("%"), line('.'))<CR>
 vnoremap <Leader>pl :<C-u>let @+=printf("%s:%d-%d", expand("%"), line("'<"), line("'>"))<CR>
 nnoremap <Leader>pc :<C-u>let @+=printf("%s:%d:%d", expand("%"), line('.'), col('.'))<CR>
 
+nnoremap <Leader>e :<C-u>Explore<CR>
+nnoremap <Leader>nl :<C-u>Lexplore<CR>
+nnoremap <Leader>nt :<C-u>Texplore<CR>
+nnoremap <Leader>ns :<C-u>Hexplore<CR>
+nnoremap <Leader>nv :<C-u>Vexplore<CR>
+
 " Auto indent paste
 function! s:map_auto_indent_paste()
     nnoremap <buffer> p p=`]
