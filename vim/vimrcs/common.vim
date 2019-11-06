@@ -194,6 +194,7 @@ nnoremap <Leader>nl :<C-u>Lexplore<CR>
 nnoremap <Leader>nt :<C-u>Texplore<CR>
 nnoremap <Leader>ns :<C-u>Hexplore<CR>
 nnoremap <Leader>nv :<C-u>Vexplore<CR>
+nnoremap <Leader>nr :<C-u>Rexplore<CR>
 
 " Auto indent paste
 function! s:map_auto_indent_paste()
