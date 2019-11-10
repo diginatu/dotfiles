@@ -131,6 +131,7 @@ if exists('+breakindent')
 endif
 set showbreak=>
 set autoread
+set cscopetag " map `C-]` to `g C-]`
 
 " Incremental search
 set incsearch
