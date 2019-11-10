@@ -1,20 +1,3 @@
-" Utility
-" -------
-
-let s:system_open = "invalid_command"
-if has('unix')
-    if has ('macunix')
-        let s:system_open = "open"
-    else
-        let s:system_open = "xdg-open"
-    endif
-endif
-
-function! s:chomp(string)
-    return substitute(a:string, '\n\+$', '', '')
-endfunction
-
-
 " Terminal
 " --------
 
@@ -225,7 +208,7 @@ function! s:get_giturl(first, last)
     else
         let l:lines = "\#L" . a:first . "-L" . a:last
     endif
-    return s:chomp(system("git ls-remote --get-url origin | sed -Ee 's@:@/@' -e 's\#(git@|git://)\#https://\#' -e 's/.git$//'")) . '/blob/' . s:chomp(system('git rev-parse --abbrev-ref HEAD')) . '/' . @% . l:lines
+    return Chomp(system("git ls-remote --get-url origin | sed -Ee 's@:@/@' -e 's\#(git@|git://)\#https://\#' -e 's/.git$//'")) . '/blob/' . Chomp(system('git rev-parse --abbrev-ref HEAD')) . '/' . @% . l:lines
 endfunction
 command! -range Gurl echo s:get_giturl(<line1>, <line2>)
 command! -range Gurlyank let @+ = s:get_giturl(<line1>, <line2>)

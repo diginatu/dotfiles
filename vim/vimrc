@@ -14,6 +14,27 @@ if ! isdirectory($VIMTMP)
     call mkdir($VIMTMP)
 endif
 
+
+" Utility
+" -------
+
+let g:system_open = "invalid_command"
+if has('unix')
+    if has ('macunix')
+        let g:system_open = "open"
+    else
+        let g:system_open = "xdg-open"
+    endif
+endif
+
+function! Chomp(string)
+    return substitute(a:string, '\n\+$', '', '')
+endfunction
+
+
+" Load scripts
+" ------------
+
 let $HASPLUGIN = filereadable($VIMDIR.'/autoload/plug.vim')
 if $HASPLUGIN
     source ~/dotfiles/vim/vimrcs/plugins.vim

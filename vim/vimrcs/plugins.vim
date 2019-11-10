@@ -23,6 +23,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
 Plug 'cohama/lexima.vim'
 Plug 'dkarter/bullets.vim'
+Plug 'previm/previm'
 
 " Language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -406,4 +407,12 @@ endif
 
 if index(plugs_order, 'plantuml-syntax') >= 0
     let g:plantuml_set_makeprg=0
+endif
+
+
+" Previm
+" ------
+
+if index(plugs_order, 'previm') >= 0
+    let g:previm_open_cmd=g:system_open
 endif
