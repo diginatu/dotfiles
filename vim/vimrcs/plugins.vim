@@ -25,6 +25,12 @@ Plug 'cohama/lexima.vim'
 Plug 'dkarter/bullets.vim'
 Plug 'previm/previm'
 
+if has('unix')
+    if has ('macunix') || executable('firefox')
+        Plug 'glacambre/firenvim', { 'do': function('firenvim#install') }
+    endif
+endif
+
 " Language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'prabirshrestha/async.vim'
@@ -325,38 +331,60 @@ if index(plugs_order, 'incsearch.vim') >= 0
     augroup END
 endif
 
+" Firenvim
+" --------
+
+if index(plugs_order, 'firenvim') >= 0
+    let g:firenvim_config = {
+        \ 'localSettings': {
+            \ '.*': {
+                \ 'selector': 'textarea',
+                \ 'priority': 0,
+            \ },
+            \ 'tweetdeck\.twitter\.com': {
+                \ 'selector': '',
+                \ 'priority': 1,
+            \ },
+        \ }
+    \ }
+endif
+
+
+
 
 " im_control
 " ----------
 
-let g:IM_CtrlEnable = 1
+if index(plugs_order, 'im_control.vim') >= 0
+    let g:IM_CtrlEnable = 1
 
-if has("mac")
-    let g:IM_CtrlOnKey = 'osascript -e "tell application \"System Events\" to key code 104"'
-    let g:IM_CtrlOffKey = 'osascript -e "tell application \"System Events\" to key code 102"'
-    let g:IM_CtrlEnable = 0
-else
-    let g:IM_CtrlOnKey = 'fcitx-remote -o'
-    let g:IM_CtrlOffKey = 'fcitx-remote -c'
-endif
-
-function! IMCtrl(cmd)
-    if g:IM_CtrlEnable
-        let cmd = a:cmd
-        if cmd == 'On'
-            let res = system(g:IM_CtrlOnKey)
-        elseif cmd == 'Off'
-            let res = system(g:IM_CtrlOffKey)
-        elseif cmd == 'Toggle'
-        endif
+    if has("mac")
+        let g:IM_CtrlOnKey = 'osascript -e "tell application \"System Events\" to key code 104"'
+        let g:IM_CtrlOffKey = 'osascript -e "tell application \"System Events\" to key code 102"'
+        let g:IM_CtrlEnable = 0
+    else
+        let g:IM_CtrlOnKey = 'fcitx-remote -o'
+        let g:IM_CtrlOffKey = 'fcitx-remote -c'
     endif
-    return ''
-endfunction
 
-let g:IM_CtrlMode = 1
+    function! IMCtrl(cmd)
+        if g:IM_CtrlEnable
+            let cmd = a:cmd
+            if cmd == 'On'
+                let res = system(g:IM_CtrlOnKey)
+            elseif cmd == 'Off'
+                let res = system(g:IM_CtrlOffKey)
+            elseif cmd == 'Toggle'
+            endif
+        endif
+        return ''
+    endfunction
 
-nnoremap <Leader>jp :<C-u>let g:IM_CtrlEnable = !g:IM_CtrlEnable<CR>:echo 'IM Ctrl : ' . (g:IM_CtrlEnable?'On':'Off')<CR>
-inoremap <silent> <C-w> <C-r>=IMState('FixMode')<CR>
+    let g:IM_CtrlMode = 1
+
+    nnoremap <Leader>jp :<C-u>let g:IM_CtrlEnable = !g:IM_CtrlEnable<CR>:echo 'IM Ctrl : ' . (g:IM_CtrlEnable?'On':'Off')<CR>
+    inoremap <silent> <C-w> <C-r>=IMState('FixMode')<CR>
+endif
 
 
 " Colorscheme
