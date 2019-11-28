@@ -129,6 +129,7 @@ if index(plugs_order, 'denite.nvim') >= 0
     nnoremap <Leader>ur  :<C-u>Denite file/rec<CR>
     nnoremap <Leader>ug  :<C-u>Denite file/rec/git<CR>
     nnoremap <Leader>uh  :<C-u>Denite file/old buffer file<CR>
+    nnoremap <Leader>up  :<C-u>Denite register<CR>
     nnoremap <Leader>b   :<C-u>Denite buffer<CR>
 
     augroup vimrc_denite_map
