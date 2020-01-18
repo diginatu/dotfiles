@@ -77,32 +77,8 @@ PROMPT=$'\n${fg[blue]}%~${reset_color}\n> ' # %~: pwd
 
 # ----- Functions ------
 
-# cd using Peco
-function cd_using_peco {
-    eval local selected_dir=$(eval "$1 | peco")
-    if [[ -n $selected_dir ]]; then
-        cd "${selected_dir}"
-    fi
-}
-function pr {
-    cd_using_peco "find . -type d 2>/dev/null"
-}
-function ph {
-    cd_using_peco "cdr -l | tr -s ' ' | cut -d ' ' -f 2"
-}
-
-# Man page using vim
-vman() {
-    if [ -z $1 ]; then
-        echo "What manual page do you want?"
-        return 1
-    fi
-    vim "-c Man $1 | only"
-}
-
 # zmv
 autoload -Uz zmv
-
 
 # Plugins
 if [[ -f ~/.zplug/init.zsh ]]; then
@@ -118,3 +94,33 @@ else
     autoload -Uz compinit
     compinit
 fi
+
+# fzf
+if [[ -f ~/.fzf.zsh ]]; then
+    source ~/.fzf.zsh
+    export FZF_DEFAULT_OPTS='--reverse --bind "ctrl-j:abort,space:toggle+down"'
+
+    # cd
+    function pr {
+        local selected_dir=$(find . -type d 2>/dev/null | fzf)
+        if [[ -n $selected_dir ]]; then
+            cd "${selected_dir}"
+        fi
+    }
+    function ph {
+        local selected_dir=$(cdr -l | tr -s ' ' | cut -d ' ' -f 2 | fzf)
+        if [[ -n $selected_dir ]]; then
+            cd "${selected_dir}"
+        fi
+    }
+fi
+
+# Man page using vim
+vman() {
+    if [ -z $1 ]; then
+        echo "What manual page do you want?"
+        return 1
+    fi
+    vim "-c Man $1 | only"
+}
+
