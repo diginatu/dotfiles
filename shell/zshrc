@@ -102,13 +102,13 @@ if [[ -f ~/.fzf.zsh ]]; then
 
     # cd
     function pr {
-        local selected_dir=$(find . -type d 2>/dev/null | fzf)
+        eval local selected_dir=$(find . -type d 2>/dev/null | fzf)
         if [[ -n $selected_dir ]]; then
             cd "${selected_dir}"
         fi
     }
     function ph {
-        local selected_dir=$(cdr -l | tr -s ' ' | cut -d ' ' -f 2 | fzf)
+        eval local selected_dir=$(cdr -l | tr -s ' ' | cut -d ' ' -f 2 | fzf)
         if [[ -n $selected_dir ]]; then
             cd "${selected_dir}"
         fi
