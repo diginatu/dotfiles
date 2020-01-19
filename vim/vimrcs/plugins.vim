@@ -97,28 +97,6 @@ if index(plugs_order, 'vim-lsp') >= 0
 endif
 
 
-" Tern
-" ----
-
-if index(plugs_order, 'tern_for_vim') >= 0
-    if has('nvim')
-        " Use deoplete.
-        let g:tern_request_timeout = 1
-        let g:tern_show_signature_in_pum = 0  " disables full signature type on autocomplete
-    endif
-
-    augroup vimrc_turn_keymap
-        au!
-        au filetype javascript nnoremap <buffer> <leader>if :<c-u>TernType<cr>
-        au filetype javascript nnoremap <buffer> <leader>nm :<c-u>TernRename<cr>
-        au filetype javascript nnoremap <buffer> <leader>us :<c-u>TernRefs<cr>
-
-        au filetype javascript nnoremap <buffer> <C-]>      :<c-u>TernDef<cr>
-        au filetype javascript nnoremap <buffer> <C-w><C-]> :<c-u>TernDefsplit<cr>
-    augroup end
-endif
-
-
 
 " Denite
 " ------
@@ -217,7 +195,6 @@ if index(plugs_order, 'vim-go') >= 0
         au!
         au FileType go nmap <buffer> <Leader>im <Plug>(go-imports)
         au FileType go nmap <buffer> <Leader>if <Plug>(go-info)
-        au FileType go nmap <buffer> <Leader>nm <Plug>(go-rename)
         au FileType go nmap <buffer> <Leader>us <Plug>(go-referrers)
         au FileType go nmap <buffer> <Leader>lt <Plug>(go-metalinter)
 
@@ -227,8 +204,6 @@ if index(plugs_order, 'vim-go') >= 0
     augroup END
 
     let g:go_snippet_engine = "ultisnips"
-    "let g:go_auto_sameids = 1
-    let g:go_auto_type_info = 1
 
     let g:go_highlight_functions = 1
     "let g:go_highlight_methods = 1
@@ -236,9 +211,6 @@ if index(plugs_order, 'vim-go') >= 0
     let g:go_highlight_types = 1
     let g:go_highlight_operators = 1
     let g:go_highlight_build_constraints = 1
-
-    let g:go_def_mode='gopls'
-    let g:go_info_mode='gopls'
 endif
 
 

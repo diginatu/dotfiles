@@ -1,15 +1,15 @@
 {
-    "list.nextKeymap": "<C-n>",
-    "list.previousKeymap": "<C-p>",
-	"list.insertMappings": {
-		"<C-j>": "do:exit"
-	},
+  "list.nextKeymap": "<C-n>",
+  "list.previousKeymap": "<C-p>",
+  "list.insertMappings": {
+    "<C-j>": "do:exit"
+  },
 
-    "languageserver": {
-        "golang": {
-            "command": "gopls",
-            "rootPatterns": ["go.mod"],
-            "filetypes": ["go"]
-        }
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod"],
+      "filetypes": ["go"]
     }
+  }
 }
