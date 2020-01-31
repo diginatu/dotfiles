@@ -314,13 +314,9 @@ if index(plugs_order, 'firenvim') >= 0
     let g:firenvim_config = {
         \ 'localSettings': {
             \ '.*': {
-                \ 'selector': 'textarea',
+                \ 'takeover': 'never',
                 \ 'priority': 0,
-            \ },
-            \ 'tweetdeck\.twitter\.com': {
-                \ 'selector': '',
-                \ 'priority': 1,
-            \ },
+            \ }
         \ }
     \ }
 endif
