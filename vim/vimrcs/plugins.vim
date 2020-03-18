@@ -24,6 +24,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'cohama/lexima.vim'
 Plug 'dkarter/bullets.vim'
 Plug 'previm/previm'
+Plug 'junegunn/vim-easy-align'
 
 if has('unix')
     if has ('macunix') || executable('firefox')
