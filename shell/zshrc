@@ -98,17 +98,17 @@ fi
 # fzf
 if [[ -f ~/.fzf.zsh ]]; then
     source ~/.fzf.zsh
-    export FZF_DEFAULT_OPTS='--reverse --bind "ctrl-j:abort,space:toggle+down"'
+    export FZF_DEFAULT_OPTS='--reverse --bind "ctrl-j:abort,space:toggle+down" --height=50%'
 
     # cd
     function pr {
-        eval local selected_dir=$(find . -type d 2>/dev/null | fzf --height 50%)
+        eval local selected_dir=$(find . -type d 2>/dev/null | fzf)
         if [[ -n $selected_dir ]]; then
             cd "${selected_dir}"
         fi
     }
     function ph {
-        eval local selected_dir=$(cdr -l | tr -s ' ' | cut -d ' ' -f 2 | fzf --height 50%)
+        eval local selected_dir=$(cdr -l | tr -s ' ' | cut -d ' ' -f 2 | fzf)
         if [[ -n $selected_dir ]]; then
             cd "${selected_dir}"
         fi
