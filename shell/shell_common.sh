@@ -19,6 +19,8 @@ if type 'trash-put' > /dev/null; then
     alias tp='trash-put'
 fi
 alias g='git'
+alias kub='kubectl'
+alias sys='systemctl'
 
 # Open
 if type 'xdg-open' > /dev/null; then
