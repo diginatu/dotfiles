@@ -3,12 +3,15 @@ source ~/dotfiles/shell/shell_common.sh
 bindkey -e
 
 HISTFILE=~/.history
-HISTSIZE=1000
-SAVEHIST=1000
-# not to save duplicated histry
-setopt hist_ignore_dups
-setopt share_history
-
+HISTSIZE=50000
+SAVEHIST=50000
+setopt hist_ignore_dups          # Don't record an entry that was just recorded again.
+setopt bang_hist                 # Treat the '!' character specially during expansion.
+setopt extended_history          # Write the history file in the ":start:elapsed;command" format.
+setopt hist_expire_dups_first    # Expire duplicate entries first when trimming history.
+setopt hist_ignore_space         # Don't record an entry starting with a space.
+setopt hist_save_no_dups         # Don't write duplicate entries in the history file.
+setopt hist_reduce_blanks        # Remove superfluous blanks before recording entry.
 zstyle :compinstall filename '~/.zshrc'
 
 DIRSTACKSIZE=100
@@ -72,7 +75,6 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 
 # ----- PROMPT -----
-## PROMPT
 PROMPT=$'\n${fg[blue]}%~${reset_color}\n> ' # %~: pwd
 
 # ----- Functions ------
