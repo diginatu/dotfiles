@@ -3,6 +3,10 @@ source ~/dotfiles/shell/shell_common.sh
 bindkey -e
 
 HISTFILE=~/.history
+local readonly shared_hist_file=~/share/share-configs/home/dotfiles/history
+if [[ -f $shared_hist_file ]]; then
+    HISTFILE=$shared_hist_file
+fi
 HISTSIZE=50000
 SAVEHIST=50000
 setopt hist_ignore_dups          # Don't record an entry that was just recorded again.
