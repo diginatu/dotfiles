@@ -77,7 +77,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 
 # ----- PROMPT -----
-PROMPT=$'\n${fg[blue]}%~${reset_color} ${vcs_info_msg_0_}\n> ' # %~: pwd
+PROMPT=$'\n${fg[blue]}%~${reset_color} ${vcs_info_msg_0_} $USER@$HOST\n> '
 
 setopt prompt_subst # evaluate prompt every time
 autoload -Uz vcs_info
