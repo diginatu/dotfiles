@@ -77,7 +77,18 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 
 # ----- PROMPT -----
-PROMPT=$'\n${fg[blue]}%~${reset_color} ${vcs_info_msg_0_} $USER@$HOST\n> '
+
+function prompt_symbol() {
+    # check_last_exit_code
+    local LAST_EXIT_CODE=$?
+    if [[ $LAST_EXIT_CODE -eq 0 ]]; then
+        echo ">"
+    else
+        echo "%{$fg[red]%}>%{$reset_color%}"
+    fi
+}
+
+PROMPT=$'\n${fg[blue]}%~${reset_color} ${vcs_info_msg_0_} $USER@$HOST\n$(prompt_symbol) '
 
 setopt prompt_subst # evaluate prompt every time
 autoload -Uz vcs_info
