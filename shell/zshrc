@@ -3,7 +3,7 @@ source ~/dotfiles/shell/shell_common.sh
 bindkey -e
 
 HISTFILE=~/.history
-local readonly shared_hist_file=~/share/share-configs/home/dotfiles/history
+readonly local shared_hist_file=~/share/share-configs/home/dotfiles/history
 if [[ -f $shared_hist_file ]]; then
     HISTFILE=$shared_hist_file
 fi
@@ -52,8 +52,6 @@ setopt print_eight_bit
 setopt globdots
 # correct spell
 setopt correct
-# evaluate prompt every time
-setopt prompt_subst
 setopt AUTO_PUSHD
 # enable comments in interactive terminal
 setopt interactivecomments
@@ -79,7 +77,16 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 
 # ----- PROMPT -----
-PROMPT=$'\n${fg[blue]}%~${reset_color}\n> ' # %~: pwd
+PROMPT=$'\n${fg[blue]}%~${reset_color} ${vcs_info_msg_0_}\n> ' # %~: pwd
+
+setopt prompt_subst # evaluate prompt every time
+autoload -Uz vcs_info
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+zstyle ':vcs_info:*' formats "%F{green}%c%u%b%f"
+zstyle ':vcs_info:*' actionformats "%F{green}%c%u%b|%a%f"
+precmd () { vcs_info }
 
 # ----- Functions ------
 
@@ -89,8 +96,8 @@ autoload -Uz zmv
 # Plugins
 if [[ -f ~/.zplug/init.zsh ]]; then
     source ~/.zplug/init.zsh
-    zplug mafredri/zsh-async, from:github
-    zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
+    #zplug mafredri/zsh-async, from:github
+    #zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
     zplug load
 
     # Pure theme
