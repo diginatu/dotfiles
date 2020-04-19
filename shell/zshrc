@@ -78,17 +78,22 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # ----- PROMPT -----
 
-function prompt_symbol() {
+prompt_symbol() {
     # check_last_exit_code
-    local LAST_EXIT_CODE=$?
-    if [[ $LAST_EXIT_CODE -eq 0 ]]; then
+    if [[ $? -eq 0 ]]; then
         echo ">"
     else
         echo "%{$fg[red]%}>%{$reset_color%}"
     fi
 }
 
-PROMPT=$'\n${fg[blue]}%~${reset_color} ${vcs_info_msg_0_} $USER@$HOST\n$(prompt_symbol) '
+check_user_and_host() {
+    if (( ${+SSH_CONNECTION} )); then
+        user_and_host_name=$USER@$HOST
+    fi
+}
+
+PROMPT=$'\n${fg[blue]}%~${reset_color} ${vcs_info_msg_0_} ${user_and_host_name}\n$(prompt_symbol) '
 
 setopt prompt_subst # evaluate prompt every time
 autoload -Uz vcs_info
@@ -97,7 +102,7 @@ zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
 zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
 zstyle ':vcs_info:*' formats "%F{green}%c%u%b%f"
 zstyle ':vcs_info:*' actionformats "%F{green}%c%u%b|%a%f"
-precmd () { vcs_info }
+precmd () { vcs_info ; check_user_and_host }
 
 # ----- Functions ------
 
