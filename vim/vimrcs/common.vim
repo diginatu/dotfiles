@@ -182,7 +182,7 @@ nnoremap <Leader>nr :<C-u>Rexplore<CR>
 
 " Auto indent paste
 function! s:map_auto_indent_paste()
-    nnoremap <buffer> p p=`]
+    nnoremap <buffer> p p=\`]
     nnoremap <buffer> _p p
 endfunction
 augroup vimrc_auto_indent_paste
