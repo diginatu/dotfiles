@@ -125,14 +125,14 @@ else
 fi
 
 # fzf
+if [[ -f ~/.fzf.zsh ]]; then
+    source ~/.fzf.zsh
+fi
 if type fzf > /dev/null; then
     if type 'fzf-tmux' > /dev/null; then
         alias fzf=fzf-tmux
     fi
 
-    if [[ -f ~/.fzf.zsh ]]; then
-        source ~/.fzf.zsh
-    fi
     if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
         source /usr/share/fzf/key-bindings.zsh
     fi
