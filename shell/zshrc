@@ -16,6 +16,9 @@ setopt hist_expire_dups_first    # Expire duplicate entries first when trimming 
 setopt hist_ignore_space         # Don't record an entry starting with a space.
 setopt hist_save_no_dups         # Don't write duplicate entries in the history file.
 setopt hist_reduce_blanks        # Remove superfluous blanks before recording entry.
+setopt inc_append_history        # Immediately append to the history file, not just when a term is killed
+setopt append_history            # Append history to the history file (no overwriting)
+setopt share_history             # Share history across sessions
 zstyle :compinstall filename '~/.zshrc'
 
 DIRSTACKSIZE=100
