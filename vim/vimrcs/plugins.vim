@@ -340,6 +340,11 @@ if index(plugs_order, 'im_control.vim') >= 0
         let g:IM_CtrlOnKey = 'osascript -e "tell application \"System Events\" to key code 104"'
         let g:IM_CtrlOffKey = 'osascript -e "tell application \"System Events\" to key code 102"'
         let g:IM_CtrlEnable = 0
+
+        augroup vimrc_im_control
+            au!
+            au FileType markdown,text let g:IM_CtrlEnable = 1
+        augroup END
     else
         let g:IM_CtrlOnKey = 'fcitx-remote -o'
         let g:IM_CtrlOffKey = 'fcitx-remote -c'
