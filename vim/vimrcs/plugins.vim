@@ -30,6 +30,11 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'prabirshrestha/vim-lsp'
 
 Plug 'fatih/vim-go'
+if executable('gotests')
+    " Install:
+    " go get -u github.com/cweill/gotests/...
+    Plug 'buoto/gotests-vim'
+endif
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'aklt/plantuml-syntax'
