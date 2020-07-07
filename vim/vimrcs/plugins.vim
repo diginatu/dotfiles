@@ -3,9 +3,7 @@ function! UpdateRemote(arg)
 endfunction
 call plug#begin($VIMDIR.'/plugged')
 if has('python3')
-    "Plug 'Shougo/deoplete.nvim', { 'do': function('UpdateRemote') }
     Plug 'Shougo/denite.nvim', { 'do': function('UpdateRemote') }
-    "Plug 'lighttiger2505/deoplete-vim-lsp'
 endif
 Plug 'vim-scripts/sudo.vim'
 Plug 'thinca/vim-quickrun'
@@ -25,12 +23,6 @@ Plug 'cohama/lexima.vim'
 Plug 'dkarter/bullets.vim'
 Plug 'previm/previm'
 Plug 'junegunn/vim-easy-align'
-
-if has('unix')
-    if has ('macunix') || executable('firefox')
-        Plug 'glacambre/firenvim', { 'do': function('firenvim#install') }
-    endif
-endif
 
 " Language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
