@@ -5,6 +5,8 @@
     "<C-j>": "do:exit"
   },
 
+  "eslint.autoFixOnSave": true,
+
   "languageserver": {
     "golang": {
       "command": "gopls",

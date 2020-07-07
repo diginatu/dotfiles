@@ -50,7 +50,7 @@ call plug#end()
 if index(plugs_order, 'coc.nvim') >= 0
     call coc#add_extension('coc-json', 'coc-ultisnips')
     " Web
-    "call coc#add_extension('coc-html', 'coc-css', 'coc-tsserver', 'coc-angular')
+    "call coc#add_extension('coc-html', 'coc-css', 'coc-tsserver', 'coc-angular', 'coc-eslint')
 
     nmap <Leader>ac <Plug>(coc-codeaction)
     nmap <Leader>fx <Plug>(coc-fix-current)
