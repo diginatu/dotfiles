@@ -36,10 +36,15 @@ if executable('gotests')
     Plug 'buoto/gotests-vim'
 endif
 Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'aklt/plantuml-syntax'
 
 call plug#end()
+
+if index(plugs_order, 'maxmellon/vim-jsx-pretty') >= 0
+    autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
+endif
 
 " Coc
 " ---
