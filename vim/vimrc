@@ -35,8 +35,8 @@ endfunction
 " Load scripts
 " ------------
 
+source ~/dotfiles/vim/vimrcs/common.vim
 let $HASPLUGIN = filereadable($VIMDIR.'/autoload/plug.vim')
 if $HASPLUGIN
     source ~/dotfiles/vim/vimrcs/plugins.vim
 endif
-source ~/dotfiles/vim/vimrcs/common.vim
