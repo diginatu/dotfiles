@@ -57,8 +57,16 @@ if index(plugs_order, 'coc.nvim') >= 0
     nmap <Leader>us <Plug>(coc-references)
     nmap <Leader>dc <Plug>(coc-declaration)
     nmap <Leader>rf <Plug>(coc-refactor)
-    nmap <Leader>wf <Plug>(coc-float-jump)
+    nmap <C-w>u <Plug>(coc-float-jump)
     nmap <Leader>ln <Plug>(coc-codelens-action)
+    xmap if <Plug>(coc-funcobj-i)
+    omap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap af <Plug>(coc-funcobj-a)
+    xmap ic <Plug>(coc-classobj-i)
+    omap ic <Plug>(coc-classobj-i)
+    xmap ac <Plug>(coc-classobj-a)
+    omap ac <Plug>(coc-classobj-a)
     nmap <expr> <C-]> CocHasProvider("definition") ? '<Plug>(coc-definition)' : '<C-]>'
 endif
 
