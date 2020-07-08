@@ -42,7 +42,7 @@ Plug 'aklt/plantuml-syntax'
 
 call plug#end()
 
-if index(plugs_order, 'maxmellon/vim-jsx-pretty') >= 0
+if index(plugs_order, 'vim-jsx-pretty') >= 0
     autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
 endif
 
