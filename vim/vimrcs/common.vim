@@ -134,7 +134,7 @@ set expandtab
 set shiftwidth=0 tabstop=4 softtabstop=4
 augroup vimrc_tab_group
     au!
-    au FileType html,yaml,json,javascript,typescript,typescript.tsx setlocal tabstop=2 softtabstop=2
+    au FileType html,yaml,json,javascript,typescript,typescript.tsx,typescriptreact setlocal tabstop=2 softtabstop=2
 augroup END
 
 " :Cdc Changes Directory to Current file location
