@@ -31,6 +31,6 @@ ln -fs ${FROMDIR}/etc/tmux.conf ${DISTDIR}/.tmux.conf
 # Other
 mkdir -p ${DISTDIR}/.config/peco
 ln -fs ${FROMDIR}/etc/peco_config.json ${DISTDIR}/.config/peco/config.json
-sudo mkdir -p /root/.docker
+sudo mkdir -p /var/root/.docker
 sudo ln -fs ${FROMDIR}/docker/config.json /var/root/.docker/config.json
 ln -fs ${FROMDIR}/docker/config.json ${DISTDIR}/.docker/config.json
