@@ -69,6 +69,13 @@ if index(plugs_order, 'coc.nvim') >= 0
     xmap ac <Plug>(coc-classobj-a)
     omap ac <Plug>(coc-classobj-a)
     nmap <expr> <C-]> CocHasProvider("definition") ? '<Plug>(coc-definition)' : '<C-]>'
+    inoremap <silent><expr> <C-n> coc#refresh()
+    "inoremap <silent><expr> <Tab>
+                "\ pumvisible() ? coc#_select_confirm() :
+                "\ coc#expandableOrJumpable() ?
+                "\ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" : "\<Tab>"
+
+    let g:coc_snippet_next = '<Tab>'
 endif
 
 " vim-lsp
