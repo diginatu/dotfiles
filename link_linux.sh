@@ -32,7 +32,7 @@ ln -fs ${FROMDIR}/etc/tmux.conf ${DISTDIR}/.tmux.conf
 mkdir -p ${DISTDIR}/.config/peco
 ln -fs ${FROMDIR}/etc/peco_config.json ${DISTDIR}/.config/peco/config.json
 
-if [[ $EUID -eq 0 ]] && [[ -n $SUDO_USER ]]; then
+if [[ $EUID -eq 0 ]] ; then
     mkdir -p /root/.docker
     ln -fs ${FROMDIR}/docker/config.json /root/.docker/config.json
 fi
