@@ -31,6 +31,12 @@ ln -fs ${FROMDIR}/etc/tmux.conf ${DISTDIR}/.tmux.conf
 # Other
 mkdir -p ${DISTDIR}/.config/peco
 ln -fs ${FROMDIR}/etc/peco_config.json ${DISTDIR}/.config/peco/config.json
+
+if [[ $EUID -eq 0 ]] && [[ -n $SUDO_USER ]]; then
+    mkdir -p /root/.docker
+    ln -fs ${FROMDIR}/docker/config.json /root/.docker/config.json
+fi
 sudo mkdir -p /root/.docker
 sudo ln -fs ${FROMDIR}/docker/config.json /root/.docker/config.json
+
 ln -fs ${FROMDIR}/docker/config.json ${DISTDIR}/.docker/config.json
