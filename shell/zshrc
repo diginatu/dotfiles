@@ -169,3 +169,10 @@ vman() {
     vim "-c Man $1 | only"
 }
 
+# Dev Docker
+dev() {
+    docker run --rm -it diginatu/dev-base:latest
+}
+dev-mount() {
+    docker run --rm -v "$(pwd):/root/code" -it diginatu/dev-base:latest
+}
