@@ -215,8 +215,8 @@ command! -range Gurlyank let @+ = s:get_giturl(<line1>, <line2>)
 
 augroup vimrc_spell_on_in_git_commit_message
     au!
-    au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell | setlocal spellcapcheck=
-    au FileType gitcommit setlocal spell | setlocal spellcapcheck=
+    au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
+    au FileType gitcommit setlocal spell
 augroup END
 
 filetype plugin indent on
