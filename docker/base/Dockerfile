@@ -2,22 +2,26 @@ FROM archlinux:latest AS base
 
 ENV LANG en_US.UTF-8
 ENV TZ Asia/Tokyo
+ENV TERM xterm-256color
 
 RUN mkdir ~/bin ~/code
 
-RUN pacman -Syu --noconfirm \
-    base-devel \
-    neovim \
-    git \
-    zsh \
-    tmux \
-    go \
-    python \
-    python-pip \
-    nodejs \
-    npm \
-    wget \
-    fzf
+RUN sed -i '/^NoExtract/d' /etc/pacman.conf && \
+    pacman -Syu --noconfirm \
+        man-db \
+        base-devel \
+        neovim \
+        git \
+        zsh \
+        tmux \
+        go \
+        python \
+        python-pip \
+        nodejs \
+        npm \
+        wget \
+        fzf && \
+    chsh -s /usr/bin/zsh
 
 # dotfiles
 RUN git clone https://github.com/diginatu/dotfiles.git ~/dotfiles && \
