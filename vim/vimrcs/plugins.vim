@@ -2,9 +2,9 @@ function! UpdateRemote(arg)
     UpdateRemotePlugins
 endfunction
 call plug#begin($VIMDIR.'/plugged')
-if has('python3')
-    Plug 'Shougo/denite.nvim', { 'do': function('UpdateRemote') }
-endif
+"if has('python3')
+    "Plug 'Shougo/denite.nvim', { 'do': function('UpdateRemote') }
+"endif
 Plug 'vim-scripts/sudo.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'lilydjwg/colorizer'
@@ -23,6 +23,7 @@ Plug 'cohama/lexima.vim'
 Plug 'dkarter/bullets.vim'
 Plug 'previm/previm'
 Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/fzf.vim'
 
 " Language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -147,6 +148,34 @@ if index(plugs_order, 'denite.nvim') >= 0
 	call denite#custom#var('file/rec/git', 'command',
 	      \ ['git', 'ls-files', '-co', '--exclude-standard'])
 endif
+
+
+" Fzf
+" ---
+
+if index(plugs_order, 'fzf.vim') >= 0
+    let g:fzf_command_prefix = 'Fzf'
+    nnoremap <Leader>uo  :<C-u>FzfLines<CR>
+    nnoremap <Leader>ur  :<C-u>FzfFiles<CR>
+    nnoremap <Leader>ug  :<C-u>FzfGFiles<CR>
+    nnoremap <Leader>uh  :<C-u>FzfHistory<CR>
+    nnoremap <Leader>up  :<C-u>Denite register<CR>
+    nnoremap <Leader>b   :<C-u>FzfBuffers<CR>
+    nnoremap <Leader>gp   :<C-u>FzfGGrep<Space>
+
+    command! -bang -nargs=? -complete=dir FzfFiles
+                \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--info=inline', '--preview', 'cat {}']}, <bang>0)
+
+    command! -bang -nargs=* FzfGGrep
+                \ call fzf#vim#grep(
+                \   'git grep --line-number -- '.shellescape(<q-args>), 0,
+                \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
+
+    imap <c-x><c-f> <plug>(fzf-complete-path)
+    imap <c-x><c-l> <plug>(fzf-complete-line)
+endif
+
+
 
 " Deoplete
 " --------
