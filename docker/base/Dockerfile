@@ -1,8 +1,9 @@
-FROM archlinux:latest AS base
+FROM archlinux:latest
 
 ENV LANG en_US.UTF-8
 ENV TZ Asia/Tokyo
 ENV TERM xterm-256color
+ENV RPROMPT='docker:base'
 
 RUN mkdir ~/bin ~/code
 
