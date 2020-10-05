@@ -23,6 +23,7 @@ Plug 'cohama/lexima.vim'
 Plug 'dkarter/bullets.vim'
 Plug 'previm/previm'
 Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " Language support
