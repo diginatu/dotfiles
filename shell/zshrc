@@ -144,6 +144,8 @@ if type fzf > /dev/null; then
     fi
 
     export FZF_DEFAULT_OPTS='--reverse --bind "ctrl-j:abort,space:toggle+down" --height=50%'
+    export FZF_CTRL_T_OPTS="--preview '(bat --paging never -r :50 --decorations never --color always {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -100'"
+    export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:7:hidden:wrap --bind '?:toggle-preview'"
 
     # cd
     function pr {
