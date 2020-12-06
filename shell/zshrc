@@ -178,3 +178,23 @@ dev() {
 dev-mount() {
     docker run --rm -v "$(pwd):/root/code" -it diginatu/dev-base:latest
 }
+
+xpanes() {(
+    set -e
+
+    declare -a lines; lines=( "${(f@)$(cat)}" )
+    echo ${#lines[@]}
+    echo ${lines}
+
+    if [ -z "$lines" ]; then
+        return 1
+    fi
+    tmux new-window $lines[1]
+
+    for l in ${lines[@]:1}; do
+        tmux split-window -p 100 $l
+    done
+
+    tmux select-layout tiled
+    tmux set synchronize-panes on
+)}
