@@ -9,7 +9,6 @@ Plug 'vim-scripts/sudo.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'lilydjwg/colorizer'
 Plug 'scrooloose/nerdcommenter'
-Plug 'majutsushi/tagbar'
 Plug 'fuenor/im_control.vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -28,6 +27,7 @@ Plug 'junegunn/fzf.vim'
 
 " Language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 "Plug 'prabirshrestha/async.vim'
 "Plug 'prabirshrestha/vim-lsp'
 
@@ -51,6 +51,7 @@ if index(plugs_order, 'coc.nvim') >= 0
     call coc#add_extension('coc-json', 'coc-ultisnips')
     " Web
     "call coc#add_extension('coc-html', 'coc-css', 'coc-tsserver', 'coc-angular', 'coc-eslint')
+    call coc#add_extension('coc-vimlsp')
 
     nmap <Leader>ac <Plug>(coc-codeaction)
     nmap <Leader>fx <Plug>(coc-fix-current)
@@ -78,6 +79,9 @@ if index(plugs_order, 'coc.nvim') >= 0
                 "\ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" : "\<Tab>"
 
     let g:coc_snippet_next = '<Tab>'
+endif
+if index(plugs_order, 'coc-fzf') >= 0
+    nmap <Leader>uo :<C-u>CocFzfList outline<cr>
 endif
 
 " vim-lsp
@@ -156,7 +160,7 @@ endif
 
 if index(plugs_order, 'fzf.vim') >= 0
     let g:fzf_command_prefix = 'Fzf'
-    nnoremap <Leader>uo  :<C-u>FzfLines<CR>
+    nnoremap <Leader>ul  :<C-u>FzfLines<CR>
     nnoremap <Leader>ur  :<C-u>FzfFiles<CR>
     nnoremap <Leader>ug  :<C-u>FzfGFiles<CR>
     nnoremap <Leader>uh  :<C-u>FzfHistory<CR>

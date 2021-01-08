@@ -92,7 +92,7 @@ set mouse=nv
 set nonumber
 set wildmenu
 set wildmode=longest:full
-set ambiwidth=double   " wide characters
+"set ambiwidth=double   " wide characters
 set shiftround
 if exists('+belloff')
     set belloff=all
