@@ -40,4 +40,5 @@ else
     sudo ln -fs ${FROMDIR}/docker/config.json /root/.docker/config.json
 fi
 
+mkdir -p ${DISTDIR}/.docker
 ln -fs ${FROMDIR}/docker/config.json ${DISTDIR}/.docker/config.json

@@ -198,3 +198,20 @@ xpanes() {(
     tmux select-layout tiled
     tmux set synchronize-panes on
 )}
+
+ghurl() {(
+    set -e
+
+    origin=$(git ls-remote --get-url origin)
+    url="$origin"
+    if [[ "$origin" =~ '^git' ]]; then
+        url=$(echo "$origin" | sed -Ee 's@:@/@' -e 's#(git@|git://)#https://#')
+    fi
+    url=${url%\.git}
+
+    echo "$url"
+)}
+
+ghopen() {
+    open $(ghurl)
+}

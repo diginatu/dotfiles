@@ -27,9 +27,6 @@ if type 'xdg-open' > /dev/null; then
     alias open='xdg-open'
 fi
 
-alias ghopen="open \`git ls-remote --get-url origin | sed -Ee 's@:@/@' -e 's#(git@|git://)#https://#'\`"
-alias ghurl="echo \`git ls-remote --get-url origin | sed -Ee 's@:@/@' -e 's#(git@|git://)#https://#'\`"
-
 # Clipboard
 if type xclip > /dev/null; then
     alias clip='xclip -sel c'
