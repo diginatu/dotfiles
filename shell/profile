@@ -43,6 +43,11 @@ if [ -d "/usr/local/cuda" ] ; then
     fi
 fi
 
+# rust cargo env
+if [ -f "$HOME/.cargo/env" ] ; then
+    source "$HOME/.cargo/env"
+fi
+
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US
 export LC_CTYPE=en_US.UTF-8
