@@ -2,9 +2,6 @@ function! UpdateRemote(arg)
     UpdateRemotePlugins
 endfunction
 call plug#begin($VIMDIR.'/plugged')
-"if has('python3')
-    "Plug 'Shougo/denite.nvim', { 'do': function('UpdateRemote') }
-"endif
 Plug 'vim-scripts/sudo.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'lilydjwg/colorizer'
@@ -28,10 +25,8 @@ Plug 'junegunn/fzf.vim'
 " Language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
-"Plug 'prabirshrestha/async.vim'
-"Plug 'prabirshrestha/vim-lsp'
 
-Plug 'fatih/vim-go'
+"Plug 'fatih/vim-go'
 if executable('gotests')
     " Install:
     " go get -u github.com/cweill/gotests/...
@@ -60,9 +55,12 @@ if index(plugs_order, 'coc.nvim') >= 0
     nmap <Leader>nm <Plug>(coc-rename)
     nmap <Leader>us <Plug>(coc-references)
     nmap <Leader>dc <Plug>(coc-declaration)
+    nmap <Leader>ip <Plug>(coc-implementation)
     nmap <Leader>rf <Plug>(coc-refactor)
+    nmap <Leader>? :call CocActionAsync('doHover')<CR>
     nmap <C-w>u <Plug>(coc-float-jump)
     nmap <Leader>ln <Plug>(coc-codelens-action)
+    nmap <Leader>im <C-u>:silent call CocAction('runCommand', 'editor.action.organizeImport')<CR>
     xmap if <Plug>(coc-funcobj-i)
     omap if <Plug>(coc-funcobj-i)
     xmap af <Plug>(coc-funcobj-a)
@@ -72,6 +70,7 @@ if index(plugs_order, 'coc.nvim') >= 0
     xmap ac <Plug>(coc-classobj-a)
     omap ac <Plug>(coc-classobj-a)
     nmap <expr> <C-]> CocHasProvider("definition") ? '<Plug>(coc-definition)' : '<C-]>'
+    nmap <expr> <C-w><C-]> CocHasProvider("definition") ? ':call CocAction("jumpDefinition", "vsplit")<CR>' : '<C-w><C-]>'
     inoremap <silent><expr> <C-n> coc#refresh()
     "inoremap <silent><expr> <Tab>
                 "\ pumvisible() ? coc#_select_confirm() :
@@ -79,9 +78,15 @@ if index(plugs_order, 'coc.nvim') >= 0
                 "\ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" : "\<Tab>"
 
     let g:coc_snippet_next = '<Tab>'
+
+    augroup vimrc_coc_keymap
+        au!
+        au FileType go nmap <buffer> <Leader>ts :CocCommand go.test.toggle<CR>
+    augroup END
 endif
 if index(plugs_order, 'coc-fzf') >= 0
-    nmap <Leader>uo :<C-u>CocFzfList outline<cr>
+    nmap <Leader>ou :<C-u>CocFzfList outline<cr>
+    nmap <Leader>ol :<C-u>CocFzfList<cr>
 endif
 
 " vim-lsp

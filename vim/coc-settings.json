@@ -7,11 +7,5 @@
 
   "eslint.autoFixOnSave": true,
 
-  "languageserver": {
-    "golang": {
-      "command": "gopls",
-      "rootPatterns": ["go.mod"],
-      "filetypes": ["go"]
-    }
-  }
+  "coc.preferences.formatOnSaveFiletypes": ["rust", "go"]
 }
