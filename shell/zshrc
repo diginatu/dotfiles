@@ -160,6 +160,11 @@ if type fzf > /dev/null; then
             cd "${selected_dir}"
         fi
     }
+
+    # git
+    gsw() {
+        git branch -a -vv | grep -v '/HEAD\s' | fzf | sed 's/^..\([^ ]*\)\s.*$/\1/; s#^remotes/[^/]*/##' | xargs git switch
+    }
 fi
 
 # Man page using vim
