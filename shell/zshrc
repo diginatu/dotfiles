@@ -109,6 +109,13 @@ precmd () { vcs_info ; check_user_and_host }
 
 # ----- Functions ------
 
+## Definition search
+DEFINITION_LIST=""
+DEFINITION_LIST_DELIMITER=" # "
+add-def-search() {
+    DEFINITION_LIST+="$1$DEFINITION_LIST_DELIMITER$2\n"
+}
+
 # zmv
 autoload -Uz zmv
 
@@ -147,13 +154,22 @@ if type fzf > /dev/null; then
     export FZF_CTRL_T_OPTS="--preview '(bat --paging never -r :50 --decorations never --color always {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -100'"
     export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:7:hidden:wrap --bind '?:toggle-preview'"
 
-    # cd
+    ## Definition search
+    def-search() {
+        BUFFER=$(echo $DEFINITION_LIST | fzf)
+    }
+    zle -N def-search
+    bindkey "^o" def-search
+
+    ## cd
+    add-def-search pr "Recursive cd"
     function pr {
         eval local selected_dir=$(find . -type d 2>/dev/null | fzf)
         if [[ -n $selected_dir ]]; then
             cd "${selected_dir}"
         fi
     }
+    add-def-search ph "cd from pwd history"
     function ph {
         eval local selected_dir=$(cdr -l | tr -s ' ' | cut -d ' ' -f 2 | fzf)
         if [[ -n $selected_dir ]]; then
@@ -161,13 +177,15 @@ if type fzf > /dev/null; then
         fi
     }
 
-    # git
+    ## git
+    add-def-search gsw "Switch git branches interactively"
     gsw() {
         git branch -a -vv | grep -v '/HEAD\s' | fzf | sed 's/^..\([^ ]*\)\s.*$/\1/; s#^remotes/[^/]*/##' | xargs git switch
     }
 fi
 
 # Man page using vim
+add-def-search vman "Open man page using vim"
 vman() {
     if [ -z $1 ]; then
         echo "What manual page do you want?"
@@ -177,13 +195,16 @@ vman() {
 }
 
 # Dev Docker
+add-def-search dev "Start development environment docker continer"
 dev() {
     docker run --rm -it diginatu/dev-base:latest
 }
+add-def-search dev-mount "Start development environment docker continer with mounting current directory"
 dev-mount() {
     docker run --rm -v "$(pwd):/root/code" -it diginatu/dev-base:latest
 }
 
+add-def-search ghurl "Execute multiple lines in each tmux panes"
 xpanes() {(
     set -e
 
@@ -204,6 +225,7 @@ xpanes() {(
     tmux set synchronize-panes on
 )}
 
+add-def-search ghurl "Print github web site URL"
 ghurl() {(
     set -e
 
@@ -217,6 +239,7 @@ ghurl() {(
     echo "$url"
 )}
 
+add-def-search ghopen "Open github web site"
 ghopen() {
     open $(ghurl)
 }
