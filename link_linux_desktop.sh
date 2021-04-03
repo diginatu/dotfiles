@@ -15,3 +15,5 @@ ln -fs ${FROMDIR}/nautilus-scripts/* ${DISTDIR}/.local/share/nautilus/scripts/
     #mkdir -p ${FIREFOX_PROFILE_DIR}/chrome
     #ln -fs ${FROMDIR}/firefox/userContent.css ${FIREFOX_PROFILE_DIR}/chrome/
 #fi
+
+ln -fs ${FROMDIR}/etc/xbindkeysrc ${DISTDIR}/.xbindkeysrc
