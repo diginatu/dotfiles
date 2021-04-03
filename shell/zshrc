@@ -182,6 +182,17 @@ if type fzf > /dev/null; then
     gsw() {
         git branch -a -vv | grep -v '/HEAD\s' | fzf | sed 's/^..\([^ ]*\)\s.*$/\1/; s#^remotes/[^/]*/##' | xargs git switch
     }
+
+    # completions
+    _fzf_complete_pass() {
+        _fzf_complete +m -- "$@" < <(
+        local prefix
+        prefix="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
+        command find -L "$prefix" \
+            -name "*.gpg" -type f | \
+            sed -e "s#${prefix}/\{0,1\}##" -e 's#\.gpg##' -e 's#\\#\\\\#' | sort
+        )
+    }
 fi
 
 # Man page using vim
