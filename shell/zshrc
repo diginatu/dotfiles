@@ -112,7 +112,7 @@ precmd () { vcs_info ; check_user_and_host }
 ## Definition search
 DEFINITION_LIST=""
 DEFINITION_LIST_DELIMITER=" # "
-add-def-search() {
+func-desc() {
     DEFINITION_LIST+="$1$DEFINITION_LIST_DELIMITER$2\n"
 }
 
@@ -156,20 +156,20 @@ if type fzf > /dev/null; then
 
     ## Definition search
     def-search() {
-        BUFFER=$(echo $DEFINITION_LIST | fzf)
+        BUFFER=$(echo -n $DEFINITION_LIST | fzf --preview='. ~/.zshrc && type -f {1}')
     }
     zle -N def-search
     bindkey "^o" def-search
 
     ## cd
-    add-def-search pr "Recursive cd"
+    func-desc pr "Recursive cd"
     function pr {
         eval local selected_dir=$(find . -type d 2>/dev/null | fzf)
         if [[ -n $selected_dir ]]; then
             cd "${selected_dir}"
         fi
     }
-    add-def-search ph "cd from pwd history"
+    func-desc ph "cd from pwd history"
     function ph {
         eval local selected_dir=$(cdr -l | tr -s ' ' | cut -d ' ' -f 2 | fzf)
         if [[ -n $selected_dir ]]; then
@@ -178,7 +178,7 @@ if type fzf > /dev/null; then
     }
 
     ## git
-    add-def-search gsw "Switch git branches interactively"
+    func-desc gsw "Switch git branches interactively"
     gsw() {
         git branch -a -vv | grep -v '/HEAD\s' | fzf | sed 's/^..\([^ ]*\)\s.*$/\1/; s#^remotes/[^/]*/##' | xargs git switch
     }
@@ -196,7 +196,7 @@ if type fzf > /dev/null; then
 fi
 
 # Man page using vim
-add-def-search vman "Open man page using vim"
+func-desc vman "Open man page using vim"
 vman() {
     if [ -z $1 ]; then
         echo "What manual page do you want?"
@@ -206,16 +206,16 @@ vman() {
 }
 
 # Dev Docker
-add-def-search dev "Start development environment docker continer"
+func-desc dev "Start development environment docker continer"
 dev() {
     docker run --rm -it diginatu/dev-base:latest
 }
-add-def-search dev-mount "Start development environment docker continer with mounting current directory"
+func-desc dev-mount "Start development environment docker continer with mounting current directory"
 dev-mount() {
     docker run --rm -v "$(pwd):/root/code" -it diginatu/dev-base:latest
 }
 
-add-def-search ghurl "Execute multiple lines in each tmux panes"
+func-desc ghurl "Execute multiple lines in each tmux panes"
 xpanes() {(
     set -e
 
@@ -236,7 +236,7 @@ xpanes() {(
     tmux set synchronize-panes on
 )}
 
-add-def-search ghurl "Print github web site URL"
+func-desc ghurl "Print github web site URL"
 ghurl() {(
     set -e
 
@@ -250,7 +250,7 @@ ghurl() {(
     echo "$url"
 )}
 
-add-def-search ghopen "Open github web site"
+func-desc ghopen "Open github web site"
 ghopen() {
     open $(ghurl)
 }
