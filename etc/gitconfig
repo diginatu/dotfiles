@@ -1,0 +1,29 @@
+# To include this file
+# [include]
+#     path = ~/dotfiles/etc/gitconfig
+
+[pull]
+    rebase = interactive
+[push]
+    default = simple
+[fetch]
+    prune = true
+[gui]
+    fontui = -family \"Ricty Diminished\" -size 12 -weight normal -slant roman -underline 0 -overstrike 0
+    fontdiff = -family \"Ricty Diminished\" -size 12 -weight normal -slant roman -underline 0 -overstrike 0
+[core]
+    excludesfile = ~/dotfiles/etc/gitignore
+    pager = less -+F
+
+[diff]
+    tool = nvimdiff
+    colorMovedWS = allow-indentation-change
+[difftool]
+    prompt = false
+
+[alias]
+    s = status
+    d = diff
+    c = commit
+    a = add
+    A = add -A
