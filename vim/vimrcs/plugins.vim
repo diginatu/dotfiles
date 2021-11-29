@@ -27,6 +27,7 @@ Plug 'junegunn/fzf.vim'
 " Language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
+Plug 'vim-test/vim-test'
 
 "Plug 'fatih/vim-go'
 if executable('gotests')
@@ -89,6 +90,17 @@ endif
 if index(plugs_order, 'coc-fzf') >= 0
     nmap <Leader>ou :<C-u>CocFzfList outline<cr>
     nmap <Leader>ol :<C-u>CocFzfList<cr>
+endif
+
+" vim-test
+" --------
+
+if index(plugs_order, 'vim-test') >= 0
+    if has('nvim')
+        let test#strategy = "neovim"
+    else
+        let test#strategy = "vimterminal"
+    endif
 endif
 
 " vim-lsp
