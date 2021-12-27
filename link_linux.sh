@@ -29,7 +29,8 @@ ln -fs "${FROMDIR}/vim/spell/en.utf-8.add" ${DISTDIR}/.vim/spell/
 ln -fs ${FROMDIR}/etc/tmux.conf ${DISTDIR}/.tmux.conf
 
 # Other
-ln -fs ${FROMDIR}/etc/gitconfig ${DISTDIR}/.gitconfig
+rm ${DISTDIR}/.gitconfig
+cp ${FROMDIR}/etc/gitconfig ${DISTDIR}/.gitconfig
 
 if [[ $EUID -eq 0 ]] ; then
     mkdir -p /root/.docker
