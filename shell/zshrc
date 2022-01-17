@@ -173,7 +173,13 @@ if type fzf > /dev/null; then
     function ph {
         eval local selected_dir=$(cdr -l | tr -s ' ' | cut -d ' ' -f 2 | fzf)
         if [[ -n $selected_dir ]]; then
-            cd "${selected_dir}"
+            if [[ -d $selected_dir ]]; then
+                cd "${selected_dir}"
+            else
+                echo "No such a directory: ${selected_dir}.  Deleted."
+                cdr -P "${selected_dir}"
+                ph
+            fi
         fi
     }
 
