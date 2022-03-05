@@ -156,7 +156,7 @@ if type fzf > /dev/null; then
 
     ## Definition search
     def-search() {
-        BUFFER=$(echo -n $DEFINITION_LIST | fzf --preview='. ~/.zshrc && type -f {1}')
+        LBUFFER=$(echo -n $DEFINITION_LIST | fzf --preview='. ~/.zshrc && type -f {1}' | sed "s/$DEFINITION_LIST_DELIMITER.*$//")
     }
     zle -N def-search
     bindkey "^o" def-search
@@ -261,4 +261,13 @@ ghurl() {(
 func-desc ghopen "Open github web site"
 ghopen() {
     open $(ghurl)
+}
+
+func-desc random "Generate random characters"
+random() {
+    if [[ $# < 1 ]]; then
+        echo "Syntax: $0 [number of characters]"
+        return 1
+    fi
+    cat /dev/urandom | tr -dc '[:alnum:]' | head -c $1
 }
