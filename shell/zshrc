@@ -140,7 +140,7 @@ if [[ -f ~/.fzf.zsh ]]; then
 fi
 if type fzf > /dev/null; then
     if type 'fzf-tmux' > /dev/null; then
-        alias fzf=fzf-tmux
+        alias fzf='fzf-tmux -p 70%'
     fi
 
     if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
