@@ -89,6 +89,7 @@ if index(plugs_order, 'coc.nvim') >= 0
 endif
 if index(plugs_order, 'coc-fzf') >= 0
     nmap <Leader>ou :<C-u>CocFzfList outline<cr>
+    nmap <Leader>oc :<C-u>CocFzfList commands<cr>
     nmap <Leader>ol :<C-u>CocFzfList<cr>
 endif
 
