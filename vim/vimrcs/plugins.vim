@@ -2,6 +2,7 @@ function! UpdateRemote(arg)
     UpdateRemotePlugins
 endfunction
 call plug#begin($VIMDIR.'/plugged')
+Plug 'psliwka/vim-dirtytalk', { 'do': ':DirtytalkUpdate' } " additional spellcheck dictionary
 Plug 'vim-scripts/sudo.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'lilydjwg/colorizer'
