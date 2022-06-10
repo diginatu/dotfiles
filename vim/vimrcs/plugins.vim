@@ -29,8 +29,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 Plug 'vim-test/vim-test'
-
-"Plug 'fatih/vim-go'
+Plug 'fatih/vim-go'
 if executable('gotests')
     " Install:
     " go get -u github.com/cweill/gotests/...
@@ -39,7 +38,6 @@ endif
 Plug 'pangloss/vim-javascript'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'maxmellon/vim-jsx-pretty'
-Plug 'aklt/plantuml-syntax'
 
 call plug#end()
 
