@@ -65,3 +65,13 @@ fi
 #export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+alias 1='cd ..'
+alias 2='cd ../..'
+alias 3='cd ../../..'
+alias 4='cd ../../../..'
+alias 5='cd ../../../../..'
+alias 6='cd ../../../../../..'
+alias 7='cd ../../../../../../..'
+alias 8='cd ../../../../../../../..'
+alias 9='cd ../../../../../../../../..'

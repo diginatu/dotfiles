@@ -223,7 +223,7 @@ dev-mount() {
     docker run --rm -v "$(pwd):/root/code" -it diginatu/dev-base:latest
 }
 
-func-desc ghurl "Execute multiple lines in each tmux panes"
+func-desc xpanes "Execute multiple lines in each tmux panes"
 xpanes() {(
     set -e
 
@@ -250,8 +250,12 @@ ghurl() {(
 
     origin=$(git ls-remote --get-url origin)
     url="$origin"
-    if [[ "$origin" =~ '^git' ]]; then
-        url=$(echo "$origin" | sed -Ee 's@:@/@' -e 's#(git@|git://)#https://#')
+    if [[ "$origin" =~ '^git://' ]]; then
+        url=$(echo "$origin" | sed -Ee 's#git://#https://#')
+    elif [[ "$origin" =~ '^ssh://' ]]; then
+        url=$(echo "$origin" | sed -Ee 's#ssh://#https://#')
+    elif [[ "$origin" =~ '^git@' ]]; then
+        url=$(echo "$origin" | sed -Ee 's@:@/@' -e 's#git@#https://#')
     fi
     url=${url%\.git}
 
