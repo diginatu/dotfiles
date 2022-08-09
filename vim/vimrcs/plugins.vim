@@ -8,7 +8,7 @@ Plug 'thinca/vim-quickrun'
 Plug 'lilydjwg/colorizer'
 Plug 'scrooloose/nerdcommenter'
 Plug 'fuenor/im_control.vim'
-Plug 'SirVer/ultisnips'
+"Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'itchyny/lightline.vim'
 Plug 'w0ng/vim-hybrid'
@@ -18,7 +18,7 @@ Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-fugitive'
 Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
-Plug 'cohama/lexima.vim'
+"Plug 'cohama/lexima.vim'
 Plug 'dkarter/bullets.vim'
 Plug 'previm/previm'
 Plug 'junegunn/vim-easy-align'
@@ -45,9 +45,13 @@ call plug#end()
 " ---
 
 if index(plugs_order, 'coc.nvim') >= 0
-    call coc#add_extension('coc-json', 'coc-ultisnips')
+    call coc#add_extension('coc-json', 'coc-snippets')
     " Web
     "call coc#add_extension('coc-html', 'coc-css', 'coc-tsserver', 'coc-angular', 'coc-eslint')
+    " C
+    "call coc#add_extension('coc-clangd')
+    " Python
+    "call coc#add_extension('coc-pyright')
     call coc#add_extension('coc-vimlsp')
 
     nmap <Leader>ac <Plug>(coc-codeaction)
@@ -73,13 +77,12 @@ if index(plugs_order, 'coc.nvim') >= 0
     omap ac <Plug>(coc-classobj-a)
     nmap <expr> <C-]> CocHasProvider("definition") ? '<Plug>(coc-definition)' : '<C-]>'
     nmap <expr> <C-w><C-]> CocHasProvider("definition") ? ':call CocAction("jumpDefinition", "vsplit")<CR>' : '<C-w><C-]>'
-    inoremap <silent><expr> <C-n> coc#refresh()
-    "inoremap <silent><expr> <Tab>
-                "\ pumvisible() ? coc#_select_confirm() :
-                "\ coc#expandableOrJumpable() ?
-                "\ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" : "\<Tab>"
 
-    let g:coc_snippet_next = '<Tab>'
+    inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm()
+                \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+    let g:coc_snippet_next = '<C-l>'
+    let g:coc_snippet_prev = '<C-k>'
 
     augroup vimrc_coc_keymap
         au!
@@ -270,7 +273,7 @@ if index(plugs_order, 'vim-go') >= 0
         au FileType go nmap <buffer> <C-w><C-]> <Plug>(go-def-split)
     augroup END
 
-    let g:go_snippet_engine = "ultisnips"
+    "let g:go_snippet_engine = "ultisnips"
 
     let g:go_highlight_functions = 1
     "let g:go_highlight_methods = 1

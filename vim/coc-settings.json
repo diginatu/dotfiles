@@ -1,9 +1,12 @@
+// vim: ft=jsonc
 {
+  // "suggest.noselect": true,
   "list.nextKeymap": "<C-n>",
   "list.previousKeymap": "<C-p>",
   "list.insertMappings": {
     "<C-j>": "do:exit"
   },
+  "suggest.snippetsSupport": true,
 
   "eslint.autoFixOnSave": true,
 
