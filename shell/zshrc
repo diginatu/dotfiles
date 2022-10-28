@@ -250,11 +250,8 @@ ghurl() {(
 
     origin=$(git ls-remote --get-url origin)
     url="$origin"
-    if [[ "$origin" =~ '^git://' ]]; then
-        url=$(echo "$origin" | sed -Ee 's#git://#https://#')
-    elif [[ "$origin" =~ '^ssh://' ]]; then
-        url=$(echo "$origin" | sed -Ee 's#ssh://#https://#')
-    elif [[ "$origin" =~ '^git@' ]]; then
+    url=$(echo "$origin" | sed -Ee 's#^(git://|ssh://(git@)?)#https://#')
+    if [[ "$origin" =~ '^git@' ]]; then
         url=$(echo "$origin" | sed -Ee 's@:@/@' -e 's#git@#https://#')
     fi
     url=${url%\.git}
@@ -274,4 +271,51 @@ random() {
         return 1
     fi
     cat /dev/urandom | tr -dc '[:alnum:]' | head -c $1
+}
+
+export LOCAL_GHQ_DIR=${HOME}/localghq
+func-desc is-ghq-dir "Return if ghq directory"
+is-ghq-dir() {
+    [[ "$(pwd)" == "$(ghq root)"* ]]
+}
+func-desc ghq-local-dir "Output local ghq directory"
+ghq-local-dir() {(
+    set -e
+
+    if ! is-ghq-dir; then
+        echo "You are not in ghq directory"
+        return 1
+    fi
+    echo "$LOCAL_GHQ_DIR${"$(pwd)"#"$(ghq root)"}"
+)}
+func-desc ghq-local-mkdir "Create local ghq directory"
+ghq-local-mkdir() {(
+    set -e
+
+    p="$(ghq-local-dir)"
+    mkdir -p "$p"
+    echo Created "$p"
+)}
+func-desc local-ghq-origdir "Output original ghq directory"
+local-ghq-origdir() {(
+    set -e
+
+    if [[ "$(pwd)" != "${LOCAL_GHQ_DIR}"* ]]; then
+        echo "You are not in local ghq directory"
+        return 1
+    fi
+    echo "$(ghq root)${"$(pwd)"#"$LOCAL_GHQ_DIR"}"
+)}
+func-desc toggle-ghq-local "Toggle between ghq and local ghq directory"
+toggle-ghq-local() {
+    if is-ghq-dir; then
+        cd "$(ghq-local-dir)"
+    else
+        cd "$(local-ghq-origdir)"
+    fi
+}
+
+pg() {
+    declare -r REPO_NAME="$(ghq list >/dev/null | fzf)"
+    [[ -n "${REPO_NAME}" ]] && cd "$(ghq root)/${REPO_NAME}"
 }
