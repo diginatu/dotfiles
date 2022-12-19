@@ -270,7 +270,7 @@ random() {
         echo "Syntax: $0 [number of characters]"
         return 1
     fi
-    cat /dev/urandom | tr -dc '[:alnum:]' | head -c $1
+    cat /dev/urandom | LC_ALL=C tr -dc '[:alnum:]' | head -c $1
 }
 
 export LOCAL_GHQ_DIR=${HOME}/localghq

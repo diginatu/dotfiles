@@ -1,7 +1,8 @@
 source ~/dotfiles/shell/zshrc
 
-alias ls='ls -G'
+#alias ls='ls -G'
+#alias md5sum='md5'
+
 alias tp='trash'
-alias md5sum='md5'
 
 RPROMPT=''

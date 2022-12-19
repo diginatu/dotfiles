@@ -32,7 +32,7 @@ Plug 'vim-test/vim-test'
 Plug 'fatih/vim-go'
 if executable('gotests')
     " Install:
-    " go get -u github.com/cweill/gotests/...
+    " go install github.com/cweill/gotests/...@latest
     Plug 'buoto/gotests-vim'
 endif
 Plug 'pangloss/vim-javascript'
