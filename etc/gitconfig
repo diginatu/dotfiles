@@ -26,4 +26,4 @@
     d = diff
     c = commit
     a = add
-    A = add -A
+    aa = add -A
