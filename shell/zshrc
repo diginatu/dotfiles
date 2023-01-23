@@ -155,8 +155,20 @@ if type fzf > /dev/null; then
     export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:7:hidden:wrap --bind '?:toggle-preview'"
 
     ## Definition search
+    func-desc def-search "Search custom defined functions and replace the buffer with the function"
     def-search() {
-        LBUFFER=$(echo -n $DEFINITION_LIST | fzf --preview='. ~/.zshrc && type -f {1}' | sed "s/$DEFINITION_LIST_DELIMITER.*$//")
+        selection="$(echo -n $DEFINITION_LIST | fzf --preview='. ~/.zshrc && type -f {1}' --expect=tab)"
+        key="$(head -1 <<< "$selection")"
+        value="$(sed -ne "2 s/$DEFINITION_LIST_DELIMITER.*$// p" <<< "$selection")"
+
+        case $key in
+            tab)
+                LBUFFER=$(type -f "$value" | sed -e "1 d; $ d; s/^\t//")
+                ;;
+            *)
+                LBUFFER="$value"
+                ;;
+        esac
     }
     zle -N def-search
     bindkey "^o" def-search
@@ -169,7 +181,7 @@ if type fzf > /dev/null; then
             cd "${selected_dir}"
         fi
     }
-    func-desc ph "cd from pwd history"
+    func-desc ph "cd to a directory of pwd history"
     function ph {
         eval local selected_dir=$(cdr -l | tr -s ' ' | cut -d ' ' -f 2 | fzf)
         if [[ -n $selected_dir ]]; then
@@ -181,6 +193,11 @@ if type fzf > /dev/null; then
                 ph
             fi
         fi
+    }
+    func-desc pg "cd to a directory of ghq list"
+    pg() {
+        declare -r REPO_NAME="$(ghq list >/dev/null | fzf)"
+        [[ -n "${REPO_NAME}" ]] && cd "$(ghq root)/${REPO_NAME}"
     }
 
     ## git
@@ -313,9 +330,4 @@ toggle-ghq-local() {
     else
         cd "$(local-ghq-origdir)"
     fi
-}
-
-pg() {
-    declare -r REPO_NAME="$(ghq list >/dev/null | fzf)"
-    [[ -n "${REPO_NAME}" ]] && cd "$(ghq root)/${REPO_NAME}"
 }
