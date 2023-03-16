@@ -43,6 +43,11 @@ if [ -d "/usr/local/cuda" ] ; then
     fi
 fi
 
+# .NET SDK
+if [ -d "$HOME/.dotnet/tools" ] ; then
+    PATH="$HOME/.dotnet/tools:$PATH"
+fi
+
 # rust cargo env
 if [ -f "$HOME/.cargo/env" ] ; then
     source "$HOME/.cargo/env"
