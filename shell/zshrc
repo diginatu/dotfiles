@@ -331,3 +331,10 @@ toggle-ghq-local() {
         cd "$(local-ghq-origdir)"
     fi
 }
+
+func-desc tmpd "Move to a new temporary directory"
+tmpd() {
+    newd="/tmp/$(random 4)"
+    mkdir "$newd"
+    cd "$newd"
+}
