@@ -10,5 +10,5 @@
 
   "eslint.autoFixOnSave": true,
 
-  "coc.preferences.formatOnSaveFiletypes": ["rust", "go"]
+  "coc.preferences.formatOnSaveFiletypes": ["rust", "go", "typescript", "javascript"]
 }
