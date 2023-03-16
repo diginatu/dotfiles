@@ -8,7 +8,7 @@ Plug 'thinca/vim-quickrun'
 Plug 'lilydjwg/colorizer'
 Plug 'scrooloose/nerdcommenter'
 Plug 'fuenor/im_control.vim'
-"Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'itchyny/lightline.vim'
 Plug 'w0ng/vim-hybrid'
@@ -52,6 +52,8 @@ if index(plugs_order, 'coc.nvim') >= 0
     "call coc#add_extension('coc-clangd')
     " Python
     "call coc#add_extension('coc-pyright')
+    " Go
+    "call coc#add_extension('coc-go')
     call coc#add_extension('coc-vimlsp')
 
     nmap <Leader>ac <Plug>(coc-codeaction)
