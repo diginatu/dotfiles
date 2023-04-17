@@ -22,8 +22,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'dkarter/bullets.vim'
 Plug 'previm/previm'
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim', { 'do': { -> fzf#install() } }
+Plug 'tpope/vim-obsession'
 
 " Language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
