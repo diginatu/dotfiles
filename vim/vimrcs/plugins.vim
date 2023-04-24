@@ -22,7 +22,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'dkarter/bullets.vim'
 Plug 'previm/previm'
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/fzf.vim', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-obsession'
 
 " Language support
@@ -47,13 +48,13 @@ call plug#end()
 if index(plugs_order, 'coc.nvim') >= 0
     call coc#add_extension('coc-json', 'coc-snippets')
     " Web
-    "call coc#add_extension('coc-html', 'coc-css', 'coc-tsserver', 'coc-angular', 'coc-eslint')
+    call coc#add_extension('coc-html', 'coc-css', 'coc-tsserver', 'coc-angular', 'coc-eslint')
     " C
-    "call coc#add_extension('coc-clangd')
+    call coc#add_extension('coc-clangd')
     " Python
-    "call coc#add_extension('coc-pyright')
+    call coc#add_extension('coc-pyright')
     " Go
-    "call coc#add_extension('coc-go')
+    call coc#add_extension('coc-go')
     call coc#add_extension('coc-vimlsp')
 
     nmap <Leader>ac <Plug>(coc-codeaction)
