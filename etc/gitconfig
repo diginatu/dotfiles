@@ -27,3 +27,4 @@
     c = commit
     a = add
     aa = add -A
+    sed = ! git ls-files -z | xargs -0 sed
