@@ -115,6 +115,7 @@ endif
 set showbreak=>
 set autoread
 set iskeyword+=-
+set noerrorbells
 
 " Incremental search
 set incsearch

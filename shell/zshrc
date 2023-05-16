@@ -19,6 +19,7 @@ setopt hist_reduce_blanks        # Remove superfluous blanks before recording en
 setopt inc_append_history        # Immediately append to the history file, not just when a term is killed
 setopt append_history            # Append history to the history file (no overwriting)
 setopt share_history             # Share history across sessions
+unsetopt beep                    # No bell
 zstyle :compinstall filename '~/.zshrc'
 
 DIRSTACKSIZE=100
