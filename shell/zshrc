@@ -93,11 +93,9 @@ prompt_symbol() {
     fi
 }
 
-check_user_and_host() {
-    if [[ -n $SSH_CONNECTION || -f /.dockerenv ]] || grep -qa container=lxc /proc/1/environ; then
-        user_and_host_name=$USER@$HOST
-    fi
-}
+if [[ -n $SSH_CONNECTION || -f /.dockerenv ]] || { [[ -r /proc/1/environ ]] && grep -qa container=lxc /proc/1/environ; } ; then
+    user_and_host_name=$USER@$HOST
+fi
 
 PROMPT=$'\n${fg[blue]}%~${reset_color} ${vcs_info_msg_0_} ${user_and_host_name}\n$(prompt_symbol) '
 
@@ -108,7 +106,7 @@ zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
 zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
 zstyle ':vcs_info:*' formats "%F{green}%c%u%b%f"
 zstyle ':vcs_info:*' actionformats "%F{green}%c%u%b|%a%f"
-precmd () { vcs_info ; check_user_and_host }
+precmd () { vcs_info }
 
 # ----- Functions ------
 
