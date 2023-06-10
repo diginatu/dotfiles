@@ -29,7 +29,7 @@ ln -fs "${FROMDIR}/vim/spell/en.utf-8.add" ${DISTDIR}/.vim/spell/
 ln -fs ${FROMDIR}/etc/tmux.conf ${DISTDIR}/.tmux.conf
 
 # Other
-rm ${DISTDIR}/.gitconfig
+rm -f ${DISTDIR}/.gitconfig
 cp ${FROMDIR}/etc/gitconfig ${DISTDIR}/.gitconfig
 
 if [[ $EUID -eq 0 ]] ; then
