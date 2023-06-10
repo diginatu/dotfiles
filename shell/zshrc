@@ -1,5 +1,7 @@
 source ~/dotfiles/shell/shell_common.sh
 
+fpath=(~/.config/zsh/completion $fpath) # User local fpath
+
 bindkey -e
 
 HISTFILE=~/.history
@@ -92,7 +94,7 @@ prompt_symbol() {
 }
 
 check_user_and_host() {
-    if (( ${+SSH_CONNECTION} )); then
+    if [[ -n $SSH_CONNECTION || -f /.dockerenv ]] || grep -qa container=lxc /proc/1/environ; then
         user_and_host_name=$USER@$HOST
     fi
 }
