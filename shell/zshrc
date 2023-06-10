@@ -2,6 +2,14 @@ source ~/dotfiles/shell/shell_common.sh
 
 fpath=(~/.config/zsh/completion $fpath) # User local fpath
 
+# Paths
+set-path() {
+    if [[ -d $1 ]]; then
+        path=($1 $path)
+    fi
+}
+set-path ~/miniconda3/bin
+
 bindkey -e
 
 HISTFILE=~/.history
