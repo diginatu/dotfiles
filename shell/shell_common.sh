@@ -14,9 +14,9 @@ alias l='ls -CF'
 alias gr='gradle'
 alias gradle='./gradlew'
 
-if type 'trash-put' > /dev/null; then
+if type 'gio' > /dev/null; then
     alias rm='echo "Do you mean tp?"'
-    alias tp='trash-put'
+    alias tp='gio trash'
 fi
 alias g='git'
 alias kub='kubectl'
