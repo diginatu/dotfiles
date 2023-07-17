@@ -98,6 +98,42 @@ if index(plugs_order, 'coc-fzf') >= 0
     nmap <Leader>ol :<C-u>CocFzfList<cr>
 endif
 
+" bullets
+" -------
+
+if index(plugs_order, 'bullets.vim') >= 0
+    if index(plugs_order, 'coc.nvim') >= 0
+        " Replace default <CR> mapping so that it also invokes coc expansion
+        let g:bullets_set_mappings = 0
+        function! ExecuteEnter() abort
+            if coc#pum#visible()
+                return coc#_select_confirm()
+            else
+                execute("InsertNewBullet")
+            endif
+            return coc#on_enter()
+        endfunction
+        let g:bullets_custom_mappings = [
+                    \ ['inoremap', '<CR>',        '<C-r>=ExecuteEnter()<CR>'],
+                    \ ['inoremap', '<C-cr>',      '<cr>'],
+                    \
+                    \ ['nmap',     'o',           '<Plug>(bullets-newline)'],
+                    \
+                    \ ['vmap',     'gN',          '<Plug>(bullets-renumber)'],
+                    \ ['nmap',     'gN',          '<Plug>(bullets-renumber)'],
+                    \
+                    \ ['nmap',     '<leader>x',   '<Plug>(bullets-toggle-checkbox)'],
+                    \
+                    \ ['imap',     '<C-t>',       '<Plug>(bullets-demote)'],
+                    \ ['nmap',     '>>',          '<Plug>(bullets-demote)'],
+                    \ ['vmap',     '>',           '<Plug>(bullets-demote)'],
+                    \ ['imap',     '<C-d>',       '<Plug>(bullets-promote)'],
+                    \ ['nmap',     '<<',          '<Plug>(bullets-promote)'],
+                    \ ['vmap',     '<',           '<Plug>(bullets-promote)'],
+                    \ ]
+    endif
+endif
+
 " vim-test
 " --------
 
