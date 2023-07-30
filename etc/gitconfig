@@ -17,6 +17,7 @@
 
 [diff]
     tool = nvimdiff
+    colorMoved = default
     colorMovedWS = allow-indentation-change
 [difftool]
     prompt = false
@@ -28,3 +29,14 @@
     a = add
     aa = add -A
     sed = ! git ls-files -z | xargs -0 sed
+
+[init]
+    defaultBranch = main
+
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+    side-by-side = true
+[merge]
+    conflictstyle = diff3
