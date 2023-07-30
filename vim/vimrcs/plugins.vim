@@ -224,6 +224,7 @@ if index(plugs_order, 'fzf.vim') >= 0
     nnoremap <Leader>ul  :<C-u>FzfLines<CR>
     nnoremap <Leader>ur  :<C-u>FzfFiles<CR>
     nnoremap <Leader>ug  :<C-u>FzfGFiles<CR>
+    nnoremap <Leader>us  :<C-u>FzfGFiles?<CR>
     nnoremap <Leader>uh  :<C-u>FzfHistory<CR>
     nnoremap <Leader>up  :<C-u>Denite register<CR>
     nnoremap <Leader>b   :<C-u>FzfBuffers<CR>
@@ -263,7 +264,6 @@ if index(plugs_order, 'neosnippet.vim') >= 0
     smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
                 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 endif
-
 
 " Lexima
 " ------
