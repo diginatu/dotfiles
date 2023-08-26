@@ -60,6 +60,7 @@ if index(plugs_order, 'coc.nvim') >= 0
     nmap <Leader>ac <Plug>(coc-codeaction)
     nmap <Leader>fx <Plug>(coc-fix-current)
     nmap <Leader>if <Plug>(coc-diagnostic-info)
+    nmap <Leader>dn :<C-u>CocDiagnostics<CR>
     nmap <Leader>fm <Plug>(coc-format)
     nmap <Leader>nm <Plug>(coc-rename)
     nmap <Leader>us <Plug>(coc-references)
@@ -69,7 +70,7 @@ if index(plugs_order, 'coc.nvim') >= 0
     nmap <Leader>? :call CocActionAsync('doHover')<CR>
     nmap <C-w>u <Plug>(coc-float-jump)
     nmap <Leader>ln <Plug>(coc-codelens-action)
-    nmap <Leader>im <C-u>:silent call CocAction('runCommand', 'editor.action.organizeImport')<CR>
+    nmap <Leader>im :<C-u>silent call CocAction('runCommand', 'editor.action.organizeImport')<CR>
     xmap if <Plug>(coc-funcobj-i)
     omap if <Plug>(coc-funcobj-i)
     xmap af <Plug>(coc-funcobj-a)
