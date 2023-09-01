@@ -1,3 +1,5 @@
 # Gnome Shell Mouse Button Tilt to Overview
 "xdotool key Super"
-release + b:6
+    release + b:6
+"xdotool key Super"
+    release + b:9
