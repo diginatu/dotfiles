@@ -229,6 +229,10 @@ if type fzf > /dev/null; then
     }
 fi
 
+if type bat > /dev/null; then
+    export BAT_THEME=Coldark-Dark
+fi
+
 if type delta > /dev/null; then
     export GIT_PAGER=delta
 fi

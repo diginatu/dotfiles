@@ -232,7 +232,7 @@ if index(plugs_order, 'fzf.vim') >= 0
     nnoremap <Leader>gp   :<C-u>FzfGGrep<Space>
 
     command! -bang -nargs=? -complete=dir FzfFiles
-                \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--info=inline', '--preview', 'cat {}']}, <bang>0)
+                \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
     command! -bang -nargs=* FzfGGrep
                 \ call fzf#vim#grep(

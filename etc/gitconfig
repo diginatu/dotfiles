@@ -38,5 +38,19 @@
 [delta]
     navigate = true
     side-by-side = true
+
+    line-numbers-minus-style = "#692c2c"
+    line-numbers-plus-style = "#2a622f"
+    minus-style = syntax "#402425"
+    minus-emph-style = syntax "#843333"
+    minus-non-emph-style = syntax "#333333"
+    plus-style = syntax "#202f21"
+    plus-emph-style = syntax "#266826"
+    plus-non-emph-style = syntax "#333333"
+    map-styles = \
+       bold purple => syntax "#331c2d", \
+       bold blue => syntax "#2e1e44", \
+       bold cyan => syntax "#1f3230", \
+       bold yellow => syntax "#32311e"
 [merge]
     conflictstyle = diff3
