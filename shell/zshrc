@@ -355,3 +355,17 @@ tmpd() {
     mkdir "$newd"
     cd "$newd"
 }
+
+func-desc edit-flacs-dir "Edit flac file metadata in current directory"
+edit-flacs-dir() {(
+    set -e
+
+    tmp=$(mktemp)
+    find . -name '*.flac' -exec sh -c 'echo -n "{};"; metaflac --export-tags-to=- "{}" | tr "\n" ";"; echo' \; | column -t -s\; -o\; | sort > "$tmp"
+    vim "$tmp"
+    cat "$tmp" | while read -r line; do
+        file=$(echo "$line" | sed -e "s/\s*;.*$//g")
+        tags=$(echo "$line" | sed -e "s/^[^;]*;//" -e "s/\s*;/\n/g")
+        echo "$tags" | metaflac --remove-all-tags --import-tags-from=- "$file"
+    done
+)}
