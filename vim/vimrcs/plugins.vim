@@ -229,7 +229,7 @@ if index(plugs_order, 'fzf.vim') >= 0
     nnoremap <Leader>uh  :<C-u>FzfHistory<CR>
     nnoremap <Leader>up  :<C-u>Denite register<CR>
     nnoremap <Leader>b   :<C-u>FzfBuffers<CR>
-    nnoremap <Leader>gp   :<C-u>FzfGGrep<Space>
+    nnoremap <Leader>gp  :<C-u>FzfGGrep<Space>
 
     command! -bang -nargs=? -complete=dir FzfFiles
                 \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
@@ -239,6 +239,9 @@ if index(plugs_order, 'fzf.vim') >= 0
                 \   'git grep --line-number -- '.shellescape(<q-args>), 0,
                 \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
 
+    nmap <leader><c-o> <plug>(fzf-maps-n)
+    xmap <leader><c-o> <plug>(fzf-maps-x)
+    omap <leader><c-o> <plug>(fzf-maps-o)
     imap <c-x><c-f> <plug>(fzf-complete-path)
     imap <c-x><c-l> <plug>(fzf-complete-line)
 endif
