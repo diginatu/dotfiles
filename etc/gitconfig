@@ -28,7 +28,7 @@
     c = commit
     a = add
     aa = add -A
-    sed = ! git ls-files -z | xargs -0 sed
+    sed = ! git grep --cached -zl '' | xargs -0 sed
 
 [init]
     defaultBranch = main
