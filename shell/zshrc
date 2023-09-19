@@ -185,7 +185,7 @@ if type fzf > /dev/null; then
     ## cd
     func-desc pr "Recursive cd"
     function pr {
-        eval local selected_dir=$(find . -type d 2>/dev/null | fzf)
+        local selected_dir=$(find . -type d 2>/dev/null | fzf)
         if [[ -n $selected_dir ]]; then
             cd "${selected_dir}"
         fi
