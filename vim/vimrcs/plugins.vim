@@ -5,20 +5,16 @@ call plug#begin($VIMDIR.'/plugged')
 Plug 'psliwka/vim-dirtytalk', { 'do': ':DirtytalkUpdate' } " additional spellcheck dictionary
 Plug 'vim-scripts/sudo.vim'
 Plug 'thinca/vim-quickrun'
-Plug 'lilydjwg/colorizer'
 Plug 'scrooloose/nerdcommenter'
 Plug 'fuenor/im_control.vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'itchyny/lightline.vim'
-Plug 'w0ng/vim-hybrid'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-fugitive'
 Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
-"Plug 'cohama/lexima.vim'
 Plug 'dkarter/bullets.vim'
 Plug 'previm/previm'
 Plug 'junegunn/vim-easy-align'
@@ -26,7 +22,14 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-obsession'
 
+" Visual
+Plug 'lilydjwg/colorizer'
+Plug 'itchyny/lightline.vim'
+Plug 'EdenEast/nightfox.nvim'
+
 " Language support
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 Plug 'vim-test/vim-test'
@@ -41,6 +44,36 @@ Plug 'HerringtonDarkholme/yats.vim'
 Plug 'maxmellon/vim-jsx-pretty'
 
 call plug#end()
+
+" TreeSitter
+" ----------
+
+if index(plugs_order, 'nvim-treesitter') >= 0
+    lua <<EOF
+    require'nvim-treesitter.configs'.setup {
+        ensure_installed = { "cpp", "typescript", "vim", "vimdoc", "go", "gomod", "gowork" },
+        sync_install = true,
+
+        auto_install = true,
+
+        highlight = {
+            enable = true,
+        },
+        incremental_selection = {
+            enable = true,
+        },
+        indent = { enable = true },
+        textobjects = {
+            select = {
+                enable = true,
+            },
+        },
+    }
+EOF
+
+    set foldmethod=expr
+    set foldexpr=nvim_treesitter#foldexpr()
+endif
 
 " Coc
 " ---
@@ -71,14 +104,14 @@ if index(plugs_order, 'coc.nvim') >= 0
     nmap <C-w>u <Plug>(coc-float-jump)
     nmap <Leader>ln <Plug>(coc-codelens-action)
     nmap <Leader>im :<C-u>silent call CocAction('runCommand', 'editor.action.organizeImport')<CR>
-    xmap if <Plug>(coc-funcobj-i)
-    omap if <Plug>(coc-funcobj-i)
-    xmap af <Plug>(coc-funcobj-a)
-    omap af <Plug>(coc-funcobj-a)
-    xmap ic <Plug>(coc-classobj-i)
-    omap ic <Plug>(coc-classobj-i)
-    xmap ac <Plug>(coc-classobj-a)
-    omap ac <Plug>(coc-classobj-a)
+    "xmap if <Plug>(coc-funcobj-i)
+    "omap if <Plug>(coc-funcobj-i)
+    "xmap af <Plug>(coc-funcobj-a)
+    "omap af <Plug>(coc-funcobj-a)
+    "xmap ic <Plug>(coc-classobj-i)
+    "omap ic <Plug>(coc-classobj-i)
+    "xmap ac <Plug>(coc-classobj-a)
+    "omap ac <Plug>(coc-classobj-a)
     nmap <expr> <C-]> CocHasProvider("definition") ? '<Plug>(coc-definition)' : '<C-]>'
     nmap <expr> <C-w><C-]> CocHasProvider("definition") ? ':call CocAction("jumpDefinition", "vsplit")<CR>' : '<C-w><C-]>'
 
@@ -480,11 +513,18 @@ endif
 " Colorscheme
 " -----------
 
-if index(plugs_order, 'vim-hybrid') >= 0
-    set background=dark
-    colorscheme hybrid
-endif
+lua << EOF
+    require('nightfox').setup({
+    palettes = {
+        nightfox = {
+            bg1 = "#1c222a",
+        },
+    },
+    })
 
+    -- setup must be called before loading
+    vim.cmd("colorscheme nightfox")
+EOF
 
 " Neomake
 " -------
