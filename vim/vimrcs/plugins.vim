@@ -212,44 +212,6 @@ if index(plugs_order, 'vim-lsp') >= 0
 endif
 
 
-
-" Denite
-" ------
-
-if index(plugs_order, 'denite.nvim') >= 0
-    nnoremap <Leader>un  :<C-u>Denite<Space>
-    nnoremap <Leader>uo  :<C-u>Denite outline<CR>
-    nnoremap <Leader>ur  :<C-u>Denite file/rec<CR>
-    nnoremap <Leader>ug  :<C-u>Denite file/rec/git<CR>
-    nnoremap <Leader>uh  :<C-u>Denite file/old buffer file<CR>
-    nnoremap <Leader>up  :<C-u>Denite register<CR>
-    nnoremap <Leader>b   :<C-u>Denite buffer<CR>
-
-    augroup vimrc_denite_map
-        au!
-        autocmd FileType denite call s:denite_my_settings()
-        function! s:denite_my_settings() abort
-            nnoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
-            nnoremap <silent><buffer><expr> d denite#do_map('do_action', 'delete')
-            nnoremap <silent><buffer><expr> p denite#do_map('do_action', 'preview')
-            nnoremap <silent><buffer><expr><nowait> <C-j> denite#do_map('quit')
-            nnoremap <silent><buffer><expr> q denite#do_map('quit')
-            nnoremap <silent><buffer><expr> i denite#do_map('open_filter_buffer')
-            nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
-            nnoremap <silent><buffer><expr> <Tab> denite#do_map('choose_action')
-        endfunction
-        autocmd FileType denite-filter call s:denite_filter_my_settings()
-        function! s:denite_filter_my_settings() abort
-            imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
-        endfunction
-    augroup end
-
-	call denite#custom#alias('source', 'file/rec/git', 'file/rec')
-	call denite#custom#var('file/rec/git', 'command',
-	      \ ['git', 'ls-files', '-co', '--exclude-standard'])
-endif
-
-
 " Fzf
 " ---
 
@@ -260,7 +222,6 @@ if index(plugs_order, 'fzf.vim') >= 0
     nnoremap <Leader>ug  :<C-u>FzfGFiles<CR>
     nnoremap <Leader>us  :<C-u>FzfGFiles?<CR>
     nnoremap <Leader>uh  :<C-u>FzfHistory<CR>
-    nnoremap <Leader>up  :<C-u>Denite register<CR>
     nnoremap <Leader>b   :<C-u>FzfBuffers<CR>
     nnoremap <Leader>gp  :<C-u>FzfGGrep<Space>
 
@@ -279,28 +240,6 @@ if index(plugs_order, 'fzf.vim') >= 0
     imap <c-x><c-l> <plug>(fzf-complete-line)
 endif
 
-
-
-" Deoplete
-" --------
-
-if index(plugs_order, 'deoplete.nvim') >= 0
-    let g:deoplete#enable_at_startup = 1
-    let g:deoplete#enable_smart_case = 1
-
-    call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
-endif
-
-
-" Neosnippet
-" ----------
-
-if index(plugs_order, 'neosnippet.vim') >= 0
-    imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-                \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-                \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-endif
 
 " Lexima
 " ------
@@ -322,14 +261,6 @@ if index(plugs_order, 'lexima.vim') >= 0
     call lexima#add_rule({'char': '[', 'input_after': ']', 'at': '\%#[)}\]]*$'})
     call lexima#add_rule({'char': '[', 'at': '\\\%#'})
     call lexima#add_rule({'char': ']', 'at': '\%#]', 'leave': 1})
-endif
-
-
-" Tagber
-" ------
-
-if index(plugs_order, 'tagbar') >= 0
-    nnoremap <Leader>tg :TagbarToggle<CR>
 endif
 
 
@@ -453,23 +384,6 @@ if index(plugs_order, 'incsearch.vim') >= 0
     augroup END
 endif
 
-" Firenvim
-" --------
-
-if index(plugs_order, 'firenvim') >= 0
-    let g:firenvim_config = {
-        \ 'localSettings': {
-            \ '.*': {
-                \ 'takeover': 'never',
-                \ 'priority': 0,
-            \ }
-        \ }
-    \ }
-endif
-
-
-
-
 " im_control
 " ----------
 
@@ -525,29 +439,6 @@ lua << EOF
     -- setup must be called before loading
     vim.cmd("colorscheme nightfox")
 EOF
-
-" Neomake
-" -------
-
-if index(plugs_order, 'neomake') >= 0
-    " Callback for reloading file in buffer when eslint has finished and maybe has
-    " autofixed some stuff
-    function! s:Neomake_callback()
-        if (g:neomake_hook_context.jobinfo.ft ==? 'javascript')
-            edit
-        endif
-    endfunction
-
-    augroup vimrc_neomake_aug
-        au!
-        au BufWritePost * Neomake
-        au User NeomakeJobFinished call s:Neomake_callback()
-    augroup END
-
-    let g:neomake_open_list = 2
-    let g:neomake_javascript_eslint_args = ['-f', 'compact', '--fix']
-    let g:neomake_go_gometalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint', '--enable=vet']
-endif
 
 
 " GitGutter
