@@ -21,6 +21,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-obsession'
+Plug 'github/copilot.vim'
+
 
 " Visual
 Plug 'lilydjwg/colorizer'
@@ -51,7 +53,7 @@ call plug#end()
 if index(plugs_order, 'nvim-treesitter') >= 0
     lua <<EOF
     require'nvim-treesitter.configs'.setup {
-        ensure_installed = { "cpp", "typescript", "vim", "vimdoc", "go", "gomod", "gowork" },
+        ensure_installed = { "vim", "vimdoc" },
         sync_install = true,
 
         auto_install = true,
