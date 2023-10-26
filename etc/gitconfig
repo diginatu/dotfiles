@@ -38,6 +38,8 @@
 [delta]
     navigate = true
     side-by-side = true
+    hyperlinks = true
+    hyperlinks-file-link-prefix = "file-line://{path}:{line}"
 
     line-numbers-minus-style = "#692c2c"
     line-numbers-plus-style = "#2a622f"
