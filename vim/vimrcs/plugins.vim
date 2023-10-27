@@ -27,7 +27,8 @@ Plug 'github/copilot.vim'
 " Visual
 Plug 'lilydjwg/colorizer'
 Plug 'itchyny/lightline.vim'
-Plug 'EdenEast/nightfox.nvim'
+Plug 'sainnhe/edge'
+Plug 'marko-cerovac/material.nvim'
 
 " Language support
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -429,18 +430,14 @@ endif
 " Colorscheme
 " -----------
 
-lua << EOF
-    require('nightfox').setup({
-    palettes = {
-        nightfox = {
-            bg1 = "#1c222a",
-        },
-    },
-    })
-
-    -- setup must be called before loading
-    vim.cmd("colorscheme nightfox")
-EOF
+if index(plugs_order, 'edge') >= 0
+    "set background=light
+    "colorscheme edge
+endif
+if index(plugs_order, 'material.nvim') >= 0
+    set background=dark
+    colorscheme material-deep-ocean
+endif
 
 
 " GitGutter
