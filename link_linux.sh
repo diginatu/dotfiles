@@ -42,3 +42,5 @@ fi
 
 mkdir -p ${DISTDIR}/.docker
 ln -fs ${FROMDIR}/docker/config.json ${DISTDIR}/.docker/config.json
+
+ln -fs ${FROMDIR}/terminal/kitty/* ${DISTDIR}/.config/kitty/

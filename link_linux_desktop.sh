@@ -9,11 +9,4 @@ ln -fs ${FROMDIR}/etc/qtvimrc ${DISTDIR}/.qtvimrc
 mkdir -p ${DISTDIR}/.local/share/nautilus/scripts/
 ln -fs ${FROMDIR}/nautilus-scripts/* ${DISTDIR}/.local/share/nautilus/scripts/
 
-# firefox
-#FIREFOX_PROFILE_DIR=`find ${DISTDIR}/.mozilla/firefox/ -maxdepth 1 -type d -name '*default*' | head -1`
-#if [[ ! $FIREFOX_PROFILE_DIR = "" ]]; then
-    #mkdir -p ${FIREFOX_PROFILE_DIR}/chrome
-    #ln -fs ${FROMDIR}/firefox/userContent.css ${FIREFOX_PROFILE_DIR}/chrome/
-#fi
-
 ln -fs ${FROMDIR}/etc/xbindkeysrc ${DISTDIR}/.xbindkeysrc
