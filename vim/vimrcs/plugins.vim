@@ -29,6 +29,7 @@ Plug 'lilydjwg/colorizer'
 Plug 'itchyny/lightline.vim'
 Plug 'sainnhe/edge'
 Plug 'marko-cerovac/material.nvim'
+Plug 'f-person/auto-dark-mode.nvim'
 
 " Language support
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -53,7 +54,7 @@ call plug#end()
 
 if index(plugs_order, 'nvim-treesitter') >= 0
     lua <<EOF
-    require'nvim-treesitter.configs'.setup {
+    require('nvim-treesitter.configs').setup {
         ensure_installed = { "vim", "vimdoc" },
         sync_install = true,
 
@@ -301,7 +302,7 @@ if index(plugs_order, 'lightline.vim') >= 0
     set noshowmode
 
     let g:lightline = {
-                \ 'colorscheme': 'wombat',
+                \ 'colorscheme': 'one',
                 \ 'active': {
                 \   'left': [ [ 'mode', 'paste' ],
                 \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
@@ -430,13 +431,47 @@ endif
 " Colorscheme
 " -----------
 
-if index(plugs_order, 'edge') >= 0
-    "set background=light
-    "colorscheme edge
+
+if index(plugs_order, 'material.nvim') >= 0 && index(plugs_order, 'edge') >= 0
+    lua <<EOF
+    require('material').setup({
+        disable = { colored_cursor = true },
+    })
+EOF
+
+    let g:edge_better_performance = 1
+
+    if strftime("%H") < 7
+        colorscheme material-deep-ocean
+        set background=dark
+    elseif strftime("%H") < 20
+        colorscheme edge
+        set background=light
+    else
+        colorscheme material-deep-ocean
+        set background=dark
+    endif
 endif
-if index(plugs_order, 'material.nvim') >= 0
-    set background=dark
-    colorscheme material-deep-ocean
+
+if index(plugs_order, 'auto-dark-mode.nvim') >= 0
+    lua <<EOF
+    require('auto-dark-mode').setup({
+        set_dark_mode = function()
+            vim.cmd('colorscheme material-deep-ocean')
+            vim.api.nvim_set_option('background', 'dark')
+            vim.cmd('source $VIMDIR/plugged/lightline.vim/autoload/lightline/colorscheme/one.vim')
+            vim.fn['lightline#colorscheme']()
+            vim.fn['lightline#update']()
+        end,
+        set_light_mode = function()
+            vim.cmd('colorscheme edge')
+            vim.api.nvim_set_option('background', 'light')
+            vim.cmd('source $VIMDIR/plugged/lightline.vim/autoload/lightline/colorscheme/one.vim')
+            vim.fn['lightline#colorscheme']()
+            vim.fn['lightline#update']()
+        end,
+    })
+EOF
 endif
 
 
