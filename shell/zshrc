@@ -89,6 +89,37 @@ zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
+# ----- Pre command -----
+
+function __update_theme () {
+    # Kitty
+    if [[ $TERM == "xterm-kitty" ]]; then
+        if [[ $THEME_MODE == "light" ]]; then
+            local kitty_theme_file='Tango Light.conf'
+        else
+            local kitty_theme_file='zenwritten_dark.conf'
+        fi
+        kitten @ set-colors --all "~/.config/kitty/${kitty_theme_file}"
+    fi
+}
+
+function __update_theme_mode () {
+    export UPDATE_THEME_DATE=$(date)
+    # Set theme mode based on time
+    if [[ $(date +%H) -ge 20 || $(date +%H) -lt 7 ]]; then
+        if [[ $THEME_MODE != "dark" ]]; then
+            export THEME_MODE=dark
+            __update_theme
+        fi
+    else
+        if [[ $THEME_MODE != "light" ]]; then
+            export THEME_MODE=light
+            __update_theme
+        fi
+    fi
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd __update_theme_mode
 
 # ----- PROMPT -----
 

@@ -432,43 +432,42 @@ endif
 " -----------
 
 
-if index(plugs_order, 'material.nvim') >= 0 && index(plugs_order, 'edge') >= 0
+if index(plugs_order, 'material.nvim') >= 0
     lua <<EOF
     require('material').setup({
         disable = { colored_cursor = true },
     })
 EOF
-
+endif
+if index(plugs_order, 'edge') >= 0
     let g:edge_better_performance = 1
-
-    if strftime("%H") < 7
-        colorscheme material-deep-ocean
-        set background=dark
-    elseif strftime("%H") < 20
-        colorscheme edge
-        set background=light
-    else
-        colorscheme material-deep-ocean
-        set background=dark
-    endif
+endif
+if $THEME_MODE == 'light'
+    colorscheme edge
+    set background=light
+else
+    colorscheme material-deep-ocean
+    set background=dark
 endif
 
 if index(plugs_order, 'auto-dark-mode.nvim') >= 0
     lua <<EOF
+    function updateLightLine()
+        vim.cmd('source $VIMDIR/plugged/lightline.vim/autoload/lightline/colorscheme/one.vim')
+        vim.fn['lightline#colorscheme']()
+        vim.fn['lightline#update']()
+    end
+
     require('auto-dark-mode').setup({
         set_dark_mode = function()
             vim.cmd('colorscheme material-deep-ocean')
             vim.api.nvim_set_option('background', 'dark')
-            vim.cmd('source $VIMDIR/plugged/lightline.vim/autoload/lightline/colorscheme/one.vim')
-            vim.fn['lightline#colorscheme']()
-            vim.fn['lightline#update']()
+            updateLightLine()
         end,
         set_light_mode = function()
             vim.cmd('colorscheme edge')
             vim.api.nvim_set_option('background', 'light')
-            vim.cmd('source $VIMDIR/plugged/lightline.vim/autoload/lightline/colorscheme/one.vim')
-            vim.fn['lightline#colorscheme']()
-            vim.fn['lightline#update']()
+            updateLightLine()
         end,
     })
 EOF
