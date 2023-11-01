@@ -268,6 +268,10 @@ if type delta > /dev/null; then
     export GIT_PAGER=delta
 fi
 
+if type kitten > /dev/null; then
+    alias ssh="kitten ssh"
+fi
+
 # Man page using vim
 func-desc vman "Open man page using vim"
 vman() {
