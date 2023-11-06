@@ -87,19 +87,21 @@ zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+eval $(dircolors)
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # ----- Pre command -----
 
 function __update_theme () {
-    # Kitty
+    if [[ $THEME_MODE == "light" ]]; then
+        export BAT_THEME=OneHalfLight
+        local kitty_theme_file='light.conf'
+    else
+        export BAT_THEME=OneHalfDark
+        local kitty_theme_file='dark.conf'
+    fi
     if [[ $TERM == "xterm-kitty" ]]; then
-        if [[ $THEME_MODE == "light" ]]; then
-            local kitty_theme_file='Tango Light.conf'
-        else
-            local kitty_theme_file='zenwritten_dark.conf'
-        fi
-        kitten @ set-colors --all "~/.config/kitty/${kitty_theme_file}"
+        kitten @ set-colors --all "~/.config/kitty/themes/${kitty_theme_file}"
     fi
 }
 
