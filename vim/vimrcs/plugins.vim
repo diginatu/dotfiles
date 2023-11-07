@@ -450,27 +450,29 @@ else
     set background=dark
 endif
 
-if index(plugs_order, 'auto-dark-mode.nvim') >= 0
-    lua <<EOF
-    function updateLightLine()
-        vim.cmd('source $VIMDIR/plugged/lightline.vim/autoload/lightline/colorscheme/one.vim')
-        vim.fn['lightline#colorscheme']()
-        vim.fn['lightline#update']()
-    end
+if !exists('$SSH_CONNECTION')
+    if index(plugs_order, 'auto-dark-mode.nvim') >= 0
+        lua <<EOF
+        function updateLightLine()
+            vim.cmd('source $VIMDIR/plugged/lightline.vim/autoload/lightline/colorscheme/one.vim')
+            vim.fn['lightline#colorscheme']()
+            vim.fn['lightline#update']()
+        end
 
-    require('auto-dark-mode').setup({
-        set_dark_mode = function()
-            vim.cmd('colorscheme material-deep-ocean')
-            vim.api.nvim_set_option('background', 'dark')
-            updateLightLine()
-        end,
-        set_light_mode = function()
-            vim.cmd('colorscheme edge')
-            vim.api.nvim_set_option('background', 'light')
-            updateLightLine()
-        end,
-    })
+        require('auto-dark-mode').setup({
+            set_dark_mode = function()
+                vim.cmd('colorscheme material-deep-ocean')
+                vim.api.nvim_set_option('background', 'dark')
+                updateLightLine()
+            end,
+            set_light_mode = function()
+                vim.cmd('colorscheme edge')
+                vim.api.nvim_set_option('background', 'light')
+                updateLightLine()
+            end,
+        })
 EOF
+    endif
 endif
 
 
