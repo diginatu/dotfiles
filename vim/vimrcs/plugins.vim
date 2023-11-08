@@ -441,12 +441,12 @@ EOF
 endif
 if index(plugs_order, 'edge') >= 0
     let g:edge_better_performance = 1
+    let g:edge_transparent_background = 1
 endif
+colorscheme edge
 if $THEME_MODE == 'light'
-    colorscheme edge
     set background=light
 else
-    colorscheme material-deep-ocean
     set background=dark
 endif
 
@@ -461,12 +461,10 @@ if !exists('$SSH_CONNECTION')
 
         require('auto-dark-mode').setup({
             set_dark_mode = function()
-                vim.cmd('colorscheme material-deep-ocean')
                 vim.api.nvim_set_option('background', 'dark')
                 updateLightLine()
             end,
             set_light_mode = function()
-                vim.cmd('colorscheme edge')
                 vim.api.nvim_set_option('background', 'light')
                 updateLightLine()
             end,
