@@ -404,3 +404,5 @@ edit-flacs-dir() {(
         echo "$tags" | metaflac --remove-all-tags --import-tags-from=- "$file"
     done
 )}
+
+func-desc dbxfs "Mount Dropbox"
