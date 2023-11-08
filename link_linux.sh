@@ -30,7 +30,7 @@ ln -fs ${FROMDIR}/etc/tmux.conf ${DISTDIR}/.tmux.conf
 
 # Other
 rm -f ${DISTDIR}/.gitconfig
-cp ${FROMDIR}/etc/gitconfig ${DISTDIR}/.gitconfig
+cp ${FROMDIR}/git/gitconfig ${DISTDIR}/.gitconfig
 
 if [[ $EUID -eq 0 ]] ; then
     mkdir -p /root/.docker
