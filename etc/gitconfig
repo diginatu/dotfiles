@@ -8,9 +8,6 @@
     default = simple
 [fetch]
     prune = true
-[gui]
-    fontui = -family \"Ricty Diminished\" -size 12 -weight normal -slant roman -underline 0 -overstrike 0
-    fontdiff = -family \"Ricty Diminished\" -size 12 -weight normal -slant roman -underline 0 -overstrike 0
 [core]
     excludesfile = ~/dotfiles/etc/gitignore
     pager = less -+F
@@ -35,14 +32,32 @@
 
 [interactive]
     diffFilter = delta --color-only
+
+[merge]
+    conflictstyle = diff3
+
 [delta]
     navigate = true
     side-by-side = true
     hyperlinks = true
     hyperlinks-file-link-prefix = "file-line://{path}:{line}"
-
-    line-numbers-minus-style = "#692c2c"
-    line-numbers-plus-style = "#2a622f"
+[delta "light"]
+    line-numbers-minus-style = "#cc0000"
+    line-numbers-plus-style = "#4e9a06"
+    minus-style = syntax "#fad1d1"
+    minus-emph-style = syntax "#f28c8c"
+    minus-non-emph-style = syntax "#dddddd"
+    plus-style = syntax "#d4f7d4"
+    plus-emph-style = syntax "#93eb93"
+    plus-non-emph-style = syntax "#dddddd"
+    map-styles = \
+       bold purple => syntax "#b992b5", \
+       bold blue => syntax "#8db1d8", \
+       bold cyan => syntax "#93ecec", \
+       bold yellow => syntax "#fdf29b"
+[delta "dark"]
+    line-numbers-minus-style = "#DE6E7C"
+    line-numbers-plus-style = "#819B69"
     minus-style = syntax "#402425"
     minus-emph-style = syntax "#843333"
     minus-non-emph-style = syntax "#333333"
@@ -50,9 +65,7 @@
     plus-emph-style = syntax "#266826"
     plus-non-emph-style = syntax "#333333"
     map-styles = \
-       bold purple => syntax "#331c2d", \
-       bold blue => syntax "#2e1e44", \
-       bold cyan => syntax "#1f3230", \
-       bold yellow => syntax "#32311e"
-[merge]
-    conflictstyle = diff3
+       bold purple => syntax "#41253b", \
+       bold blue => syntax "#1d3749", \
+       bold cyan => syntax "#243f42", \
+       bold yellow => syntax "#463320"
