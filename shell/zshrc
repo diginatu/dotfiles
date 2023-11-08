@@ -94,9 +94,11 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 function __update_theme () {
     if [[ $THEME_MODE == "light" ]]; then
+        export DELTA_FEATURES='+light'
         export BAT_THEME=OneHalfLight
         local kitty_theme_file='light.conf'
     else
+        export DELTA_FEATURES='+dark'
         export BAT_THEME=OneHalfDark
         local kitty_theme_file='dark.conf'
     fi
