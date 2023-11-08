@@ -4,10 +4,13 @@
 
 [pull]
     rebase = interactive
+
 [push]
     default = simple
+
 [fetch]
     prune = true
+
 [core]
     excludesfile = ~/dotfiles/etc/gitignore
     pager = less -+F
@@ -25,16 +28,24 @@
     c = commit
     a = add
     aa = add -A
+    ps = push
+    psn = push -u origin HEAD
+    pl = pull
+    pls = pull --autostash
+    l = log
+    lp = log -p
+    dog = log --decorate --oneline --graph
+    adog = log --all --decorate --oneline --graph
     sed = ! git grep --cached -zl '' | xargs -0 sed
 
 [init]
     defaultBranch = main
 
-[interactive]
-    diffFilter = delta --color-only
-
 [merge]
     conflictstyle = diff3
+
+[interactive]
+    diffFilter = delta --color-only
 
 [delta]
     navigate = true
