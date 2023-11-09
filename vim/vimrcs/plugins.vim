@@ -22,13 +22,12 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-obsession'
 Plug 'github/copilot.vim'
-
+Plug 'ojroques/nvim-osc52'
 
 " Visual
 Plug 'lilydjwg/colorizer'
 Plug 'itchyny/lightline.vim'
 Plug 'sainnhe/edge'
-Plug 'marko-cerovac/material.nvim'
 Plug 'f-person/auto-dark-mode.nvim'
 
 " Language support
@@ -431,19 +430,11 @@ endif
 " Colorscheme
 " -----------
 
-
-if index(plugs_order, 'material.nvim') >= 0
-    lua <<EOF
-    require('material').setup({
-        disable = { colored_cursor = true },
-    })
-EOF
-endif
 if index(plugs_order, 'edge') >= 0
     let g:edge_better_performance = 1
     let g:edge_transparent_background = 1
+    colorscheme edge
 endif
-colorscheme edge
 if $THEME_MODE == 'light'
     set background=light
 else
@@ -497,4 +488,32 @@ endif
 
 if index(plugs_order, 'previm') >= 0
     let g:previm_open_cmd=g:system_open
+endif
+
+
+" OSC52 clipboard
+" ---------------
+
+if exists('$SSH_CONNECTION')
+    if index(plugs_order, 'nvim-osc52') >= 0
+lua <<EOF
+        local function copy(lines, _)
+            require('osc52').copy(table.concat(lines, '\n'))
+        end
+
+        local function paste()
+            return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
+        end
+
+        vim.g.clipboard = {
+            name = 'osc52',
+            copy = {['+'] = copy, ['*'] = copy},
+            paste = {['+'] = paste, ['*'] = paste},
+        }
+
+        -- Now the '+' register will copy to system clipboard using OSC52
+        vim.keymap.set('n', '<leader>c', '"+y')
+        vim.keymap.set('n', '<leader>cc', '"+yy')
+EOF
+    endif
 endif
