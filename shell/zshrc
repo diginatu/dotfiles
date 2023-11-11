@@ -270,6 +270,15 @@ fi
 
 if type kitten > /dev/null; then
     alias ssh="kitten ssh"
+    alias icat="kitten icat"
+    notify() {
+        local title="${1:?title}"
+        local id=$RANDOM
+        if [ -n $2 ]; then
+            printf "\x1b]99;i=$id:d=0:p=body;$2\x1b\\"
+        fi
+        printf "\x1b]99;i=$id:d=1;$1\x1b\\"
+    }
 fi
 
 # Man page using vim

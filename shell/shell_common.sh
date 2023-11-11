@@ -22,21 +22,25 @@ alias g='git'
 alias kub='kubectl'
 alias sys='systemctl'
 
+# Kitty
+if type 'kitten' > /dev/null; then
+    alias clip='kitten clipboard'
+    alias clipo='kitten clipboard --get'
+fi
+
 # Open
 if type 'xdg-open' > /dev/null; then
     alias open='xdg-open'
 fi
 
 # Clipboard
-if type xclip > /dev/null; then
-    alias clip='xclip -sel c'
-    alias clipo='xclip -o -sel c'
-fi
 if type xsel > /dev/null; then
     alias clip='xsel -bi'
     alias clipo='xsel -bo'
-fi
-if type pbcopy > /dev/null; then
+elif type xclip > /dev/null; then
+    alias clip='xclip -sel c'
+    alias clipo='xclip -o -sel c'
+elif type pbcopy > /dev/null; then
     alias clip=pbcopy
     alias clipo=pbpaste
 fi
