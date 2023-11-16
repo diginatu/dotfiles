@@ -2,9 +2,6 @@
 # [include]
 #     path = ~/dotfiles/etc/gitconfig
 
-[pull]
-    rebase = interactive
-
 [push]
     default = simple
 
