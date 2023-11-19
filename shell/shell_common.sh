@@ -51,6 +51,7 @@ if type nvim > /dev/null; then
     export EDITOR='nvim'
 fi
 alias sudo='sudo '
+alias nohup='nohup '
 
 if ! [ -z ${TMUX} ]; then
     alias fixssh='export $(tmux showenv SSH_AUTH_SOCK)'

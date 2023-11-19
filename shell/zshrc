@@ -111,7 +111,8 @@ function __update_theme () {
 function __update_theme_mode () {
     export UPDATE_THEME_DATE=$(date)
     # Set theme mode based on time
-    if [[ $(date +%H) -ge 20 || $(date +%H) -lt 7 ]]; then
+    local now=$(date +%H)
+    if [[ $now -ge 20 || $now -lt 7 ]]; then
         if [[ $THEME_MODE != "dark" ]]; then
             export THEME_MODE=dark
             __update_theme
