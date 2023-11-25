@@ -14,7 +14,11 @@ if type 'open' > /dev/null 2>&1; then
 elif type 'xdg-open' > /dev/null 2>&1; then
     xdg-open "$@"
 elif type 'kitten' > /dev/null 2>&1; then
-    kitten @ launch --type background open "$@"
+    if [ -z "$1" ]; then
+        echo "open { file | URL }"
+        exit 1
+    fi
+    kitten @ launch --type background open "$@" > /dev/null
 else
     echo "No command to open file"
     exit 1
