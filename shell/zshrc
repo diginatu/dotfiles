@@ -165,6 +165,14 @@ func-desc() {
 # zmv
 autoload -Uz zmv
 
+# Commands using kitten for ssh client
+if ! type 'open' > /dev/null; then
+    func-desc open "Open a file or URL using xdg-open remotely"
+    function open {
+        kitten @ launch --type background xdg-open "$@"
+    }
+fi
+
 # Plugins
 if [[ -f ~/.zplug/init.zsh ]]; then
     source ~/.zplug/init.zsh

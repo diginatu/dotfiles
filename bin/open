@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Avoids recursive call
+if [ -n "$IS_IN_OPEN_WRAPPER" ]; then
+    echo "Recursive call to open"
+    exit 1
+fi
+
+# Call original open command
+# We need to avoid calling this script again because this script is in the path and same name as the original command
+PATH=$(echo "$PATH" | sed -e "s/:\/home\/$USER\/bin://g")
+if type 'open' > /dev/null 2>&1; then
+    IS_IN_OPEN_WRAPPER=1 open "$@"
+elif type 'xdg-open' > /dev/null 2>&1; then
+    xdg-open "$@"
+elif type 'kitten' > /dev/null 2>&1; then
+    kitten @ launch --type background open "$@"
+else
+    echo "No command to open file"
+    exit 1
+fi
