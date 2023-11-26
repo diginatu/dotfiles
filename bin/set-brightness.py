@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-import subprocess, os, json, datetime, requests
+import datetime
+import json
+import os
+import subprocess
+
+import requests
 
 class Display:
     def __init__(self, name, gain_min, gain_max):
@@ -13,17 +18,17 @@ displays = [
 ]
 
 # darkest time
-time1_start = 4 * 60
-time1_end = 11 * 60
+time1_start = datetime.time(4, 0)
+time1_end = datetime.time(11, 0)
 # brightest time
-time2_start = 16 * 60
-time2_end = 23 * 60 + 59
+time2_start = datetime.time(16, 0)
+time2_end = datetime.time(23, 59)
 # darkest time
 
-time_light_theme_start = 7 * 60
-time_light_theme_end = 20 * 60
+time_light_theme_start = datetime.time(7, 0)
+time_light_theme_end = datetime.time(20, 0)
 
-discord_token = "YOUR_DISCORD_TOKEN"
+discord_token = os.environ.get("DISCORD_TOKEN")
 theme_state_file = "/tmp/set-brightness-theme"
 
 def map_range(x: float, in_min: float, in_max: float, out_min: float, out_max: float):
@@ -48,10 +53,7 @@ def memorized_ddcutil(model: str, code: str, value_int: int):
 
     if os.path.isfile(state_file):
         with open(state_file, 'r') as file:
-            try:
-                memorized_values = json.load(file)
-            except json.JSONDecodeError:
-                pass
+            memorized_values = json.load(file)
 
         if key in memorized_values and memorized_values[key] == value:
             print(f"already {key}={value}")
@@ -59,8 +61,7 @@ def memorized_ddcutil(model: str, code: str, value_int: int):
 
     result = subprocess.run(["ddcutil", "setvcp", "--model", model, code, value])
     if result.returncode != 0:
-        print(f"failed to set {key}={value}")
-        return
+        raise Exception(f"failed to set {key}={value}")
 
     memorized_values[key] = value
 
@@ -87,29 +88,45 @@ def set_display_brightness(display: Display, rate: float):
     memorized_ddcutil(display.name, "0x1a", gain)
     memorized_ddcutil(display.name, "0x10", bright)
 
-def set_displays_brightness(current_time: datetime.datetime):
+def set_displays_brightness(now: datetime.datetime):
     """Set the brightness of screens.
     """
 
-    now = current_time.hour * 60 + current_time.minute
+    today = now.date()
 
-    time1_range = time1_end - time1_start
-    time2_range = time2_end - time2_start
+    t1_st = datetime.datetime.combine(today, time1_start)
+    t1_ed = datetime.datetime.combine(today, time1_end)
+    t1_du = t1_ed - t1_st
+
+    t2_st = datetime.datetime.combine(today, time2_start)
+    t2_ed = datetime.datetime.combine(today, time2_end)
+    t2_du = t2_ed - t2_st
 
     # Calculate the rate of brightness change
     rate = 0.0
-    if time1_start <= now < time1_end:
-        rate = (now - time1_start) / time1_range
-    elif time1_end <= now < time2_start:
+    if t1_st <= now < t1_ed:
+        rate = (now - t1_st) / t1_du
+    elif t1_ed <= now < t2_st:
         rate = 1.0
-    elif time2_start <= now < time2_end:
-        rate = 1 - (now - time2_start) / time2_range
+    elif t2_st <= now < t2_ed:
+        rate = 1 - (now - t2_st) / t2_du
     else:
         rate = 0.0
 
-    # Loop through displays and set brightness
-    for _, display in enumerate(displays):
-        set_display_brightness(display, rate)
+    last_exception = None
+    # Retry
+    for _ in range(3):
+        try:
+            # Loop through displays and set brightness
+            for _, display in enumerate(displays):
+                set_display_brightness(display, rate)
+            break
+        except Exception as e:
+            print(e)
+            last_exception = e
+
+    if last_exception is not None:
+        raise last_exception
 
 def set_discord_theme(theme: str, payload: str):
     """Set the theme of Discord.
@@ -136,21 +153,21 @@ def set_discord_theme(theme: str, payload: str):
         'X-Discord-Locale': 'en-US',
         'X-Discord-Timezone': 'Asia/Tokyo'
     }
-    requests.patch(
+    result = requests.patch(
         'https://discord.com/api/v9/users/@me/settings-proto/1',
         headers=discord_headers, data=payload)
+    if result.status_code != 200:
+        raise Exception(f"failed to set Discord {theme} theme: {result.text}")
 
     with open(theme_state_file, 'w') as file:
         file.write(theme)
 
-def set_theme(current_time: datetime.datetime):
-    now = current_time.hour
-
+def set_theme(now: datetime.time):
     if time_light_theme_start <= now < time_light_theme_end:
-        set_discord_theme("light", '{"settings":"agoIAhABGgQSAggC"}')
+        set_discord_theme("light", '{"settings":"agYIAhABGgA="}')
     else:
-        set_discord_theme("dark", '{"settings":"agoIARABGgQSAggJ"}')
+        set_discord_theme("dark", '{"settings":"agYIARABGgA="}')
 
-current_time = datetime.datetime.now()
-set_displays_brightness(current_time)
-set_theme(current_time)
+now = datetime.datetime.now()
+set_displays_brightness(now)
+set_theme(now.time())
