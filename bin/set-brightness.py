@@ -3,6 +3,7 @@ import datetime
 import json
 import os
 import subprocess
+import time
 
 import requests
 
@@ -124,6 +125,7 @@ def set_displays_brightness(now: datetime.datetime):
         except Exception as e:
             print(e)
             last_exception = e
+            time.sleep(1)
 
     if last_exception is not None:
         raise last_exception
