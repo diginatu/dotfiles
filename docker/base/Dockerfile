@@ -17,7 +17,7 @@ RUN sed -i '/^NoExtract/d' /etc/pacman.conf && \
         tmux \
         go \
         python \
-        python-pip \
+        python-pynvim \
         nodejs \
         npm \
         wget \
@@ -33,7 +33,6 @@ RUN git clone https://github.com/diginatu/dotfiles.git ~/dotfiles && \
 RUN mkdir -p ~/.config/nvim/autoload/ && \
     mkdir -p ~/.config/nvim/plugged/ && \
     wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -O ~/.config/nvim/autoload/plug.vim && \
-    sudo pip install neovim && \
     nvim '+PlugInstall' '+qa' && \
     nvim '+CocInstall -sync coc-json coc-ultisnips' '+qa'
 
