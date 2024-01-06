@@ -37,6 +37,9 @@ endfunction
 
 source ~/dotfiles/vim/vimrcs/common.vim
 let $HASPLUGIN = filereadable($VIMDIR.'/autoload/plug.vim') || filereadable($VIMTMP.'/site/autoload/plug.vim')
-if $HASPLUGIN
-    source ~/dotfiles/vim/vimrcs/plugins.vim
+if has('nvim') && $HASPLUGIN
+    luafile ~/dotfiles/vim/vimrcs/plugins.lua
 endif
+" if $HASPLUGIN
+"     source ~/dotfiles/vim/vimrcs/plugins.vim
+" endif
