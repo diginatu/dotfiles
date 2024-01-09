@@ -124,11 +124,11 @@ require("lazy").setup({
         config = function ()
             vim.g.gitgutter_map_keys = 0
             vim.o.updatetime = 1000
-            vim.keymap.set('<leader>hN', '<Plug>(GitGutterPrevHunk)')
-            vim.keymap.set('<leader>hn', '<Plug>(GitGutterNextHunk)')
-            vim.keymap.set('<leader>hs', '<Plug>(GitGutterStageHunk)')
-            vim.keymap.set('<leader>hu', '<Plug>(GitGutterUndoHunk)')
-            vim.keymap.set('<leader>hp', '<Plug>(GitGutterPreviewHunk)')
+            vim.keymap.set('n', '<leader>hN', '<Plug>(GitGutterPrevHunk)')
+            vim.keymap.set('n', '<leader>hn', '<Plug>(GitGutterNextHunk)')
+            vim.keymap.set('n', '<leader>hs', '<Plug>(GitGutterStageHunk)')
+            vim.keymap.set('n', '<leader>hu', '<Plug>(GitGutterUndoHunk)')
+            vim.keymap.set('n', '<leader>hp', '<Plug>(GitGutterPreviewHunk)')
         end,
     },
     {
