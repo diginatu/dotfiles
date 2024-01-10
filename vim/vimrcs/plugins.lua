@@ -348,4 +348,16 @@ require("lazy").setup({
         'pangloss/vim-javascript',
         'HerringtonDarkholme/yats.vim',
         'maxmellon/vim-jsx-pretty',
+
+        -- Other
+        {
+            'mikesmithgh/kitty-scrollback.nvim',
+            lazy = true,
+            cmd = { 'KittyScrollbackGenerateKittens', 'KittyScrollbackCheckHealth' },
+            event = { 'User KittyScrollbackLaunch' },
+            version = '^3.0.0',
+            config = function()
+                require('kitty-scrollback').setup()
+            end,
+        },
     })
