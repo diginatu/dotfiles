@@ -211,6 +211,9 @@ require("lazy").setup({
         'github/copilot.vim',
         {
             'ojroques/nvim-osc52',
+            enabled = function ()
+                return vim.fn.has('clipboard') == 0
+            end,
             config = function ()
                 local function copy(lines, _)
                     require('osc52').copy(table.concat(lines, '\n'))
@@ -225,10 +228,7 @@ require("lazy").setup({
                     copy = {['+'] = copy, ['*'] = copy},
                     paste = {['+'] = paste, ['*'] = paste},
                 }
-
                 -- Now the '+' register will copy to system clipboard using OSC52
-                vim.keymap.set('n', '<leader>c', '"+y')
-                vim.keymap.set('n', '<leader>cc', '"+yy')
             end,
         },
 
@@ -314,6 +314,8 @@ require("lazy").setup({
         },
         {
             'fatih/vim-go',
+            lazy = true,
+            ft = 'go',
             config = function ()
                 vim.cmd([[
                 augroup vimrc_vim_go_keymap
@@ -342,12 +344,24 @@ require("lazy").setup({
             -- To install:
             -- go install github.com/cweill/gotests/...@latest
             enabled = function ()
-                return vim.fn.executable('rg') == 1
+                return vim.fn.executable('gotests') == 1
             end,
         },
-        'pangloss/vim-javascript',
+        {
+            'pangloss/vim-javascript',
+            lazy = true,
+            ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+        },
+        {
         'HerringtonDarkholme/yats.vim',
+            lazy = true,
+            ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+        },
+        {
         'maxmellon/vim-jsx-pretty',
+            lazy = true,
+            ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+        },
 
         -- Other
         {
