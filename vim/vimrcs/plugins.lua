@@ -26,6 +26,8 @@ require("lazy").setup({
                 vim.opt.background = 'light'
             else
                 vim.opt.background = 'dark'
+                -- Ensure THEME_MODE is set
+                vim.env.THEME_MODE = 'dark'
             end
         end
     },
@@ -36,7 +38,7 @@ require("lazy").setup({
         config = function ()
             vim.o.showmode = false
             vim.g.lightline = {
-                colorscheme = 'edge',
+                colorscheme = 'one',
                 active = {
                     left = {
                         { 'mode', 'paste' },
@@ -54,6 +56,29 @@ require("lazy").setup({
                     fugitive = '(exists("*fugitive#head") && ""!=fugitive#head())',
                 },
             }
+
+            -- Set timer to update theme
+            local timer = vim.loop.new_timer()
+            timer:start(2000, 2000, vim.schedule_wrap(function ()
+                -- Switch theme based on time
+                local hour = tonumber(os.date('%H'))
+                local theme = 'dark'
+                if hour >= 7 and hour < 20 then
+                    theme = 'light'
+                else
+                    theme = 'dark'
+                end
+
+                -- Update theme if changed
+                if vim.env.THEME_MODE ~= theme then
+                    vim.env.THEME_MODE = theme
+                    vim.o.background = theme
+
+                    vim.cmd('source $VIMDIR/plugged/lightline.vim/autoload/lightline/colorscheme/one.vim')
+                    vim.fn['lightline#colorscheme']()
+                    vim.fn['lightline#update']()
+                end
+            end))
         end,
     },
     {

@@ -109,19 +109,19 @@ function __update_theme () {
 }
 
 function __update_theme_mode () {
-    export UPDATE_THEME_DATE=$(date)
     # Set theme mode based on time
     local now=$(date +%H)
+    local new_theme_mode=""
     if [[ $now -ge 20 || $now -lt 7 ]]; then
-        if [[ $THEME_MODE != "dark" ]]; then
-            export THEME_MODE=dark
-            __update_theme
-        fi
+        new_theme_mode="dark"
     else
-        if [[ $THEME_MODE != "light" ]]; then
-            export THEME_MODE=light
-            __update_theme
-        fi
+        new_theme_mode="light"
+    fi
+
+    # Set theme if changed
+    if [[ $THEME_MODE != $new_theme_mode ]]; then
+        export THEME_MODE=$new_theme_mode
+        __update_theme
     fi
 }
 autoload -Uz add-zsh-hook
