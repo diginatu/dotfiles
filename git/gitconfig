@@ -9,7 +9,7 @@
     prune = true
 
 [core]
-    excludesfile = ~/dotfiles/etc/gitignore
+    excludesfile = ~/dotfiles/git/gitignore
     pager = less -+F
 
 [diff]
