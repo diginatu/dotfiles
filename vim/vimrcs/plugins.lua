@@ -179,32 +179,34 @@ require("lazy").setup({
         },
         {
             'junegunn/fzf.vim',
+            lazy = false,
             dependencies = { 'junegunn/fzf' },
+            init = function ()
+                vim.g.fzf_command_prefix = 'Fzf'
+            end,
+            keys = {
+                { '<leader>ul', '<Cmd>FzfLines<CR>', desc = 'Fzf lines in the buffer' },
+                { '<leader>ur', '<Cmd>FzfFiles<CR>', desc = 'Fzf files in the current directory' },
+                { '<leader>ug', '<Cmd>FzfGFiles<CR>', desc = 'Fzf files of the git repository' },
+                { '<leader>us', '<Cmd>FzfGFiles?<CR>', desc = 'Fzf files of the git repository (untracked)' },
+                { '<leader>uh', '<Cmd>FzfHistory<CR>', desc = 'Fzf files from the history' },
+                { '<leader>b', '<Cmd>FzfBuffers<CR>', desc = 'Fzf buffers' },
+                { '<leader>gp', ':<C-u>FzfGGrep<Space>', desc = 'Fzf grep in the git repository' },
+                { '<leader><C-o>', '<Plug>(fzf-maps-n)', desc = 'Fzf normal mappings' },
+                { '<leader><C-o>', '<Plug>(fzf-maps-x)', mode = 'x', desc = 'Fzf visual mappings' },
+                { '<leader><C-o>', '<Plug>(fzf-maps-o)', mode = 'o', desc = 'Fzf operator mappings' },
+                { '<C-x><C-f>', '<Plug>(fzf-complete-path)', mode = 'i', desc = 'Fzf complete path' },
+                { '<C-x><C-l>', '<Plug>(fzf-complete-line)', mode = 'i', desc = 'Fzf complete line' },
+            },
             config = function ()
-                vim.cmd([[
-                let g:fzf_command_prefix = 'Fzf'
-                nnoremap <Leader>ul  :<C-u>FzfLines<CR>
-                nnoremap <Leader>ur  :<C-u>FzfFiles<CR>
-                nnoremap <Leader>ug  :<C-u>FzfGFiles<CR>
-                nnoremap <Leader>us  :<C-u>FzfGFiles?<CR>
-                nnoremap <Leader>uh  :<C-u>FzfHistory<CR>
-                nnoremap <Leader>b   :<C-u>FzfBuffers<CR>
-                nnoremap <Leader>gp  :<C-u>FzfGGrep<Space>
-
-                command! -bang -nargs=? -complete=dir FzfFiles
-                \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-                command! -bang -nargs=* FzfGGrep
-                \ call fzf#vim#grep(
-                \   'git grep --line-number -- '.shellescape(<q-args>), 0,
-                \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
-
-                nmap <leader><c-o> <plug>(fzf-maps-n)
-                xmap <leader><c-o> <plug>(fzf-maps-x)
-                omap <leader><c-o> <plug>(fzf-maps-o)
-                imap <c-x><c-f> <plug>(fzf-complete-path)
-                imap <c-x><c-l> <plug>(fzf-complete-line)
-                ]])
+                vim.api.nvim_create_user_command('FzfFiles',
+                    'call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)',
+                    { bang = true, nargs = '?', complete = 'dir' }
+                )
+                vim.api.nvim_create_user_command('FzfGGrep',
+                    'call fzf#vim#grep(\'git grep --line-number -- \'.shellescape(<q-args>), 0, fzf#vim#with_preview({\'dir\': systemlist(\'git rev-parse --show-toplevel\')[0]}), <bang>0)',
+                    { bang = true, nargs = '*' }
+                )
             end,
         },
         'tpope/vim-obsession',
@@ -299,7 +301,7 @@ require("lazy").setup({
         {
             'antoinemadec/coc-fzf',
             branch = 'release',
-            dependencies = { 'junegunn/fzf', 'junegunn/fzf.vim' },
+            dependencies = { 'junegunn/fzf' },
             config = function ()
                 vim.keymap.set('n', '<leader>ou', ':<C-u>CocFzfList outline<cr>')
                 vim.keymap.set('n', '<leader>oc', ':<C-u>CocFzfList commands<cr>')
