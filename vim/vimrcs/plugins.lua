@@ -239,7 +239,7 @@ require("lazy").setup({
         {
             'ojroques/nvim-osc52',
             enabled = function ()
-                return vim.fn.has('clipboard') == 0
+                return vim.env.SSH_OR_CONTAINER == '1'
             end,
             config = function ()
                 local function copy(lines, _)

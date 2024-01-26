@@ -139,6 +139,7 @@ prompt_symbol() {
 }
 
 if [[ -n $SSH_CONNECTION || -f /.dockerenv ]] || { [[ -r /proc/1/environ ]] && grep -qa container=lxc /proc/1/environ; } ; then
+    export SSH_OR_CONTAINER=1
     user_and_host_name=$USER@$HOST
 fi
 
