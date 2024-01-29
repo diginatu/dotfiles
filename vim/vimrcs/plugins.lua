@@ -235,7 +235,14 @@ require("lazy").setup({
             end,
         },
         'tpope/vim-obsession',
-        'github/copilot.vim',
+        {
+            'github/copilot.vim',
+            init = function ()
+                vim.g.copilot_filetypes = {
+                    text = false,
+                }
+            end,
+        },
         {
             'ojroques/nvim-osc52',
             enabled = function ()
