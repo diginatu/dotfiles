@@ -22,13 +22,14 @@
 [alias]
     s = status
     d = diff
+    dc = diff --cached
     c = commit
     a = add
     aa = add -A
     ps = push
     psn = push -u origin HEAD
-    pl = pull
-    pls = pull --autostash
+    pl = pull --recurse-submodules
+    pls = pull --recurse-submodules --autostash
     l = log
     lp = log -p
     dog = log --decorate --oneline --graph

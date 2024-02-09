@@ -257,7 +257,7 @@ if type fzf > /dev/null; then
     gsw() {
         major_branches=$(git branch -a -l main master develop | sed 's/^../^/; s/$/\\s/' | sed ':a; N; s/\n/|/; ta')
         all_branches=$(git branch -a -vv | sed 's/^..//')
-        cat <(echo "$all_branches" | grep -E "$major_branches") <(echo "$all_branches" | grep -vE "/HEAD\s|$major_branches") | fzf | sed 's/^\([^ ]*\)\s.*$/\1/; s#^remotes/[^/]*/##' | xargs git switch
+        cat <(echo "$all_branches" | grep -E "$major_branches") <(echo "$all_branches" | grep -vE "/HEAD\s|$major_branches") | fzf | sed 's/^\([^ ]*\)\s.*$/\1/; s#^remotes/[^/]*/##' | xargs git switch --recurse-submodules
     }
 
     # completions
