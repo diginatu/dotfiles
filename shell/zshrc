@@ -1,5 +1,11 @@
 source ~/dotfiles/shell/shell_common.sh
 
+source-file-if-exists() {
+    if [[ -f $1 ]]; then
+        source $1
+    fi
+}
+
 fpath=(~/.config/zsh/completion $fpath) # User local fpath
 
 # Paths
@@ -190,16 +196,12 @@ else
 fi
 
 # fzf
-if [[ -f ~/.fzf.zsh ]]; then
-    source ~/.fzf.zsh
-fi
+source-file-if-exists ~/.fzf.zsh
 if type fzf > /dev/null; then
-    if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
-        source /usr/share/fzf/key-bindings.zsh
-    fi
-    if [[ -f /usr/share/fzf/completion.zsh ]]; then
-        source /usr/share/fzf/completion.zsh
-    fi
+    source-file-if-exists /usr/share/fzf/key-bindings.zsh
+    source-file-if-exists /usr/share/fzf/completion.zsh
+    source-file-if-exists /usr/share/doc/fzf/examples/key-bindings.zsh
+    source-file-if-exists /usr/share/doc/fzf/examples/completion.zsh
 
     export FZF_DEFAULT_OPTS_PRE='--reverse --bind "ctrl-j:abort,space:toggle+down" --height=50%'
     export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS_PRE"
