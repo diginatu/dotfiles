@@ -211,7 +211,12 @@ if type fzf > /dev/null; then
     ## Definition search
     func-desc def-search "Search custom defined functions and replace the buffer with the function"
     def-search() {
-        selection="$(echo -n $DEFINITION_LIST | fzf --preview='. ~/.zshrc && type -f {1}' --expect=tab)"
+        hilighter=""
+        if type bat > /dev/null; then
+            hilighter="| bat -l zsh -p --color=always"
+        fi
+        echo "--preview=\". ~/.zshrc && type -f {1} ${hilighter}\""
+        selection="$(echo -n $DEFINITION_LIST | fzf --preview=". ~/.zshrc && type -f {1} ${hilighter}" --expect=tab)"
         key="$(head -1 <<< "$selection")"
         value="$(sed -ne "2 s/$DEFINITION_LIST_DELIMITER.*$// p" <<< "$selection")"
 
