@@ -430,3 +430,19 @@ edit-flacs-dir() {(
 )}
 
 func-desc dbxfs "Mount Dropbox"
+
+func-desc update-discord-token "Update discord token of the set-brightness service"
+update-discord-token() {(
+    set -e
+
+    sed "/Environment=DISCORD_TOKEN=/cEnvironment=DISCORD_TOKEN=$(clipo)" ~/.config/systemd/user/set-brightness.service
+    echo -n "Ok? [y/N] "
+    read a
+    if [[ $a != "y" ]]; then
+        return 1
+    fi
+    sed -i --follow-symlinks "/Environment=DISCORD_TOKEN=/cEnvironment=DISCORD_TOKEN=$(clipo)" ~/.config/systemd/user/set-brightness.service
+    cat ~/.config/systemd/user/set-brightness.service
+    sys --user daemon-reload
+    sys --user restart set-brightness
+)}
