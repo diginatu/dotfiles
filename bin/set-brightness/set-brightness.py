@@ -30,6 +30,8 @@ time_light_theme_start = datetime.time(7, 0)
 time_light_theme_end = datetime.time(20, 0)
 
 discord_token = os.environ.get("DISCORD_TOKEN")
+if discord_token is None:
+    raise Exception("DISCORD_TOKEN is not set")
 theme_state_file = "/tmp/set-brightness-theme"
 
 def map_range(x: float, in_min: float, in_max: float, out_min: float, out_max: float):
