@@ -1,0 +1,7 @@
+[project]
+name = "set_brightness"
+version = "0.1.0"
+
+dependencies = [
+    "requests~=2.31",
+]
