@@ -18,3 +18,8 @@ Deactivate
 deactivate
 ```
 
+Test
+
+```sh
+python -m unittest
+```
