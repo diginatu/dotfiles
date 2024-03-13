@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import datetime
-from set_brightness import DisplayBrightnessManager, DdcciDdcutil, Display, DiscordThemeManager
+
+from . import DdcciDdcutil, DiscordThemeManager, Display, DisplayBrightnessManager
 
 now = datetime.datetime.now()
 
