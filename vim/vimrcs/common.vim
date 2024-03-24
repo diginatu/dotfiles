@@ -87,7 +87,7 @@ set formatoptions-=cro " Disable auto continuation of comments
 set list               " Show invisible characters
 set listchars=tab:-\ ,trail:-,extends:»,precedes:«,nbsp:+
 set scrolloff=3
-set clipboard=unnamedplus,unnamed
+set clipboard=unnamedplus
 set mouse=nv
 set nonumber
 set wildmenu
