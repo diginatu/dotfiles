@@ -5,8 +5,9 @@ import time
 
 from .ddcci_interface import DdcciInterface
 from .display import Display
+from .color import Color
 
-def map_range(x: float, in_min: float, in_max: float, out_min: float, out_max: float):
+def map_range(x: float, in_min: float, in_max: float, out_min: float, out_max: float) -> float:
     """Map a value from one range to another.
     """
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
@@ -16,6 +17,25 @@ def clamp(x: int, min_v: int, max_v: int):
     """
     return max(min(x, max_v), min_v)
 
+def is_time_between(now: datetime.time, start: datetime.time, end: datetime.time) -> bool:
+    """Check if the current time is between two times.
+    """
+    if start < end:
+        return start <= now <= end
+    else:
+        return start <= now or now <= end
+
+def delta_time(start: datetime.time, end: datetime.time) -> datetime.timedelta:
+    """Calculate the positive difference between two times.
+    """
+    d = datetime.datetime.combine(datetime.date.today(), end) - datetime.datetime.combine(datetime.date.today(), start)
+    return d if d >= datetime.timedelta() else d + datetime.timedelta(days=1)
+
+def add_time(time: datetime.time, duration: datetime.timedelta) -> datetime.time:
+    """Add a duration to a time.
+    """
+    return (datetime.datetime.combine(datetime.date.today(), time) + duration).time()
+
 class DisplayBrightnessManager:
 # darkest time
 # time1
@@ -24,11 +44,16 @@ class DisplayBrightnessManager:
 # darkest time
     def __init__(self, time1_start: datetime.time, time1_end: datetime.time,
                  time2_start: datetime.time, time2_end: datetime.time,
+                 night_color_start: datetime.time, night_color_end: datetime.time,
+                 night_color: Color,
                  displays: list[Display], ddcci: DdcciInterface):
         self.time1_start = time1_start
         self.time1_end = time1_end
         self.time2_start = time2_start
         self.time2_end = time2_end
+        self.night_color_start = night_color_start
+        self.night_color_end = night_color_end
+        self.night_color = night_color
         self.displays = displays
         self.ddcci = ddcci
 
@@ -57,23 +82,29 @@ class DisplayBrightnessManager:
             json.dump(memorized_values, file)
 
 
-    def set_display_brightness(self, display: Display, rate: float):
+    def set_display_brightness(self, display: Display, bright_rate: float, night_rate: float):
         """Set the brightness of the screen.
         """
-        bright = clamp(int(map_range(rate, 0.2, 0.8, 0, 100)), 0, 100)
+        bright = clamp(int(map_range(bright_rate, 0.2, 0.8, 0, 100)), 0, 100)
 
-        gain = 0
-        if rate < 0.2:
-            gain = int(map_range(rate, 0.0, 0.2, display.gain_min, 50))
-        elif rate < 0.8:
-            gain = 50
+        contrast = 0
+        if bright_rate < 0.2:
+            contrast = int(map_range(bright_rate, 0.0, 0.2, display.contrast_min, 50))
+        elif bright_rate < 0.8:
+            contrast = 50
         else:
-            gain = int(map_range(rate, 0.8, 1.0, 50, display.gain_max))
+            contrast = int(map_range(bright_rate, 0.8, 1.0, 50, display.contrast_max))
 
-        print(f"{display.name}: brightness {bright}, gain {gain}")
-        self.memorized_ddcutil(display.name, "0x16", gain)
-        self.memorized_ddcutil(display.name, "0x18", gain)
-        self.memorized_ddcutil(display.name, "0x1a", gain)
+        # Night color
+        red_gain = int(map_range(night_rate, 0.0, 1.0, 100, self.night_color.red))
+        green_gain = int(map_range(night_rate, 0.0, 1.0, 100, self.night_color.green))
+        blue_gain = int(map_range(night_rate, 0.0, 1.0, 100, self.night_color.blue))
+
+        print(f"{display.name}: brightness {bright}, contrast {contrast}, red {red_gain}, green {green_gain}, blue {blue_gain}")
+        self.memorized_ddcutil(display.name, "0x12", contrast)
+        self.memorized_ddcutil(display.name, "0x16", red_gain)
+        self.memorized_ddcutil(display.name, "0x18", green_gain)
+        self.memorized_ddcutil(display.name, "0x1a", blue_gain)
         self.memorized_ddcutil(display.name, "0x10", bright)
 
     def set_displays_brightness(self, now: datetime.datetime):
@@ -81,6 +112,7 @@ class DisplayBrightnessManager:
         """
 
         today = now.date()
+        tomorrow = today + datetime.timedelta(days=1)
 
         t1_st = datetime.datetime.combine(today, self.time1_start)
         t1_ed = datetime.datetime.combine(today, self.time1_end)
@@ -91,23 +123,32 @@ class DisplayBrightnessManager:
         t2_du = t2_ed - t2_st
 
         # Calculate the rate of brightness change
-        rate = 0.0
+        bright_rate = 0.0
         if t1_st <= now < t1_ed:
-            rate = (now - t1_st) / t1_du
+            bright_rate = (now - t1_st) / t1_du
         elif t1_ed <= now < t2_st:
-            rate = 1.0
+            bright_rate = 1.0
         elif t2_st <= now < t2_ed:
-            rate = 1 - (now - t2_st) / t2_du
-        else:
-            rate = 0.0
+            bright_rate = 1 - (now - t2_st) / t2_du
+
+        # Calculate the rate of night color
+        # For 1 hour gradually change to night color
+        night_rate = 0.0
+        switch_du = datetime.timedelta(hours=1)
+        if is_time_between(now.time(), self.night_color_start, add_time(self.night_color_start, switch_du)):
+            night_rate = delta_time(self.night_color_start, now.time()) / switch_du
+        elif is_time_between(now.time(), add_time(self.night_color_start, switch_du), add_time(self.night_color_end, -switch_du)):
+            night_rate = 1.0
+        elif is_time_between(now.time(), add_time(self.night_color_end, -switch_du), self.night_color_end):
+            night_rate = 1 - delta_time(now.time(), self.night_color_end) / switch_du
 
         last_exception = None
         # Retry
-        for _ in range(3):
+        for _ in range(5):
             try:
                 # Loop through displays and set brightness
                 for _, display in enumerate(self.displays):
-                    self.set_display_brightness(display, rate)
+                    self.set_display_brightness(display, bright_rate, night_rate)
                 break
             except Exception as e:
                 print(e)

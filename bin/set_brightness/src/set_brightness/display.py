@@ -1,5 +1,5 @@
 class Display:
-    def __init__(self, name, gain_min, gain_max):
+    def __init__(self, name, contrast_min, contrast_max):
         self.name = name
-        self.gain_min = gain_min
-        self.gain_max = gain_max
+        self.contrast_min = contrast_min
+        self.contrast_max = contrast_max

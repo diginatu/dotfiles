@@ -1,16 +1,25 @@
 #!/usr/bin/env python3
 import datetime
 
-from . import DdcciDdcutil, DiscordThemeManager, Display, DisplayBrightnessManager
+from . import DdcciDdcutil, DiscordThemeManager, Display, DisplayBrightnessManager, Color
 
 now = datetime.datetime.now()
 
 display_brightness_manager = DisplayBrightnessManager(
     time1_start=datetime.time(4, 0), time1_end=datetime.time(11, 0),
     time2_start=datetime.time(16, 0), time2_end=datetime.time(23, 59),
-    displays=[Display("LG HDR 4K", 20, 80), Display("PHL 246E7", 0, 100)],
+    night_color_start=datetime.time(23, 0), night_color_end=datetime.time(5, 0),
+    night_color=Color(100, 30, 0),
+    displays=[
+        Display("LG HDR 4K", contrast_min=20, contrast_max=80),
+        Display("PHL 246E7", contrast_min=0, contrast_max=100)
+    ],
     ddcci=DdcciDdcutil())
-display_brightness_manager.set_displays_brightness(now)
+try:
+    display_brightness_manager.set_displays_brightness(now)
+except Exception as e:
+    # Do not raise exception for display brightness
+    print(e)
 
 discord_theme_manager = DiscordThemeManager(
         time_light_theme_start=datetime.time(7, 0),
