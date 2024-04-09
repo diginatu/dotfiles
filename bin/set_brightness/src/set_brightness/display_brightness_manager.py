@@ -96,9 +96,9 @@ class DisplayBrightnessManager:
             contrast = int(map_range(bright_rate, 0.8, 1.0, 50, display.contrast_max))
 
         # Night color
-        red_gain = int(map_range(night_rate, 0.0, 1.0, 100, self.night_color.red))
-        green_gain = int(map_range(night_rate, 0.0, 1.0, 100, self.night_color.green))
-        blue_gain = int(map_range(night_rate, 0.0, 1.0, 100, self.night_color.blue))
+        red_gain = int(map_range(night_rate, 0.0, 1.0, 50, self.night_color.red))
+        green_gain = int(map_range(night_rate, 0.0, 1.0, 50, self.night_color.green))
+        blue_gain = int(map_range(night_rate, 0.0, 1.0, 50, self.night_color.blue))
 
         print(f"{display.name}: brightness {bright}, contrast {contrast}, red {red_gain}, green {green_gain}, blue {blue_gain}")
         self.memorized_ddcutil(display.name, "0x12", contrast)
@@ -112,7 +112,6 @@ class DisplayBrightnessManager:
         """
 
         today = now.date()
-        tomorrow = today + datetime.timedelta(days=1)
 
         t1_st = datetime.datetime.combine(today, self.time1_start)
         t1_ed = datetime.datetime.combine(today, self.time1_end)
