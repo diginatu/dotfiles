@@ -39,12 +39,23 @@ else
     sudo mkdir -p /root/.docker
     sudo ln -fs ${FROMDIR}/docker/config.json /root/.docker/config.json
 fi
-
 mkdir -p ${DISTDIR}/.docker
 ln -fs ${FROMDIR}/docker/config.json ${DISTDIR}/.docker/config.json
 
-mkdir -p ${DISTDIR}/.config/kitty
-ln -fs ${FROMDIR}/terminal/kitty/* ${DISTDIR}/.config/kitty/
-
 mkdir -p ${DISTDIR}/bin
 ln -fs ${FROMDIR}/bin/* ${DISTDIR}/bin/
+
+# GUI
+
+mkdir -p ${DISTDIR}/.config/kitty
+ln -fs ${FROMDIR}/terminal/kitty/* ${DISTDIR}/.config/kitty/
+mkdir -p ${DISTDIR}/.config/wezterm
+ln -fs ${FROMDIR}/terminal/wezterm/* ${DISTDIR}/.config/wezterm/
+
+ln -fs ${FROMDIR}/etc/qtvimrc ${DISTDIR}/.qtvimrc
+
+# nautilus
+mkdir -p ${DISTDIR}/.local/share/nautilus/scripts/
+ln -fs ${FROMDIR}/nautilus-scripts/* ${DISTDIR}/.local/share/nautilus/scripts/
+
+ln -fs ${FROMDIR}/etc/xbindkeysrc ${DISTDIR}/.xbindkeysrc
