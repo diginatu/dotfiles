@@ -11,8 +11,8 @@ display_brightness_manager = DisplayBrightnessManager(
     night_color_start=datetime.time(23, 0), night_color_end=datetime.time(5, 0),
     night_color=Color(100, 30, 0),
     displays=[
-        Display("LG HDR 4K", contrast_min=20, contrast_max=80),
-        Display("PHL 246E7", contrast_min=0, contrast_max=100)
+        Display("LG HDR 4K", contrast_min=20, contrast_max=70),
+        Display("PHL 246E7", contrast_min=0, contrast_max=90)
     ],
     ddcci=DdcciDdcutil())
 try:
