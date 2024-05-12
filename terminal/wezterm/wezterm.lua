@@ -67,4 +67,12 @@ end
 
 config.color_scheme = scheme_for_appearance(get_appearance())
 
+for _, gpu in ipairs(wezterm.gui.enumerate_gpus()) do
+  if gpu.backend == 'Vulkan' and gpu.driver == 'NVIDIA' then
+    config.webgpu_preferred_adapter = gpu
+    config.front_end = 'WebGpu'
+    break
+  end
+end
+
 return config
