@@ -1,5 +1,6 @@
 -- Bootstrap lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local plug_dir = vim.fn.stdpath("data") .. "/lazy"
+local lazypath = plug_dir .. "/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
         "git",
@@ -74,7 +75,7 @@ require("lazy").setup({
                     vim.env.THEME_MODE = theme
                     vim.o.background = theme
 
-                    vim.cmd('source $VIMDIR/plugged/lightline.vim/autoload/lightline/colorscheme/one.vim')
+                    vim.cmd('source ' .. plug_dir .. '/lightline/colorscheme/one.vim')
                     vim.fn['lightline#colorscheme']()
                     vim.fn['lightline#update']()
                 end
