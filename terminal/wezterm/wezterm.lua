@@ -4,6 +4,9 @@ local config = wezterm.config_builder()
 
 config.font = wezterm.font "JetBrains Mono"
 config.font_size = 12.0
+if wezterm.target_triple:find("darwin") ~= nil then
+    config.font_size = 14.0
+end
 config.initial_cols = 160
 config.initial_rows = 40
 
@@ -46,6 +49,10 @@ config.keys = {
     { key = 'n', mods = 'LEADER', action = act.ActivateTabRelative(1) },
     { key = 'p', mods = 'LEADER|CTRL', action = act.ActivateTabRelative(-1) },
     { key = 'n', mods = 'LEADER|CTRL', action = act.ActivateTabRelative(1) },
+
+    -- Super-S-c and Super-S-v to copy and paste
+    { key = 'c', mods = 'SUPER|SHIFT', action = act.CopyTo 'Clipboard' },
+    { key = 'v', mods = 'SUPER|SHIFT', action = act.PasteFrom 'Clipboard' },
 }
 
 -- wezterm.gui is not available to the mux server, so take care to
