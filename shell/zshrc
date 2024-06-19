@@ -296,6 +296,11 @@ if type kitten > /dev/null; then
     }
 fi
 
+if type wezterm > /dev/null; then
+    alias icat="wezterm imgcat"
+    alias wssh="wezterm ssh"
+fi
+
 # Man page using vim
 func-desc vman "Open man page using vim"
 vman() {

@@ -10,19 +10,18 @@ end
 config.initial_cols = 160
 config.initial_rows = 40
 
+config.scrollback_lines = 20000
+
 config.leader = { key = 's', mods = 'CTRL', timeout_milliseconds = 1000 }
 
 local act = wezterm.action
 config.keys = {
     -- Send "CTRL-S" to the terminal when pressing CTRL-S, CTRL-S
-    {
-        key = 's',
-        mods = 'LEADER|CTRL',
-        action = act.SendKey { key = 's', mods = 'CTRL' },
-    },
+    { key = 's', mods = 'LEADER|CTRL', action = act.SendKey { key = 's', mods = 'CTRL' }, },
 
     { key = '[', mods = 'LEADER', action = act.ActivateCopyMode },
     { key = ':', mods = 'LEADER', action = act.ActivateCommandPalette },
+    { key = 'f', mods = 'LEADER', action = act.QuickSelect },
 
     -- Split Panes
     { key = 'v', mods = 'LEADER', action = act.SplitHorizontal },
@@ -74,12 +73,12 @@ end
 
 config.color_scheme = scheme_for_appearance(get_appearance())
 
-for _, gpu in ipairs(wezterm.gui.enumerate_gpus()) do
-  if gpu.backend == 'Vulkan' and gpu.driver == 'NVIDIA' then
-    config.webgpu_preferred_adapter = gpu
-    config.front_end = 'WebGpu'
-    break
-  end
-end
+--for _, gpu in ipairs(wezterm.gui.enumerate_gpus()) do
+  --if gpu.backend == 'Vulkan' and gpu.driver == 'NVIDIA' then
+    --config.webgpu_preferred_adapter = gpu
+    --config.front_end = 'WebGpu'
+    --break
+  --end
+--end
 
 return config
