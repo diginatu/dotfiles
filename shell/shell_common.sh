@@ -40,6 +40,9 @@ if type xsel > /dev/null; then
 elif type xclip > /dev/null; then
     alias clip='xclip -sel c'
     alias clipo='xclip -o -sel c'
+elif type wl-copy > /dev/null; then
+    alias clip=wl-copy
+    alias clipo=wl-paste
 elif type pbcopy > /dev/null; then
     alias clip=pbcopy
     alias clipo=pbpaste
