@@ -75,7 +75,7 @@ require("lazy").setup({
                     vim.env.THEME_MODE = theme
                     vim.o.background = theme
 
-                    vim.cmd('source ' .. plug_dir .. '/lightline/colorscheme/one.vim')
+                    vim.cmd('source ' .. plug_dir .. '/lightline.vim/autoload/lightline/colorscheme/one.vim')
                     vim.fn['lightline#colorscheme']()
                     vim.fn['lightline#update']()
                 end
