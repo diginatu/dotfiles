@@ -54,6 +54,20 @@ config.keys = {
     { key = 'v', mods = 'SUPER|SHIFT', action = act.PasteFrom 'Clipboard' },
 }
 
+-- Copy mode keybindings
+copy_mode_keys = wezterm.gui.default_key_tables().copy_mode
+table.insert( copy_mode_keys, { key = 'j', mods = 'CTRL', action = act.CopyMode 'Close' })
+table.insert( copy_mode_keys, { key = '/', action = act.Search 'CurrentSelectionOrEmptyString' })
+
+-- Search mode keybindings
+search_mode_keys = wezterm.gui.default_key_tables().search_mode
+table.insert( search_mode_keys, { key = 'j', mods = 'CTRL', action = act.CopyMode 'Close' })
+
+config.key_tables = {
+    search_mode = search_mode_keys,
+    copy_mode = copy_mode_keys,
+}
+
 -- wezterm.gui is not available to the mux server, so take care to
 -- do something reasonable when this config is evaluated by the mux
 function get_appearance()
