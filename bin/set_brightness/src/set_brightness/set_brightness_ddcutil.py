@@ -6,13 +6,14 @@ from . import DdcciDdcutil, DiscordThemeManager, Display, DisplayBrightnessManag
 now = datetime.datetime.now()
 
 display_brightness_manager = DisplayBrightnessManager(
-    time1_start=datetime.time(4, 0), time1_end=datetime.time(11, 0),
-    time2_start=datetime.time(16, 0), time2_end=datetime.time(23, 59),
-    night_color_start=datetime.time(23, 0), night_color_end=datetime.time(5, 0),
+    time1_start=datetime.time(2, 0), time1_end=datetime.time(10, 0),
+    time2_start=datetime.time(16, 0), time2_end=datetime.time(23, 0),
+    night_color_start=datetime.time(22, 0), night_color_end=datetime.time(5, 0),
     night_color=Color(100, 30, 0),
     displays=[
         Display("LG HDR 4K", contrast_min=20, contrast_max=70),
-        Display("PHL 246E7", contrast_min=0, contrast_max=90)
+        Display("PHL 246E7", contrast_min=0, contrast_max=90),
+        Display("Display", contrast_min=0, contrast_max=50)
     ],
     ddcci=DdcciDdcutil())
 try:
