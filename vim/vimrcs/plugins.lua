@@ -14,7 +14,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    -- Visual
+    --------------
+    --  Visual  --
+    --------------
     {
         'sainnhe/edge',
         lazy = false,
@@ -80,6 +82,289 @@ require("lazy").setup({
                     vim.fn['lightline#update']()
                 end
             end))
+        end,
+    },
+
+    ------------------------
+    --  Language support  --
+    ------------------------
+    {
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        config = function ()
+            vim.o.foldmethod = 'expr'
+            vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+        end,
+        opts = {
+            ensure_installed = { "vim", "vimdoc" },
+            sync_install = true,
+
+            auto_install = true,
+
+            highlight = {
+                enable = true,
+            },
+            incremental_selection = {
+                enable = true,
+            },
+            indent = { enable = true },
+            textobjects = {
+                select = {
+                    enable = true,
+                },
+            },
+        },
+    },
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    {
+        'neoclide/coc.nvim',
+        enabled = false,
+        branch = 'release',
+        config = function ()
+            local opts = {silent = true, noremap = false, expr = true, replace_keycodes = false}
+            vim.keymap.set('n', '<leader>ac', '<Plug>(coc-codeaction)')
+            vim.keymap.set('n', '<leader>fx', '<Plug>(coc-fix-current)')
+            vim.keymap.set('n', '<leader>if', '<Plug>(coc-diagnostic-info)')
+            vim.keymap.set('n', '<leader>dn', ':<C-u>CocDiagnostics<CR>')
+            vim.keymap.set('n', '<leader>fm', '<Plug>(coc-format)')
+            vim.keymap.set('n', '<leader>nm', '<Plug>(coc-rename)')
+            vim.keymap.set('n', '<leader>us', '<Plug>(coc-references)')
+            vim.keymap.set('n', '<leader>dc', '<Plug>(coc-declaration)')
+            vim.keymap.set('n', '<leader>ip', '<Plug>(coc-implementation)')
+            vim.keymap.set('n', '<leader>rf', '<Plug>(coc-refactor)')
+            vim.keymap.set('n', '<leader>ln', '<Plug>(coc-codelens-action)')
+            vim.keymap.set('n', '<leader>im', ':<C-u>silent call CocAction("runCommand", "editor.action.organizeImport")<CR>', { nowait = true })
+            vim.keymap.set('n', '<leader>?', ':call CocActionAsync("doHover")<CR>', { nowait = true })
+            vim.keymap.set('n', '<C-w>u', '<Plug>(coc-float-jump)')
+            vim.keymap.set('n', '<C-]>', 'CocHasProvider("definition") ? "<Plug>(coc-definition)" : "<C-]>"', opts)
+            vim.keymap.set('n', '<C-w><C-]>', 'CocHasProvider("definition") ? ":call CocAction("jumpDefinition", "vsplit")<CR>" : "<C-w><C-]>"', opts)
+            vim.keymap.set('i', '<CR>', 'coc#pum#visible() ? coc#_select_confirm() : "<C-g>u<CR><c-r>=coc#on_enter()<CR>"', opts)
+            vim.g.coc_snippet_next = '<C-l>'
+            vim.g.coc_snippet_prev = '<C-k>'
+
+            local aug = vim.api.nvim_create_augroup('vimrc_coc_keymap', { clear = true })
+            vim.api.nvim_create_autocmd('FileType', {
+                group = aug,
+                pattern = 'go',
+                callback = function ()
+                    vim.keymap.set('n', '<leader>ts', ':<C-u>CocCommand go.test.toggle<CR>')
+                end
+            })
+        end
+    },
+    {
+        'neovim/nvim-lspconfig',
+        config = function ()
+            local aug = vim.api.nvim_create_augroup('vimrc_lspconfig', { clear = true })
+
+            vim.api.nvim_create_autocmd('LspAttach', {
+                group = aug,
+                callback = function(args)
+                    local client = vim.lsp.get_client_by_id(args.data.client_id)
+                    if client.supports_method('textDocument/codeAction') then
+                        print('Setting up code action')
+                        vim.keymap.set('n', '<leader>ac', '<Cmd>lua vim.lsp.buf.code_action()<CR>')
+                    end
+                    if client.supports_method('textDocument/rename') then
+                        print('Setting up rename')
+                        vim.keymap.set('n', '<leader>nm', '<Cmd>lua vim.lsp.buf.rename()<CR>')
+                    end
+                    if client.supports_method('textDocument/references') then
+                        print('Setting up references')
+                        vim.keymap.set('n', '<leader>us', '<Cmd>lua vim.lsp.buf.references()<CR>')
+                    end
+                    if client.supports_method('textDocument/implementation') then
+                        print('Setting up implementation')
+                        vim.keymap.set('n', '<leader>ip', '<Cmd>lua vim.lsp.buf.implementation()<CR>')
+                    end
+                    if client.supports_method('textDocument/codeLens') then
+                        print('Setting up code lens')
+                        vim.keymap.set('n', '<leader>ln', '<Cmd>lua vim.lsp.codelens.run()<CR>')
+                    end
+                    if client.supports_method('textDocument/formatting') then
+                        -- Format the current buffer on save
+                        vim.api.nvim_create_autocmd('BufWritePre', {
+                            buffer = args.buf,
+                            callback = function()
+                                vim.lsp.buf.format({bufnr = args.buf, id = client.id})
+                            end,
+                        })
+                    end
+                end,
+            })
+
+            local servers = {
+                { 'gopls' },
+                {
+                    'pyright',
+                    config_func = function ()
+                        vim.keymap.set('n', '<leader>im', ':<C-u>PyrightOrganizeImports<CR>')
+                    end
+                },
+            }
+
+            local lsp = require('lspconfig')
+            for _, server in pairs(servers) do
+                local config = lsp[server[1]]
+                -- use settings.cmd then fall back to document_config.default_config.cmd
+                local bin_path = server.cmd and server.cmd[1] or config.document_config.default_config.cmd[1]
+
+                -- Only setup a language server if we have the binary available
+                if (vim.fn.executable(bin_path)) then
+                    local setup_config = {}
+
+                    -- Add custom config if available
+                    for k, v in pairs(server) do
+                        if k == 'config_func' then
+                            v()
+                        else
+                            setup_config[k] = v
+                        end
+                    end
+
+                    config.setup(setup_config)
+                end
+            end
+        end
+    },
+    {
+        'antoinemadec/coc-fzf',
+        enabled = false,
+        branch = 'release',
+        dependencies = { 'junegunn/fzf' },
+        config = function ()
+            vim.keymap.set('n', '<leader>ou', ':<C-u>CocFzfList outline<cr>')
+            vim.keymap.set('n', '<leader>oc', ':<C-u>CocFzfList commands<cr>')
+            vim.keymap.set('n', '<leader>ol', ':<C-u>CocFzfList<cr>')
+        end
+    },
+    {
+        'vim-test/vim-test',
+        config = function ()
+            vim.g['test#strategy'] = 'neovim'
+        end,
+    },
+    {
+        'fatih/vim-go',
+        enabled = false,
+        lazy = true,
+        ft = 'go',
+        config = function ()
+            vim.cmd([[
+            augroup vimrc_vim_go_keymap
+            au!
+            au FileType go nmap <buffer> <Leader>im <Plug>(go-imports)
+            au FileType go nmap <buffer> <Leader>if <Plug>(go-info)
+            au FileType go nmap <buffer> <Leader>us <Plug>(go-referrers)
+            au FileType go nmap <buffer> <Leader>lt <Plug>(go-metalinter)
+
+            au FileType go nmap <buffer> <leader>r  <Plug>(go-run-split)
+            au FileType go nmap <buffer> <C-]>      <Plug>(go-def)
+            au FileType go nmap <buffer> <C-w><C-]> <Plug>(go-def-split)
+            augroup END
+
+            let g:go_snippet_engine = "ultisnips"
+
+            let g:go_highlight_functions = 1
+            let g:go_highlight_types = 1
+            let g:go_highlight_operators = 1
+            let g:go_highlight_build_constraints = 1
+            ]])
+        end,
+    },
+    {
+        'buoto/gotests-vim',
+        -- To install:
+        -- go install github.com/cweill/gotests/...@latest
+        enabled = function ()
+            return vim.fn.executable('gotests') == 1
+        end,
+    },
+    {
+        'pangloss/vim-javascript',
+        lazy = true,
+        ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+    },
+    {
+        'HerringtonDarkholme/yats.vim',
+        lazy = true,
+        ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+    },
+    {
+        'maxmellon/vim-jsx-pretty',
+        lazy = true,
+        ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+    },
+
+    -----------------------
+    --  Auto completion  --
+    -----------------------
+    {
+        'hrsh7th/nvim-cmp',
+        config = function ()
+            local cmp = require('cmp')
+
+            cmp.setup({
+                snippet = {
+                    expand = function(args)
+                        vim.fn['UltiSnips#Anon'](args.body)
+                    end,
+                },
+                mapping = cmp.mapping.preset.insert({
+                    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                    ['<C-Space>'] = cmp.mapping.complete(),
+                    ['<C-e>'] = cmp.mapping.abort(),
+                    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                }),
+                sources = cmp.config.sources({
+                    { name = 'nvim_lsp' },
+                    { name = 'ultisnips' },
+                }, {
+                    { name = 'buffer' },
+                }),
+                performance = {
+                    max_view_entries = 20,
+                },
+            })
+
+            -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+            cmp.setup.cmdline({ '/', '?' }, {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = {
+                    { name = 'buffer' }
+                },
+            })
+
+            -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+            cmp.setup.cmdline(':', {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = cmp.config.sources({
+                    { name = 'path' }
+                }, {
+                    { name = 'cmdline' }
+                }),
+                matching = { disallow_symbol_nonprefix_matching = false },
+            })
+        end,
+    },
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+    'quangnguyen30192/cmp-nvim-ultisnips',
+
+    -------------
+    --  Other  --
+    -------------
+    {
+        'mikesmithgh/kitty-scrollback.nvim',
+        lazy = true,
+        cmd = { 'KittyScrollbackGenerateKittens', 'KittyScrollbackCheckHealth' },
+        event = { 'User KittyScrollbackLaunch' },
+        version = '^3.0.0',
+        config = function()
+            require('kitty-scrollback').setup()
         end,
     },
     {
@@ -264,149 +549,6 @@ require("lazy").setup({
                     paste = {['+'] = paste, ['*'] = paste},
                 }
                 -- Now the '+' register will copy to system clipboard using OSC52
-            end,
-        },
-
-        -- Language support
-        {
-            "nvim-treesitter/nvim-treesitter",
-            build = ":TSUpdate",
-            config = function ()
-                vim.o.foldmethod = 'expr'
-                vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
-            end,
-            opts = {
-                ensure_installed = { "vim", "vimdoc" },
-                sync_install = true,
-
-                auto_install = true,
-
-                highlight = {
-                    enable = true,
-                },
-                incremental_selection = {
-                    enable = true,
-                },
-                indent = { enable = true },
-                textobjects = {
-                    select = {
-                        enable = true,
-                    },
-                },
-            },
-        },
-        'nvim-treesitter/nvim-treesitter-textobjects',
-        {
-            'neoclide/coc.nvim',
-            branch = 'release',
-            config = function ()
-                local opts = {silent = true, noremap = false, expr = true, replace_keycodes = false}
-                vim.keymap.set('n', '<leader>ac', '<Plug>(coc-codeaction)')
-                vim.keymap.set('n', '<leader>fx', '<Plug>(coc-fix-current)')
-                vim.keymap.set('n', '<leader>if', '<Plug>(coc-diagnostic-info)')
-                vim.keymap.set('n', '<leader>dn', ':<C-u>CocDiagnostics<CR>')
-                vim.keymap.set('n', '<leader>fm', '<Plug>(coc-format)')
-                vim.keymap.set('n', '<leader>nm', '<Plug>(coc-rename)')
-                vim.keymap.set('n', '<leader>us', '<Plug>(coc-references)')
-                vim.keymap.set('n', '<leader>dc', '<Plug>(coc-declaration)')
-                vim.keymap.set('n', '<leader>ip', '<Plug>(coc-implementation)')
-                vim.keymap.set('n', '<leader>rf', '<Plug>(coc-refactor)')
-                vim.keymap.set('n', '<leader>ln', '<Plug>(coc-codelens-action)')
-                vim.keymap.set('n', '<leader>im', ':<C-u>silent call CocAction("runCommand", "editor.action.organizeImport")<CR>', { nowait = true })
-                vim.keymap.set('n', '<leader>?', ':call CocActionAsync("doHover")<CR>', { nowait = true })
-                vim.keymap.set('n', '<C-w>u', '<Plug>(coc-float-jump)')
-                vim.keymap.set('n', '<C-]>', 'CocHasProvider("definition") ? "<Plug>(coc-definition)" : "<C-]>"', opts)
-                vim.keymap.set('n', '<C-w><C-]>', 'CocHasProvider("definition") ? ":call CocAction("jumpDefinition", "vsplit")<CR>" : "<C-w><C-]>"', opts)
-                vim.keymap.set('i', '<CR>', 'coc#pum#visible() ? coc#_select_confirm() : "<C-g>u<CR><c-r>=coc#on_enter()<CR>"', opts)
-                vim.g.coc_snippet_next = '<C-l>'
-                vim.g.coc_snippet_prev = '<C-k>'
-
-                local aug = vim.api.nvim_create_augroup('vimrc_coc_keymap', { clear = true })
-                vim.api.nvim_create_autocmd('FileType', {
-                    group = aug,
-                    pattern = 'go',
-                    callback = function ()
-                        vim.keymap.set('n', '<leader>ts', ':<C-u>CocCommand go.test.toggle<CR>')
-                    end
-                })
-            end
-        },
-        {
-            'antoinemadec/coc-fzf',
-            branch = 'release',
-            dependencies = { 'junegunn/fzf' },
-            config = function ()
-                vim.keymap.set('n', '<leader>ou', ':<C-u>CocFzfList outline<cr>')
-                vim.keymap.set('n', '<leader>oc', ':<C-u>CocFzfList commands<cr>')
-                vim.keymap.set('n', '<leader>ol', ':<C-u>CocFzfList<cr>')
-            end
-        },
-        {
-            'vim-test/vim-test',
-            config = function ()
-                vim.g['test#strategy'] = 'neovim'
-            end,
-        },
-        {
-            'fatih/vim-go',
-            lazy = true,
-            ft = 'go',
-            config = function ()
-                vim.cmd([[
-                augroup vimrc_vim_go_keymap
-                au!
-                au FileType go nmap <buffer> <Leader>im <Plug>(go-imports)
-                au FileType go nmap <buffer> <Leader>if <Plug>(go-info)
-                au FileType go nmap <buffer> <Leader>us <Plug>(go-referrers)
-                au FileType go nmap <buffer> <Leader>lt <Plug>(go-metalinter)
-
-                au FileType go nmap <buffer> <leader>r  <Plug>(go-run-split)
-                au FileType go nmap <buffer> <C-]>      <Plug>(go-def)
-                au FileType go nmap <buffer> <C-w><C-]> <Plug>(go-def-split)
-                augroup END
-
-                let g:go_snippet_engine = "ultisnips"
-
-                let g:go_highlight_functions = 1
-                let g:go_highlight_types = 1
-                let g:go_highlight_operators = 1
-                let g:go_highlight_build_constraints = 1
-                ]])
-            end,
-        },
-        {
-            'buoto/gotests-vim',
-            -- To install:
-            -- go install github.com/cweill/gotests/...@latest
-            enabled = function ()
-                return vim.fn.executable('gotests') == 1
-            end,
-        },
-        {
-            'pangloss/vim-javascript',
-            lazy = true,
-            ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-        },
-        {
-        'HerringtonDarkholme/yats.vim',
-            lazy = true,
-            ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-        },
-        {
-        'maxmellon/vim-jsx-pretty',
-            lazy = true,
-            ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-        },
-
-        -- Other
-        {
-            'mikesmithgh/kitty-scrollback.nvim',
-            lazy = true,
-            cmd = { 'KittyScrollbackGenerateKittens', 'KittyScrollbackCheckHealth' },
-            event = { 'User KittyScrollbackLaunch' },
-            version = '^3.0.0',
-            config = function()
-                require('kitty-scrollback').setup()
             end,
         },
     })
