@@ -162,23 +162,18 @@ require("lazy").setup({
                 callback = function(args)
                     local client = vim.lsp.get_client_by_id(args.data.client_id)
                     if client.supports_method('textDocument/codeAction') then
-                        print('Setting up code action')
                         vim.keymap.set('n', '<leader>ac', '<Cmd>lua vim.lsp.buf.code_action()<CR>')
                     end
                     if client.supports_method('textDocument/rename') then
-                        print('Setting up rename')
                         vim.keymap.set('n', '<leader>nm', '<Cmd>lua vim.lsp.buf.rename()<CR>')
                     end
                     if client.supports_method('textDocument/references') then
-                        print('Setting up references')
                         vim.keymap.set('n', '<leader>us', '<Cmd>lua vim.lsp.buf.references()<CR>')
                     end
                     if client.supports_method('textDocument/implementation') then
-                        print('Setting up implementation')
                         vim.keymap.set('n', '<leader>ip', '<Cmd>lua vim.lsp.buf.implementation()<CR>')
                     end
                     if client.supports_method('textDocument/codeLens') then
-                        print('Setting up code lens')
                         vim.keymap.set('n', '<leader>ln', '<Cmd>lua vim.lsp.codelens.run()<CR>')
                     end
                     if client.supports_method('textDocument/formatting') then
