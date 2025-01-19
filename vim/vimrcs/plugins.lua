@@ -91,6 +91,7 @@ require("lazy").setup({
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
+        main = "nvim-treesitter.configs",
         init = function ()
             vim.o.foldmethod = 'expr'
             vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
