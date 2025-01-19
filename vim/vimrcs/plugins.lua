@@ -436,111 +436,86 @@ require("lazy").setup({
             vim.keymap.set('n', '<leader>hp', '<Plug>(GitGutterPreviewHunk)')
         end,
     },
+    'dkarter/bullets.vim',
     {
-        'dkarter/bullets.vim',
+        'previm/previm',
         init = function ()
-            vim.g.bullets_custom_mappings = 0
-            vim.cmd([[
-            " Replace default <CR> mapping so that it also invokes coc expansion
-            function! ExecuteEnter() abort
-            if coc#pum#visible()
-                return coc#_select_confirm()
-            else
-                execute("InsertNewBullet")
-                endif
-                return coc#on_enter()
-                endfunction
-                let g:bullets_custom_mappings = [
-                \ ['inoremap', '<CR>',        '<C-r>=ExecuteEnter()<CR>'],
-                \ ['inoremap', '<C-cr>',      '<cr>'],
-                \
-                \ ['nmap',     'o',           '<Plug>(bullets-newline)'],
-                \
-                \ ['vmap',     'gN',          '<Plug>(bullets-renumber)'],
-                \ ['nmap',     'gN',          '<Plug>(bullets-renumber)'],
-                \
-                \ ['nmap',     '<leader>x',   '<Plug>(bullets-toggle-checkbox)'],
-                \
-                \ ['imap',     '<C-t>',       '<Plug>(bullets-demote)'],
-                \ ['nmap',     '>>',          '<Plug>(bullets-demote)'],
-                \ ['vmap',     '>',           '<Plug>(bullets-demote)'],
-                \ ['imap',     '<C-d>',       '<Plug>(bullets-promote)'],
-                \ ['nmap',     '<<',          '<Plug>(bullets-promote)'],
-                \ ['vmap',     '<',           '<Plug>(bullets-promote)'],
-                \ ]
-                ]])
-            end,
+            vim.g.previm_open_cmd = vim.g.system_open
+        end,
+    },
+    'junegunn/vim-easy-align',
+    {
+        'junegunn/fzf',
+        build = ':call fzf#install()',
+    },
+    {
+        'junegunn/fzf.vim',
+        lazy = false,
+        dependencies = { 'junegunn/fzf' },
+        init = function ()
+            vim.g.fzf_command_prefix = 'Fzf'
+            vim.api.nvim_create_user_command('FzfFiles',
+            'call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)',
+            { bang = true, nargs = '?', complete = 'dir' }
+            )
+            vim.api.nvim_create_user_command('FzfGGrep',
+            'call fzf#vim#grep(\'git grep --line-number -- \'.shellescape(<q-args>), 0, fzf#vim#with_preview({\'dir\': systemlist(\'git rev-parse --show-toplevel\')[0]}), <bang>0)',
+            { bang = true, nargs = '*' }
+            )
+        end,
+        keys = {
+            { '<leader>ul', '<Cmd>FzfLines<CR>', desc = 'Fzf lines in the buffer' },
+            { '<leader>ur', '<Cmd>FzfFiles<CR>', desc = 'Fzf files in the current directory' },
+            { '<leader>ug', '<Cmd>FzfGFiles<CR>', desc = 'Fzf files of the git repository' },
+            { '<leader>us', '<Cmd>FzfGFiles?<CR>', desc = 'Fzf files of the git repository (untracked)' },
+            { '<leader>uh', '<Cmd>FzfHistory<CR>', desc = 'Fzf files from the history' },
+            { '<leader>b', '<Cmd>FzfBuffers<CR>', desc = 'Fzf buffers' },
+            { '<leader>gp', ':<C-u>FzfGGrep<Space>', desc = 'Fzf grep in the git repository' },
+            { '<leader><C-o>', '<Plug>(fzf-maps-n)', desc = 'Fzf normal mappings' },
+            { '<leader><C-o>', '<Plug>(fzf-maps-x)', mode = 'x', desc = 'Fzf visual mappings' },
+            { '<leader><C-o>', '<Plug>(fzf-maps-o)', mode = 'o', desc = 'Fzf operator mappings' },
+            { '<C-x><C-f>', '<Plug>(fzf-complete-path)', mode = 'i', desc = 'Fzf complete path' },
+            { '<C-x><C-l>', '<Plug>(fzf-complete-line)', mode = 'i', desc = 'Fzf complete line' },
         },
-        {
-            'previm/previm',
-            init = function ()
-                vim.g.previm_open_cmd = vim.g.system_open
-            end,
+    },
+    'tpope/vim-obsession',
+    {
+        'github/copilot.vim',
+        init = function ()
+            vim.g.copilot_filetypes = {
+                text = false,
+            }
+        end,
+    },
+    {
+        "CopilotC-Nvim/CopilotChat.nvim",
+        dependencies = {
+            { "github/copilot.vim" },
+            { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
         },
-        'junegunn/vim-easy-align',
-        {
-            'junegunn/fzf',
-            build = ':call fzf#install()',
-        },
-        {
-            'junegunn/fzf.vim',
-            lazy = false,
-            dependencies = { 'junegunn/fzf' },
-            init = function ()
-                vim.g.fzf_command_prefix = 'Fzf'
-                vim.api.nvim_create_user_command('FzfFiles',
-                    'call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)',
-                    { bang = true, nargs = '?', complete = 'dir' }
-                )
-                vim.api.nvim_create_user_command('FzfGGrep',
-                    'call fzf#vim#grep(\'git grep --line-number -- \'.shellescape(<q-args>), 0, fzf#vim#with_preview({\'dir\': systemlist(\'git rev-parse --show-toplevel\')[0]}), <bang>0)',
-                    { bang = true, nargs = '*' }
-                )
-            end,
-            keys = {
-                { '<leader>ul', '<Cmd>FzfLines<CR>', desc = 'Fzf lines in the buffer' },
-                { '<leader>ur', '<Cmd>FzfFiles<CR>', desc = 'Fzf files in the current directory' },
-                { '<leader>ug', '<Cmd>FzfGFiles<CR>', desc = 'Fzf files of the git repository' },
-                { '<leader>us', '<Cmd>FzfGFiles?<CR>', desc = 'Fzf files of the git repository (untracked)' },
-                { '<leader>uh', '<Cmd>FzfHistory<CR>', desc = 'Fzf files from the history' },
-                { '<leader>b', '<Cmd>FzfBuffers<CR>', desc = 'Fzf buffers' },
-                { '<leader>gp', ':<C-u>FzfGGrep<Space>', desc = 'Fzf grep in the git repository' },
-                { '<leader><C-o>', '<Plug>(fzf-maps-n)', desc = 'Fzf normal mappings' },
-                { '<leader><C-o>', '<Plug>(fzf-maps-x)', mode = 'x', desc = 'Fzf visual mappings' },
-                { '<leader><C-o>', '<Plug>(fzf-maps-o)', mode = 'o', desc = 'Fzf operator mappings' },
-                { '<C-x><C-f>', '<Plug>(fzf-complete-path)', mode = 'i', desc = 'Fzf complete path' },
-                { '<C-x><C-l>', '<Plug>(fzf-complete-line)', mode = 'i', desc = 'Fzf complete line' },
-            },
-        },
-        'tpope/vim-obsession',
-        {
-            'github/copilot.vim',
-            init = function ()
-                vim.g.copilot_filetypes = {
-                    text = false,
-                }
-            end,
-        },
-        {
-            'ojroques/nvim-osc52',
-            enabled = function ()
-                return vim.env.SSH_OR_CONTAINER == '1'
-            end,
-            init = function ()
-                local function copy(lines, _)
-                    require('osc52').copy(table.concat(lines, '\n'))
-                end
+        build = "make tiktoken", -- Only on MacOS or Linux
+        opts = {},
+    },
+    {
+        'ojroques/nvim-osc52',
+        enabled = function ()
+            return vim.env.SSH_OR_CONTAINER == '1'
+        end,
+        init = function ()
+            local function copy(lines, _)
+                require('osc52').copy(table.concat(lines, '\n'))
+            end
 
-                local function paste()
-                    return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
-                end
+            local function paste()
+                return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
+            end
 
-                vim.g.clipboard = {
-                    name = 'osc52',
-                    copy = {['+'] = copy, ['*'] = copy},
-                    paste = {['+'] = paste, ['*'] = paste},
-                }
-                -- Now the '+' register will copy to system clipboard using OSC52
-            end,
-        },
-    })
+            vim.g.clipboard = {
+                name = 'osc52',
+                copy = {['+'] = copy, ['*'] = copy},
+                paste = {['+'] = paste, ['*'] = paste},
+            }
+            -- Now the '+' register will copy to system clipboard using OSC52
+        end,
+    },
+})
