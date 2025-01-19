@@ -84,6 +84,12 @@ require("lazy").setup({
             end))
         end,
     },
+    {
+        'MeanderingProgrammer/render-markdown.nvim',
+        dependencies = { 'nvim-treesitter/nvim-treesitter'},
+        lazy = true,
+        ft = 'markdown',
+    },
 
     ------------------------
     --  Language support  --
