@@ -21,7 +21,7 @@ require("lazy").setup({
         'sainnhe/edge',
         lazy = false,
         priority = 1000,
-        config = function ()
+        init = function ()
             vim.g.edge_better_performance = 1
             vim.g.edge_transparent_background = 1
             vim.cmd.colorscheme("edge")
@@ -38,7 +38,7 @@ require("lazy").setup({
     {
         'itchyny/lightline.vim',
         dependencies = { 'sainnhe/edge' },
-        config = function ()
+        init = function ()
             vim.o.showmode = false
             vim.g.lightline = {
                 colorscheme = 'one',
@@ -91,7 +91,7 @@ require("lazy").setup({
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        config = function ()
+        init = function ()
             vim.o.foldmethod = 'expr'
             vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
         end,
@@ -120,7 +120,7 @@ require("lazy").setup({
         'neoclide/coc.nvim',
         enabled = false,
         branch = 'release',
-        config = function ()
+        init = function ()
             local opts = {silent = true, noremap = false, expr = true, replace_keycodes = false}
             vim.keymap.set('n', '<leader>ac', '<Plug>(coc-codeaction)')
             vim.keymap.set('n', '<leader>fx', '<Plug>(coc-fix-current)')
@@ -154,7 +154,7 @@ require("lazy").setup({
     },
     {
         'neovim/nvim-lspconfig',
-        config = function ()
+        init = function ()
             local aug = vim.api.nvim_create_augroup('vimrc_lspconfig', { clear = true })
 
             vim.api.nvim_create_autocmd('LspAttach', {
@@ -227,7 +227,7 @@ require("lazy").setup({
         enabled = false,
         branch = 'release',
         dependencies = { 'junegunn/fzf' },
-        config = function ()
+        init = function ()
             vim.keymap.set('n', '<leader>ou', ':<C-u>CocFzfList outline<cr>')
             vim.keymap.set('n', '<leader>oc', ':<C-u>CocFzfList commands<cr>')
             vim.keymap.set('n', '<leader>ol', ':<C-u>CocFzfList<cr>')
@@ -235,7 +235,7 @@ require("lazy").setup({
     },
     {
         'vim-test/vim-test',
-        config = function ()
+        init = function ()
             vim.g['test#strategy'] = 'neovim'
         end,
     },
@@ -244,7 +244,7 @@ require("lazy").setup({
         enabled = false,
         lazy = true,
         ft = 'go',
-        config = function ()
+        init = function ()
             vim.cmd([[
             augroup vimrc_vim_go_keymap
             au!
@@ -296,32 +296,9 @@ require("lazy").setup({
     -----------------------
     {
         'hrsh7th/nvim-cmp',
-        config = function ()
+        main = 'cmp',
+        init = function (cmp)
             local cmp = require('cmp')
-
-            cmp.setup({
-                snippet = {
-                    expand = function(args)
-                        vim.fn['UltiSnips#Anon'](args.body)
-                    end,
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-                    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-                    ['<C-Space>'] = cmp.mapping.complete(),
-                    ['<C-e>'] = cmp.mapping.abort(),
-                    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-                }),
-                sources = cmp.config.sources({
-                    { name = 'nvim_lsp' },
-                    { name = 'ultisnips' },
-                }, {
-                    { name = 'buffer' },
-                }),
-                performance = {
-                    max_view_entries = 20,
-                },
-            })
 
             -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
             cmp.setup.cmdline({ '/', '?' }, {
@@ -342,6 +319,31 @@ require("lazy").setup({
                 matching = { disallow_symbol_nonprefix_matching = false },
             })
         end,
+        opts = function (cmp, tb)
+            local cmp = require('cmp')
+
+            tb.snippet = {
+                expand = function(args)
+                    vim.fn['UltiSnips#Anon'](args.body)
+                end,
+            }
+            tb.mapping = cmp.mapping.preset.insert({
+                ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                ['<C-Space>'] = cmp.mapping.complete(),
+                ['<C-e>'] = cmp.mapping.abort(),
+                ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+            })
+            tb.sources = cmp.config.sources({
+                { name = 'nvim_lsp' },
+                { name = 'ultisnips' },
+            }, {
+                { name = 'buffer' },
+            })
+            tb.performance = {
+                max_view_entries = 20,
+            }
+        end,
     },
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
@@ -358,9 +360,6 @@ require("lazy").setup({
         cmd = { 'KittyScrollbackGenerateKittens', 'KittyScrollbackCheckHealth' },
         event = { 'User KittyScrollbackLaunch' },
         version = '^3.0.0',
-        config = function()
-            require('kitty-scrollback').setup()
-        end,
     },
     {
         -- Additional spellcheck dictionary
@@ -371,9 +370,8 @@ require("lazy").setup({
     'scrooloose/nerdcommenter',
     {
         'fuenor/im_control.vim',
-        config = function ()
+        init = function ()
             vim.g.IM_CtrlEnable = 1
-
             vim.cmd([[
             if has("mac")
                 let g:IM_CtrlOnKey = 'osascript -e "tell application \"System Events\" to key code 104"'
@@ -411,7 +409,7 @@ require("lazy").setup({
     },
     {
         'SirVer/ultisnips',
-        config = function ()
+        init = function ()
             vim.g.UltiSnipsExpandTrigger = '<tab>'
             vim.g.UltiSnipsJumpForwardTrigger = '<C-l>'
             vim.g.UltiSnipsJumpBackwardTrigger = '<C-k>'
@@ -427,7 +425,7 @@ require("lazy").setup({
     'kshenoy/vim-signature',
     {
         'airblade/vim-gitgutter',
-        config = function ()
+        init = function ()
             vim.g.gitgutter_map_keys = 0
             vim.o.updatetime = 1000
             vim.keymap.set('n', '<leader>hN', '<Plug>(GitGutterPrevHunk)')
@@ -439,7 +437,7 @@ require("lazy").setup({
     },
     {
         'dkarter/bullets.vim',
-        config = function ()
+        init = function ()
             vim.g.bullets_custom_mappings = 0
             vim.cmd([[
             " Replace default <CR> mapping so that it also invokes coc expansion
@@ -474,7 +472,7 @@ require("lazy").setup({
         },
         {
             'previm/previm',
-            config = function ()
+            init = function ()
                 vim.g.previm_open_cmd = vim.g.system_open
             end,
         },
@@ -489,6 +487,14 @@ require("lazy").setup({
             dependencies = { 'junegunn/fzf' },
             init = function ()
                 vim.g.fzf_command_prefix = 'Fzf'
+                vim.api.nvim_create_user_command('FzfFiles',
+                    'call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)',
+                    { bang = true, nargs = '?', complete = 'dir' }
+                )
+                vim.api.nvim_create_user_command('FzfGGrep',
+                    'call fzf#vim#grep(\'git grep --line-number -- \'.shellescape(<q-args>), 0, fzf#vim#with_preview({\'dir\': systemlist(\'git rev-parse --show-toplevel\')[0]}), <bang>0)',
+                    { bang = true, nargs = '*' }
+                )
             end,
             keys = {
                 { '<leader>ul', '<Cmd>FzfLines<CR>', desc = 'Fzf lines in the buffer' },
@@ -504,16 +510,6 @@ require("lazy").setup({
                 { '<C-x><C-f>', '<Plug>(fzf-complete-path)', mode = 'i', desc = 'Fzf complete path' },
                 { '<C-x><C-l>', '<Plug>(fzf-complete-line)', mode = 'i', desc = 'Fzf complete line' },
             },
-            config = function ()
-                vim.api.nvim_create_user_command('FzfFiles',
-                    'call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)',
-                    { bang = true, nargs = '?', complete = 'dir' }
-                )
-                vim.api.nvim_create_user_command('FzfGGrep',
-                    'call fzf#vim#grep(\'git grep --line-number -- \'.shellescape(<q-args>), 0, fzf#vim#with_preview({\'dir\': systemlist(\'git rev-parse --show-toplevel\')[0]}), <bang>0)',
-                    { bang = true, nargs = '*' }
-                )
-            end,
         },
         'tpope/vim-obsession',
         {
@@ -529,7 +525,7 @@ require("lazy").setup({
             enabled = function ()
                 return vim.env.SSH_OR_CONTAINER == '1'
             end,
-            config = function ()
+            init = function ()
                 local function copy(lines, _)
                     require('osc52').copy(table.concat(lines, '\n'))
                 end
