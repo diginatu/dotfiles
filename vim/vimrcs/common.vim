@@ -42,6 +42,20 @@ if has('nvim')
     let g:terminal_color_13 = "#B294BB"
     let g:terminal_color_14 = "#8ABEB7"
     let g:terminal_color_15 = "#C5C8C6"
+
+    lua << EOF
+    -- Show diagnostics automatically on hover
+    local aug = vim.api.nvim_create_augroup('vimrc_hover_diagnostics', {})
+    vim.api.nvim_create_autocmd('CursorHold', {
+        group = aug,
+        pattern = '*',
+        callback = function()
+            vim.diagnostic.open_float({})
+        end
+    })
+    -- 'dn' to set diagnostic to quickfix list
+    vim.keymap.set('n', 'dn', '<cmd>lua vim.diagnostic.setqflist()<CR>')
+EOF
 endif
 
 " options
