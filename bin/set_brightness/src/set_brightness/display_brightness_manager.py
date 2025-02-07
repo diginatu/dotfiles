@@ -82,6 +82,7 @@ class DisplayBrightnessManager:
 
         print(f"update {key}={value}")
         self.state_io.seek(0)
+        self.state_io.truncate()
         json.dump(memorized_values, self.state_io)
 
 
