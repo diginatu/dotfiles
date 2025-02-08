@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-from _typeshed import OpenTextMode
 import datetime
-from typing import cast
 
 from . import (
     Color,
@@ -13,7 +11,7 @@ from . import (
 
 now = datetime.datetime.now()
 
-with open("/tmp/set-brightness-ddcutil-mem.json", cast(OpenTextMode, 'rw')) as f:
+with open("/tmp/set-brightness-ddcutil-mem.json", 'r+t') as f:
     display_brightness_manager = DisplayBrightnessManager(
         time1_start=datetime.time(2, 0), time1_end=datetime.time(10, 0),
         time2_start=datetime.time(16, 0), time2_end=datetime.time(23, 0),
