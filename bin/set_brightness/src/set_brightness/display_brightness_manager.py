@@ -143,7 +143,8 @@ class DisplayBrightnessManager:
         elif _is_time_between(now.time(), _add_time(self.night_color_start, switch_du), _add_time(self.night_color_end, -switch_du)):
             night_rate = 1.0
         elif _is_time_between(now.time(), _add_time(self.night_color_end, -switch_du), self.night_color_end):
-            night_rate = 1 - _delta_time(now.time(), self.night_color_end) / switch_du
+            night_rate = _delta_time(now.time(), self.night_color_end) / switch_du
+        print(f"bright_rate={bright_rate}, night_rate={night_rate}")
 
         last_exception = None
         # Retry

@@ -22,8 +22,7 @@ class TestDisplayBrightnessManager(unittest.TestCase):
         self.display = Display("Test Display",
                                contrast_min=0, contrast_max=100)
         self.display2 = Display("Test Display2",
-                               contrast_min=5, contrast_max=95)
-        self.ddcci = MagicMock(spec=DdcciInterface)
+                                contrast_min=5, contrast_max=95)
 
     def test_set_displays_brightness_should_call_vcp(self):
         @dataclass
@@ -84,8 +83,12 @@ class TestDisplayBrightnessManager(unittest.TestCase):
                 "5", "50", "50", "50", "0"),
             TestCase("middle of night",
                 datetime.datetime(2021, 1, 2, 1, 0),
-                "0", "50", "50", "50", "0",
-                "5", "50", "50", "50", "0"),
+                "0", "1", "2", "3", "0",
+                "5", "1", "2", "3", "0"),
+            TestCase("half our before end of night",
+                datetime.datetime(2021, 1, 2, 3, 30),
+                "0", "25", "26", "26", "0",
+                "5", "25", "26", "26", "0"),
             TestCase("end of night",
                 datetime.datetime(2021, 1, 2, 4, 0),
                 "0", "50", "50", "50", "0",
@@ -94,51 +97,55 @@ class TestDisplayBrightnessManager(unittest.TestCase):
 
         for testSet in testCases:
             with self.subTest(testSet.name):
+                print(testSet.name)
+                ddcci = MagicMock(spec=DdcciInterface)
                 manager = DisplayBrightnessManager(
                     self.time1_start, self.time1_end,
                     self.time2_start, self.time2_end,
                     self.night_color_start, self.night_color_end, self.night_color,
-                    [self.display, self.display2], self.ddcci,
+                    [self.display, self.display2], ddcci,
                     StringIO("{}")
                 )
 
                 manager.set_displays_brightness(testSet.now)
 
-                self.ddcci.setVcp.assert_any_call("Test Display", "0x12", testSet.expectedDisplay1Contrast)
-                self.ddcci.setVcp.assert_any_call("Test Display", "0x16", testSet.expectedDisplay1RedGain)
-                self.ddcci.setVcp.assert_any_call("Test Display", "0x18", testSet.expectedDisplay1GreenGain)
-                self.ddcci.setVcp.assert_any_call("Test Display", "0x1a", testSet.expectedDisplay1BlueGain)
-                self.ddcci.setVcp.assert_any_call("Test Display", "0x10", testSet.expectedDisplay1Brightness)
+                ddcci.setVcp.assert_any_call("Test Display", "0x12", testSet.expectedDisplay1Contrast)
+                ddcci.setVcp.assert_any_call("Test Display", "0x16", testSet.expectedDisplay1RedGain)
+                ddcci.setVcp.assert_any_call("Test Display", "0x18", testSet.expectedDisplay1GreenGain)
+                ddcci.setVcp.assert_any_call("Test Display", "0x1a", testSet.expectedDisplay1BlueGain)
+                ddcci.setVcp.assert_any_call("Test Display", "0x10", testSet.expectedDisplay1Brightness)
 
-                self.ddcci.setVcp.assert_any_call("Test Display2", "0x12", testSet.expectedDisplay2Contrast)
-                self.ddcci.setVcp.assert_any_call("Test Display2", "0x16", testSet.expectedDisplay2RedGain)
-                self.ddcci.setVcp.assert_any_call("Test Display2", "0x18", testSet.expectedDisplay2GreenGain)
-                self.ddcci.setVcp.assert_any_call("Test Display2", "0x1a", testSet.expectedDisplay2BlueGain)
-                self.ddcci.setVcp.assert_any_call("Test Display2", "0x10", testSet.expectedDisplay2Brightness)
+                ddcci.setVcp.assert_any_call("Test Display2", "0x12", testSet.expectedDisplay2Contrast)
+                ddcci.setVcp.assert_any_call("Test Display2", "0x16", testSet.expectedDisplay2RedGain)
+                ddcci.setVcp.assert_any_call("Test Display2", "0x18", testSet.expectedDisplay2GreenGain)
+                ddcci.setVcp.assert_any_call("Test Display2", "0x1a", testSet.expectedDisplay2BlueGain)
+                ddcci.setVcp.assert_any_call("Test Display2", "0x10", testSet.expectedDisplay2Brightness)
 
     def test_set_displays_brightness_should_call_vcp_when_cache_file_is_empty(self):
+        ddcci = MagicMock(spec=DdcciInterface)
         manager = DisplayBrightnessManager(
             self.time1_start, self.time1_end,
             self.time2_start, self.time2_end,
             self.night_color_start, self.night_color_end, self.night_color,
-            [self.display], self.ddcci,
+            [self.display], ddcci,
             StringIO("{}")
         )
 
         manager.set_displays_brightness(datetime.datetime(2021, 1, 1, 0, 0))
 
-        self.ddcci.setVcp.assert_any_call("Test Display", "0x12", "0")
-        self.ddcci.setVcp.assert_any_call("Test Display", "0x16", "1")
-        self.ddcci.setVcp.assert_any_call("Test Display", "0x18", "2")
-        self.ddcci.setVcp.assert_any_call("Test Display", "0x1a", "3")
-        self.ddcci.setVcp.assert_any_call("Test Display", "0x10", "0")
+        ddcci.setVcp.assert_any_call("Test Display", "0x12", "0")
+        ddcci.setVcp.assert_any_call("Test Display", "0x16", "1")
+        ddcci.setVcp.assert_any_call("Test Display", "0x18", "2")
+        ddcci.setVcp.assert_any_call("Test Display", "0x1a", "3")
+        ddcci.setVcp.assert_any_call("Test Display", "0x10", "0")
 
     def test_set_displays_brightness_should_call_vcp_when_different_values_cached(self):
+        ddcci = MagicMock(spec=DdcciInterface)
         manager = DisplayBrightnessManager(
             self.time1_start, self.time1_end,
             self.time2_start, self.time2_end,
             self.night_color_start, self.night_color_end, self.night_color,
-            [self.display], self.ddcci,
+            [self.display], ddcci,
             StringIO("""{
                 "Test Display:0x12": "49",
                 "Test Display:0x16": "9",
@@ -150,18 +157,19 @@ class TestDisplayBrightnessManager(unittest.TestCase):
 
         manager.set_displays_brightness(datetime.datetime(2021, 1, 1, 0, 0))
 
-        self.ddcci.setVcp.assert_any_call("Test Display", "0x12", "0")
-        self.ddcci.setVcp.assert_any_call("Test Display", "0x16", "1")
-        self.ddcci.setVcp.assert_any_call("Test Display", "0x18", "2")
-        self.ddcci.setVcp.assert_any_call("Test Display", "0x1a", "3")
-        self.ddcci.setVcp.assert_any_call("Test Display", "0x10", "0")
+        ddcci.setVcp.assert_any_call("Test Display", "0x12", "0")
+        ddcci.setVcp.assert_any_call("Test Display", "0x16", "1")
+        ddcci.setVcp.assert_any_call("Test Display", "0x18", "2")
+        ddcci.setVcp.assert_any_call("Test Display", "0x1a", "3")
+        ddcci.setVcp.assert_any_call("Test Display", "0x10", "0")
 
     def test_set_displays_brightness_should_not_call_vcp_when_same_values_cached(self):
+        ddcci = MagicMock(spec=DdcciInterface)
         manager = DisplayBrightnessManager(
             self.time1_start, self.time1_end,
             self.time2_start, self.time2_end,
             self.night_color_start, self.night_color_end, self.night_color,
-            [self.display], self.ddcci,
+            [self.display], ddcci,
             StringIO("""{
                 "Test Display:0x12": "0",
                 "Test Display:0x16": "1",
@@ -173,4 +181,4 @@ class TestDisplayBrightnessManager(unittest.TestCase):
 
         manager.set_displays_brightness(datetime.datetime(2021, 1, 1, 0, 0))
 
-        self.ddcci.setVcp.assert_not_called()
+        ddcci.setVcp.assert_not_called()
