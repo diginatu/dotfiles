@@ -16,11 +16,10 @@ with open("/tmp/set-brightness-ddcutil-mem.json", 'a+t') as f:
         time1_start=datetime.time(2, 0), time1_end=datetime.time(10, 0),
         time2_start=datetime.time(16, 0), time2_end=datetime.time(23, 0),
         night_color_start=datetime.time(22, 0), night_color_end=datetime.time(5, 0),
-        night_color=Color(100, 30, 0),
         displays=[
-            Display("LG HDR 4K", contrast_min=20, contrast_max=70),
-            Display("PHL 246E7", contrast_min=0, contrast_max=90),
-            Display("Display", contrast_min=0, contrast_max=50)
+            Display("LG HDR 4K", contrast_min=7, contrast_max=70, night_color=Color(100, 30, 0)),
+            Display("PHL 246E7", contrast_min=0, contrast_max=90, night_color=Color(50, 1, 0)),
+            Display("Display", contrast_min=0, contrast_max=5, night_color=Color(29, 18, 11)),
         ],
          ddcci=DdcciDdcutil(), state_io=f)
     try:

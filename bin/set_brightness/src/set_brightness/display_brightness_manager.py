@@ -3,7 +3,6 @@ import json
 import time
 from typing import TextIO
 
-from .color import Color
 from .ddcci_interface import DdcciInterface
 from .display import Display
 
@@ -45,7 +44,6 @@ class DisplayBrightnessManager:
     def __init__(self, time1_start: datetime.time, time1_end: datetime.time,
                  time2_start: datetime.time, time2_end: datetime.time,
                  night_color_start: datetime.time, night_color_end: datetime.time,
-                 night_color: Color,
                  displays: list[Display], ddcci: DdcciInterface,
                  state_io: TextIO):
         self.time1_start = time1_start
@@ -54,7 +52,6 @@ class DisplayBrightnessManager:
         self.time2_end = time2_end
         self.night_color_start = night_color_start
         self.night_color_end = night_color_end
-        self.night_color = night_color
         self.displays = displays
         self.ddcci = ddcci
         self.state_io = state_io
@@ -100,9 +97,9 @@ class DisplayBrightnessManager:
             contrast = int(_map_range(bright_rate, 0.8, 1.0, 50, display.contrast_max))
 
         # Night color
-        red_gain = int(_map_range(night_rate, 0.0, 1.0, 50, self.night_color.red))
-        green_gain = int(_map_range(night_rate, 0.0, 1.0, 50, self.night_color.green))
-        blue_gain = int(_map_range(night_rate, 0.0, 1.0, 50, self.night_color.blue))
+        red_gain = int(_map_range(night_rate, 0.0, 1.0, 50, display.night_color.red))
+        green_gain = int(_map_range(night_rate, 0.0, 1.0, 50, display.night_color.green))
+        blue_gain = int(_map_range(night_rate, 0.0, 1.0, 50, display.night_color.blue))
 
         print(f"{display.name}: brightness {bright}, contrast {contrast}, red {red_gain}, green {green_gain}, blue {blue_gain}")
         self.__memorized_ddcutil(display.name, "0x12", contrast)

@@ -18,11 +18,12 @@ class TestDisplayBrightnessManager(unittest.TestCase):
         self.time2_end = datetime.time(20, 0)
         self.night_color_start = datetime.time(23, 0)
         self.night_color_end = datetime.time(4, 0)
-        self.night_color = Color(1, 2, 3)
         self.display = Display("Test Display",
-                               contrast_min=0, contrast_max=100)
+                               contrast_min=0, contrast_max=100,
+                               night_color=Color(1, 2, 3))
         self.display2 = Display("Test Display2",
-                                contrast_min=5, contrast_max=95)
+                                contrast_min=5, contrast_max=95,
+                                night_color=Color(4, 5, 6))
 
     def test_set_displays_brightness_should_call_vcp(self):
         @dataclass
@@ -84,11 +85,11 @@ class TestDisplayBrightnessManager(unittest.TestCase):
             TestCase("middle of night",
                 datetime.datetime(2021, 1, 2, 1, 0),
                 "0", "1", "2", "3", "0",
-                "5", "1", "2", "3", "0"),
+                "5", "4", "5", "6", "0"),
             TestCase("half our before end of night",
                 datetime.datetime(2021, 1, 2, 3, 30),
                 "0", "25", "26", "26", "0",
-                "5", "25", "26", "26", "0"),
+                "5", "27", "27", "28", "0"),
             TestCase("end of night",
                 datetime.datetime(2021, 1, 2, 4, 0),
                 "0", "50", "50", "50", "0",
@@ -97,12 +98,12 @@ class TestDisplayBrightnessManager(unittest.TestCase):
 
         for testSet in testCases:
             with self.subTest(testSet.name):
-                print(testSet.name)
+                print("\nSubtest:", testSet.name)
                 ddcci = MagicMock(spec=DdcciInterface)
                 manager = DisplayBrightnessManager(
                     self.time1_start, self.time1_end,
                     self.time2_start, self.time2_end,
-                    self.night_color_start, self.night_color_end, self.night_color,
+                    self.night_color_start, self.night_color_end,
                     [self.display, self.display2], ddcci,
                     StringIO("{}")
                 )
@@ -126,7 +127,7 @@ class TestDisplayBrightnessManager(unittest.TestCase):
         manager = DisplayBrightnessManager(
             self.time1_start, self.time1_end,
             self.time2_start, self.time2_end,
-            self.night_color_start, self.night_color_end, self.night_color,
+            self.night_color_start, self.night_color_end,
             [self.display], ddcci,
             StringIO("{}")
         )
@@ -144,7 +145,7 @@ class TestDisplayBrightnessManager(unittest.TestCase):
         manager = DisplayBrightnessManager(
             self.time1_start, self.time1_end,
             self.time2_start, self.time2_end,
-            self.night_color_start, self.night_color_end, self.night_color,
+            self.night_color_start, self.night_color_end,
             [self.display], ddcci,
             StringIO("""{
                 "Test Display:0x12": "49",
@@ -168,7 +169,7 @@ class TestDisplayBrightnessManager(unittest.TestCase):
         manager = DisplayBrightnessManager(
             self.time1_start, self.time1_end,
             self.time2_start, self.time2_end,
-            self.night_color_start, self.night_color_end, self.night_color,
+            self.night_color_start, self.night_color_end,
             [self.display], ddcci,
             StringIO("""{
                 "Test Display:0x12": "0",
