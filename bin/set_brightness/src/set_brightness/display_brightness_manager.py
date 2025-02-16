@@ -24,11 +24,21 @@ def _is_time_between(now: datetime.time, start: datetime.time, end: datetime.tim
     else:
         return start <= now or now <= end
 
-def _delta_time(start: datetime.time, end: datetime.time) -> datetime.timedelta:
-    """Calculate the positive difference between two times.
+def _rate_time_between(now: datetime.time, start: datetime.time, end: datetime.time) -> float:
+    """Calculate the rate of the current time between two times.
+    If the current time is out of range, the rate will be negative value of the difference rate.
     """
-    d = datetime.datetime.combine(datetime.date.today(), end) - datetime.datetime.combine(datetime.date.today(), start)
-    return d if d >= datetime.timedelta() else d + datetime.timedelta(days=1)
+    dummydt = datetime.datetime(2000, 1, 1, 0, 0)
+    nowdt = datetime.datetime.combine(dummydt, now)
+    stdt = datetime.datetime.combine(dummydt, start)
+    endt = datetime.datetime.combine(dummydt, end)
+
+    if start > end:
+        if now < start:
+            stdt = stdt - datetime.timedelta(days=1)
+        else:
+            endt = endt + datetime.timedelta(days=1)
+    return (nowdt - stdt) / (endt - stdt)
 
 def _add_time(time: datetime.time, duration: datetime.timedelta) -> datetime.time:
     """Add a duration to a time.
@@ -112,35 +122,35 @@ class DisplayBrightnessManager:
         """Set the brightness of screens.
         """
 
-        today = now.date()
-
-        t1_st = datetime.datetime.combine(today, self.time1_start)
-        t1_ed = datetime.datetime.combine(today, self.time1_end)
-        t1_du = t1_ed - t1_st
-
-        t2_st = datetime.datetime.combine(today, self.time2_start)
-        t2_ed = datetime.datetime.combine(today, self.time2_end)
-        t2_du = t2_ed - t2_st
+        nowTime = now.time()
 
         # Calculate the rate of brightness change
         bright_rate = 0.0
-        if t1_st <= now < t1_ed:
-            bright_rate = (now - t1_st) / t1_du
-        elif t1_ed <= now < t2_st:
+        time1_rate = _rate_time_between(nowTime, self.time1_start, self.time1_end)
+        time2_rate = _rate_time_between(nowTime, self.time2_start, self.time2_end)
+        if 0.0 <= time1_rate <= 1.0:
+            bright_rate = time1_rate
+        elif _is_time_between(nowTime, self.time1_end, self.time2_start):
             bright_rate = 1.0
-        elif t2_st <= now < t2_ed:
-            bright_rate = 1 - (now - t2_st) / t2_du
+        elif 0.0 <= time2_rate <= 1.0:
+            bright_rate = 1.0 - time2_rate
 
         # Calculate the rate of night color
         # For 1 hour gradually change to night color
         night_rate = 0.0
         switch_du = datetime.timedelta(hours=1)
-        if _is_time_between(now.time(), self.night_color_start, _add_time(self.night_color_start, switch_du)):
-            night_rate = _delta_time(self.night_color_start, now.time()) / switch_du
-        elif _is_time_between(now.time(), _add_time(self.night_color_start, switch_du), _add_time(self.night_color_end, -switch_du)):
+        night_color_full_start = _add_time(self.night_color_start, switch_du)
+        night_color_full_end = _add_time(self.night_color_end, -switch_du)
+
+        night_fade_in_rate = _rate_time_between(now.time(), self.night_color_start, night_color_full_start)
+        night_fade_out_rate = _rate_time_between(now.time(), night_color_full_end, self.night_color_end)
+
+        if 0.0 <= night_fade_in_rate <= 1.0:
+            night_rate = night_fade_in_rate
+        elif _is_time_between(nowTime, night_color_full_start, night_color_full_end):
             night_rate = 1.0
-        elif _is_time_between(now.time(), _add_time(self.night_color_end, -switch_du), self.night_color_end):
-            night_rate = _delta_time(now.time(), self.night_color_end) / switch_du
+        elif 0.0 <= night_fade_out_rate <= 1.0:
+            night_rate = 1.0 - night_fade_out_rate
         print(f"bright_rate={bright_rate}, night_rate={night_rate}")
 
         last_exception = None

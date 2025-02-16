@@ -183,3 +183,21 @@ class TestDisplayBrightnessManager(unittest.TestCase):
         manager.set_displays_brightness(datetime.datetime(2021, 1, 1, 0, 0))
 
         ddcci.setVcp.assert_not_called()
+
+    def test_set_displays_brightness_should_call_vcp_when_time_range_is_over_midnight(self):
+        ddcci = MagicMock(spec=DdcciInterface)
+        manager = DisplayBrightnessManager(
+            self.time1_start, self.time1_end,
+            datetime.time(23, 0), datetime.time(1, 0), # over midnight
+            datetime.time(3, 0), datetime.time(6, 0), # not night time
+            [self.display], ddcci,
+            StringIO("{}")
+        )
+
+        manager.set_displays_brightness(datetime.datetime(2021, 1, 1, 0, 0))
+
+        ddcci.setVcp.assert_any_call("Test Display", "0x12", "50")
+        ddcci.setVcp.assert_any_call("Test Display", "0x16", "50")
+        ddcci.setVcp.assert_any_call("Test Display", "0x18", "50")
+        ddcci.setVcp.assert_any_call("Test Display", "0x1a", "50")
+        ddcci.setVcp.assert_any_call("Test Display", "0x10", "49")
