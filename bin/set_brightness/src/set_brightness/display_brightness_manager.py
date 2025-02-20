@@ -3,7 +3,7 @@ import json
 import time
 from typing import TextIO
 
-from .ddcci_interface import DdcciInterface
+from .ddcci_interface import DdcciInterface, VcpValue
 from .display import Display
 
 def _map_range(x: float, in_min: float, in_max: float, out_min: float, out_max: float) -> float:
@@ -66,12 +66,9 @@ class DisplayBrightnessManager:
         self.ddcci = ddcci
         self.state_io = state_io
 
-    def __memorized_ddcutil(self, model: str, code: str, value_int: int):
-        """Set a value using ddcutil, but only if it has changed.
+    def __memorized_ddcutil(self, model: str, vcp_values: list[VcpValue]):
+        """Set values using ddcutil, but only if it has changed.
         """
-        value = str(value_int)
-
-        key = f"{model}:{code}"
         memorized_values = {}
 
         # Read all
@@ -80,17 +77,27 @@ class DisplayBrightnessManager:
         if buf:
             memorized_values = json.loads(buf)
 
-        if key in memorized_values and memorized_values[key] == value:
-            print(f"already {key}={value}")
-            return
+        update_values: list[VcpValue] = []
 
-        self.ddcci.setVcp(model, code, value)
-        memorized_values[key] = value
+        for vcp_value in vcp_values:
+            code = vcp_value.code
+            value = vcp_value.value
+            key = f"{model}:{code}"
 
-        print(f"update {key}={value}")
-        self.state_io.seek(0)
-        self.state_io.truncate()
-        json.dump(memorized_values, self.state_io)
+            if key in memorized_values and memorized_values[key] == value:
+                print(f"already {key}={value}")
+                continue
+
+            print(f"update {key}={value}")
+            update_values.append(vcp_value)
+            memorized_values[key] = value
+
+        if update_values:
+            self.ddcci.setVcp(model, update_values)
+
+            self.state_io.seek(0)
+            self.state_io.truncate()
+            json.dump(memorized_values, self.state_io)
 
 
     def __set_display_brightness(self, display: Display, bright_rate: float, night_rate: float):
@@ -112,11 +119,13 @@ class DisplayBrightnessManager:
         blue_gain = int(_map_range(night_rate, 0.0, 1.0, 50, display.night_color.blue))
 
         print(f"{display.name}: brightness {bright}, contrast {contrast}, red {red_gain}, green {green_gain}, blue {blue_gain}")
-        self.__memorized_ddcutil(display.name, "0x12", contrast)
-        self.__memorized_ddcutil(display.name, "0x16", red_gain)
-        self.__memorized_ddcutil(display.name, "0x18", green_gain)
-        self.__memorized_ddcutil(display.name, "0x1a", blue_gain)
-        self.__memorized_ddcutil(display.name, "0x10", bright)
+        self.__memorized_ddcutil(display.name, [
+                                 VcpValue("0x12", str(contrast)),
+                                 VcpValue("0x16", str(red_gain)),
+                                 VcpValue("0x18", str(green_gain)),
+                                 VcpValue("0x1a", str(blue_gain)),
+                                 VcpValue("0x10", str(bright)),
+        ])
 
     def set_displays_brightness(self, now: datetime.datetime):
         """Set the brightness of screens.

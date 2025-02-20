@@ -2,6 +2,7 @@ import subprocess
 import unittest
 from unittest import mock
 
+from src.set_brightness.ddcci_interface import VcpValue
 from src.set_brightness.ddcci_twinkle_tray import DdcciTwinkleTray
 
 class TestTwinkcleTray(unittest.TestCase):
@@ -31,5 +32,5 @@ class TestTwinkcleTray(unittest.TestCase):
         ddcci = DdcciTwinkleTray()
 
         ddcci._display_mappings = {"LG HDR 4K": 1}
-        ddcci.setVcp("LG HDR 4K", "10", "100")
-        subprocess.run.assert_called_once_with(["Twinkle Tray.exe", "--VCP=10:100", "--MonitorNum=1"])
+        ddcci.setVcp("LG HDR 4K", [VcpValue("10", "100")])
+        mock_run.assert_called_once_with(["Twinkle Tray.exe", "--VCP=10:100", "--MonitorNum=1"])

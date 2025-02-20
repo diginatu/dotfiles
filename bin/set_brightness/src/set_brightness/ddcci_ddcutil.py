@@ -1,6 +1,6 @@
 import subprocess
 
-from .ddcci_interface import DdcciInterface
+from .ddcci_interface import DdcciInterface, VcpValue
 
 class DdcciDdcutil(DdcciInterface):
 
@@ -9,7 +9,13 @@ class DdcciDdcutil(DdcciInterface):
     def __init__(self):
         pass
 
-    def setVcp(self, model: str, code: str, value: str):
-        result = subprocess.run(["ddcutil", "setvcp", "--model", model, code, value])
+    def setVcp(self, model: str, vcpValues: list[VcpValue]):
+        args = ["ddcutil", "setvcp", "--model", model]
+
+        for vcpValue in vcpValues:
+            args.append(vcpValue.code)
+            args.append(vcpValue.value)
+
+        result = subprocess.run(args)
         if result.returncode != 0:
-            raise Exception(f"failed to set {code}={value} to {model}")
+            raise Exception(f"failed to set {vcpValues} to {model}")

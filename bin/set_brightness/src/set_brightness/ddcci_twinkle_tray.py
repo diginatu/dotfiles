@@ -1,7 +1,7 @@
 import re
 import subprocess
 
-from .ddcci_interface import DdcciInterface
+from .ddcci_interface import DdcciInterface, VcpValue
 
 class DdcciTwinkleTray(DdcciInterface):
 
@@ -39,7 +39,8 @@ class DdcciTwinkleTray(DdcciInterface):
         list_out = subprocess.check_output([self.executable_path, "list"])
         self._display_mappings = self._get_mappings_from_display_list(list_out)
 
-    def setVcp(self, model: str, code: str, value: str):
-        result = subprocess.run([self.executable_path, "--VCP=" + code + ":" + value, "--MonitorNum=" + str(self._display_mappings[model])])
-        if result.returncode != 0:
-            raise Exception(f"failed: {result.stderr}")
+    def setVcp(self, model: str, vcpValues: list[VcpValue]):
+        for vcpValue in vcpValues:
+            result = subprocess.run([self.executable_path, "--VCP=" + vcpValue.code + ":" + vcpValue.value, "--MonitorNum=" + str(self._display_mappings[model])])
+            if result.returncode != 0:
+                raise Exception(f"failed: {result.stderr}")
