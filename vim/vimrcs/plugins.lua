@@ -203,6 +203,7 @@ require("lazy").setup({
                         vim.keymap.set('n', '<leader>im', ':<C-u>PyrightOrganizeImports<CR>')
                     end
                 },
+                { 'ts_ls' },
             }
 
             local lsp = require('lspconfig')
