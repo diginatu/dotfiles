@@ -1,3 +1,5 @@
+local is_fast_launch = vim.env.KITTY_SCROLLBACK_NVIM == 'true'
+
 -- Bootstrap lazy.nvim
 local plug_dir = vim.fn.stdpath("data") .. "/lazy"
 local lazypath = plug_dir .. "/lazy.nvim"
@@ -19,7 +21,6 @@ require("lazy").setup({
     --------------
     {
         'sainnhe/edge',
-        lazy = false,
         priority = 1000,
         init = function ()
             vim.g.edge_better_performance = 1
@@ -37,6 +38,7 @@ require("lazy").setup({
     'lilydjwg/colorizer',
     {
         'itchyny/lightline.vim',
+        enabled = not is_fast_launch,
         dependencies = { 'sainnhe/edge' },
         init = function ()
             vim.o.showmode = false
@@ -96,6 +98,7 @@ require("lazy").setup({
     ------------------------
     {
         "nvim-treesitter/nvim-treesitter",
+        enabled = not is_fast_launch,
         build = ":TSUpdate",
         main = "nvim-treesitter.configs",
         init = function ()
@@ -122,7 +125,10 @@ require("lazy").setup({
             },
         },
     },
-    'nvim-treesitter/nvim-treesitter-textobjects',
+    {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        enabled = not is_fast_launch,
+    },
     {
         'neoclide/coc.nvim',
         enabled = false,
@@ -161,6 +167,7 @@ require("lazy").setup({
     },
     {
         'neovim/nvim-lspconfig',
+        enabled = not is_fast_launch,
         init = function ()
             local aug = vim.api.nvim_create_augroup('vimrc_lspconfig', { clear = true })
 
@@ -243,6 +250,7 @@ require("lazy").setup({
     },
     {
         'vim-test/vim-test',
+        enabled = not is_fast_launch,
         init = function ()
             vim.g['test#strategy'] = 'neovim'
         end,
@@ -367,7 +375,24 @@ require("lazy").setup({
         lazy = true,
         cmd = { 'KittyScrollbackGenerateKittens', 'KittyScrollbackCheckHealth' },
         event = { 'User KittyScrollbackLaunch' },
-        version = '^3.0.0',
+        version = '^6.0.0',
+        keys = function()
+            -- Only enable these keymaps if KITTY_SCROLLBACK_NVIM is 'true'
+            if vim.env.KITTY_SCROLLBACK_NVIM ~= 'true' then
+                return {}
+            end
+
+            return {
+                -- Normal mode
+                { "y",  '"+y', mode = "n", desc = "Yank to clipboard" },
+                { "yy", '"+yy', mode = "n", desc = "Yank line to clipboard" },
+                { "Y",   '"+y$', mode = "n", desc = "Yank to end to clipboard" },
+
+                -- Visual mode
+                { "y",  '"+y', mode = "v", desc = "Yank selection to clipboard" },
+                { "Y",  '"+Y', mode = "v", desc = "Yank line selection to clipboard" },
+            }
+        end,
     },
     {
         -- Additional spellcheck dictionary
@@ -375,7 +400,10 @@ require("lazy").setup({
         build = ':DirtytalkUpdate',
     },
     'vim-scripts/sudo.vim',
-    'scrooloose/nerdcommenter',
+    {
+        'scrooloose/nerdcommenter',
+        enabled = not is_fast_launch,
+    },
     {
         'fuenor/im_control.vim',
         init = function ()
@@ -417,6 +445,7 @@ require("lazy").setup({
     },
     {
         'SirVer/ultisnips',
+        enabled = not is_fast_launch,
         init = function ()
             vim.g.UltiSnipsExpandTrigger = '<tab>'
             vim.g.UltiSnipsJumpForwardTrigger = '<C-l>'
@@ -425,14 +454,24 @@ require("lazy").setup({
             vim.g.UltiSnipsRemoveSelectModeMappings = 0
         end,
     },
-    'honza/vim-snippets',
+    {
+        'honza/vim-snippets',
+        enabled = not is_fast_launch,
+    },
     'tpope/vim-repeat',
     'tpope/vim-surround',
     'tpope/vim-speeddating',
-    'tpope/vim-fugitive',
-    'kshenoy/vim-signature',
+    {
+        'tpope/vim-fugitive',
+        enabled = not is_fast_launch,
+    },
+    {
+        'kshenoy/vim-signature',
+        enabled = not is_fast_launch,
+    },
     {
         'airblade/vim-gitgutter',
+        enabled = not is_fast_launch,
         init = function ()
             vim.g.gitgutter_map_keys = 0
             vim.o.updatetime = 1000
@@ -443,9 +482,14 @@ require("lazy").setup({
             vim.keymap.set('n', '<leader>hp', '<Plug>(GitGutterPreviewHunk)')
         end,
     },
-    'dkarter/bullets.vim',
+    {
+        'dkarter/bullets.vim',
+        enabled = not is_fast_launch,
+    },
     {
         'previm/previm',
+        lazy = true,
+        cmd = { 'PrevimOpen' },
         init = function ()
             vim.g.previm_open_cmd = vim.g.system_open
         end,
@@ -453,21 +497,22 @@ require("lazy").setup({
     'junegunn/vim-easy-align',
     {
         'junegunn/fzf',
+        enabled = not is_fast_launch,
         build = ':call fzf#install()',
     },
     {
         'junegunn/fzf.vim',
-        lazy = false,
+        enabled = not is_fast_launch,
         dependencies = { 'junegunn/fzf' },
         init = function ()
             vim.g.fzf_command_prefix = 'Fzf'
             vim.api.nvim_create_user_command('FzfFiles',
-            'call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)',
-            { bang = true, nargs = '?', complete = 'dir' }
+                'call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)',
+                { bang = true, nargs = '?', complete = 'dir' }
             )
             vim.api.nvim_create_user_command('FzfGGrep',
-            'call fzf#vim#grep(\'git grep --line-number -- \'.shellescape(<q-args>), 0, fzf#vim#with_preview({\'dir\': systemlist(\'git rev-parse --show-toplevel\')[0]}), <bang>0)',
-            { bang = true, nargs = '*' }
+                'call fzf#vim#grep(\'git grep --line-number -- \'.shellescape(<q-args>), 0, fzf#vim#with_preview({\'dir\': systemlist(\'git rev-parse --show-toplevel\')[0]}), <bang>0)',
+                { bang = true, nargs = '*' }
             )
         end,
         keys = {
@@ -488,6 +533,7 @@ require("lazy").setup({
     'tpope/vim-obsession',
     {
         'github/copilot.vim',
+        enabled = not is_fast_launch,
         init = function ()
             vim.g.copilot_filetypes = {
                 text = false,
@@ -496,6 +542,7 @@ require("lazy").setup({
     },
     {
         "CopilotC-Nvim/CopilotChat.nvim",
+        enabled = not is_fast_launch,
         dependencies = {
             { "github/copilot.vim" },
             { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
