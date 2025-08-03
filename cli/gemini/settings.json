@@ -1,0 +1,5 @@
+{
+  "theme": "Default",
+  "sandbox": "docker",
+  "selectedAuthType": "gemini-api-key"
+}

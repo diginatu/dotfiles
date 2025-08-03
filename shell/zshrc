@@ -104,6 +104,7 @@ function __update_theme () {
         local kitty_theme_file='light.conf'
         export AIDER_LIGHT_MODE='True'
         export AIDER_DARK_MODE='False'
+        export GEMENI_CLI_THEME='Ayu Light'
         export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS_PRE' --color=fg:-1,bg:-1,hl:#3465a4 --color=fg+:#000000,bg+:#eeeeec,hl+:#17498c --color=info:#92968e,prompt:#cc0000,pointer:#dbb300 --color=marker:#4e9a06,spinner:#75507b,header:#06989a'
     else
         export DELTA_FEATURES='+dark'
@@ -111,6 +112,7 @@ function __update_theme () {
         local kitty_theme_file='dark.conf'
         export AIDER_LIGHT_MODE='False'
         export AIDER_DARK_MODE='True'
+        export GEMENI_CLI_THEME='Default'
         export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS_PRE' --color=fg:-1,bg:-1,hl:#6099c0 --color=fg+:#d0d0d0,bg+:#3d3839,hl+:#61abda --color=info:#bbbbbb,prompt:#de6e7c,pointer:#d68c67 --color=marker:#8bae68,spinner:#b279a7,header:#66a5ad'
     fi
     if [[ $TERM == "xterm-kitty" ]]; then

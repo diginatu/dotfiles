@@ -28,7 +28,7 @@ ln -fs "${FROMDIR}/vim/spell/en.utf-8.add" ${DISTDIR}/.vim/spell/
 # Tmux
 ln -fs ${FROMDIR}/etc/tmux.conf ${DISTDIR}/.tmux.conf
 
-# Other
+# CLI
 rm -f ${DISTDIR}/.gitconfig
 cp ${FROMDIR}/git/gitconfig ${DISTDIR}/.gitconfig
 
@@ -46,6 +46,9 @@ mkdir -p ${DISTDIR}/bin
 ln -fs ${FROMDIR}/bin/* ${DISTDIR}/bin/
 
 ln -fs ${FROMDIR}/cli/aider.conf.yml ${DISTDIR}/.aider.conf.yml
+
+mkdir -p ${DISTDIR}/.gemini
+ln -fs ${FROMDIR}/cli/gemini/settings.json ${DISTDIR}/.gemini/settings.json
 
 # GUI
 
