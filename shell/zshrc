@@ -293,7 +293,7 @@ if type wezterm > /dev/null; then
     alias wssh="wezterm ssh"
 fi
 
-if "$TERM" = "xterm-kitty" && type kitten > /dev/null; then
+if [[ $TERM == "xterm-kitty" ]]; then
     alias kssh="kitten ssh"
     alias icat="kitten icat"
     alias notify="kitten notify"
