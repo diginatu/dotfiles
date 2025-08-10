@@ -18,7 +18,7 @@ elif type 'kitten' > /dev/null 2>&1; then
         echo "open { file | URL }"
         exit 1
     fi
-    kitten @ launch --type background open "$@" > /dev/null
+    kitten @ run open "$@" > /dev/null
 else
     echo "No command to open file"
     exit 1

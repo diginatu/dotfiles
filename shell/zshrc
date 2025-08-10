@@ -288,22 +288,15 @@ if type delta > /dev/null; then
     export GIT_PAGER=delta
 fi
 
-if type kitten > /dev/null; then
-    alias kssh="kitten ssh"
-    alias icat="kitten icat"
-    notify() {
-        local title="${1:?title}"
-        local id=$RANDOM
-        if [ -n $2 ]; then
-            printf "\x1b]99;i=$id:d=0:p=body;$2\x1b\\"
-        fi
-        printf "\x1b]99;i=$id:d=1;$1\x1b\\"
-    }
-fi
-
 if type wezterm > /dev/null; then
     alias icat="wezterm imgcat"
     alias wssh="wezterm ssh"
+fi
+
+if "$TERM" = "xterm-kitty" && type kitten > /dev/null; then
+    alias kssh="kitten ssh"
+    alias icat="kitten icat"
+    alias notify="kitten notify"
 fi
 
 # Man page using vim
