@@ -220,7 +220,7 @@ require("lazy").setup({
                 local bin_path = server.cmd and server.cmd[1] or config.document_config.default_config.cmd[1]
 
                 -- Only setup a language server if we have the binary available
-                if (vim.fn.executable(bin_path)) then
+                if (vim.fn.executable(bin_path) == 1) then
                     local setup_config = {}
 
                     -- Add custom config if available
