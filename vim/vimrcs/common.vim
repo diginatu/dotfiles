@@ -228,6 +228,37 @@ endfunction
 command! -range Gurl echo s:get_giturl(<line1>, <line2>)
 command! -range Gurlyank let @+ = s:get_giturl(<line1>, <line2>)
 
+" Open current file/line (or visual range) on GitHub using gh, pinned to current branch
+function! s:gh_browse_range(start, end) abort
+    if empty(expand('%'))
+        echo "No file"
+        return
+    endif
+
+    " File path (as shown in the repo)
+    let l:path = expand('%')
+
+    " Build :line or :start-end
+    let l:range = (a:start == a:end) ? (':' . a:start) : (':' . a:start . '-' . a:end)
+
+    " Get current branch (fallback to short SHA if in detached HEAD)
+    let l:branch = trim(system('git branch --show-current 2>/dev/null'))
+    if empty(l:branch)
+        let l:branch = trim(system('git rev-parse --short HEAD 2>/dev/null'))
+    endif
+
+    " Assemble command (shellescape for safety)
+    let l:cmd = 'gh browse ' . shellescape(l:path . l:range)
+    if !empty(l:branch)
+        let l:cmd .= ' --branch ' . shellescape(l:branch)
+    endif
+
+    execute 'silent !' . l:cmd
+endfunction
+
+" :GhBrowse — respects a range (e.g., visually selected lines)
+command! -range GhBrowse call s:gh_browse_range(<line1>, <line2>)
+
 augroup vimrc_spell_on_in_git_commit_message
     au!
     au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
