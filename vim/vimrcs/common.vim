@@ -253,7 +253,7 @@ function! s:gh_browse_range(start, end) abort
         let l:cmd .= ' --branch ' . shellescape(l:branch)
     endif
 
-    execute 'silent !' . l:cmd
+    execute '!' . l:cmd
 endfunction
 
 " :GhBrowse — respects a range (e.g., visually selected lines)
