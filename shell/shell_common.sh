@@ -21,8 +21,7 @@ fi
 alias g='git'
 alias kub='kubectl'
 alias sys='systemctl'
-alias 'ghq get'='ghq get -l'
-alias 'ghq clone'='ghq clone -l'
+alias 'ghqg'='ghq get -l'
 
 # Kitty
 if type 'kitten' > /dev/null; then
