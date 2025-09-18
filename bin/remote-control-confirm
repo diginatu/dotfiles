@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+command=$(echo "$@")
+
+#result=$(kitten ask --type yesno --title "Remote control" --default no --message "Permit remote control?
+#Command: \"$command\"")
+
+# Instead of using kitten ask, use a simple zenity dialog for better compatibility
+if zenity --question --title="Remote control" --text="Permit remote control?\nCommand: \"$command\""; then
+    eval "$command"
+else
+    echo "Remote control command denied."
+fi

@@ -44,6 +44,7 @@ ln -fs ${FROMDIR}/docker/config.json ${DISTDIR}/.docker/config.json
 
 mkdir -p ${DISTDIR}/bin
 ln -fs ${FROMDIR}/bin/* ${DISTDIR}/bin/
+ln -fs ${FROMDIR}/bin/open ${DISTDIR}/bin/xdg-open
 
 ln -fs ${FROMDIR}/cli/aider.conf.yml ${DISTDIR}/.aider.conf.yml
 
