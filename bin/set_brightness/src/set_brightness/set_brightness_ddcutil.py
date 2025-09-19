@@ -13,9 +13,9 @@ now = datetime.datetime.now()
 
 with open("/tmp/set-brightness-ddcutil-mem.json", 'a+t') as f:
     display_brightness_manager = DisplayBrightnessManager(
-        time1_start=datetime.time(5, 0), time1_end=datetime.time(9, 0),
-        time2_start=datetime.time(16, 0), time2_end=datetime.time(0, 0),
-        night_color_start=datetime.time(22, 0), night_color_end=datetime.time(5, 0),
+        time1_start=datetime.time(4, 0), time1_end=datetime.time(8, 0),
+        time2_start=datetime.time(15, 0), time2_end=datetime.time(23, 0),
+        night_color_start=datetime.time(21, 0), night_color_end=datetime.time(4, 0),
         displays=[
             Display("LG HDR 4K", contrast_min=7, contrast_max=70, night_color=Color(100, 30, 0)),
             Display("PHL 246E7", contrast_min=0, contrast_max=90, night_color=Color(50, 1, 0)),
