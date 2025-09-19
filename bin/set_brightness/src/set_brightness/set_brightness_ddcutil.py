@@ -29,6 +29,6 @@ with open("/tmp/set-brightness-ddcutil-mem.json", 'a+t') as f:
         print(e)
 
 discord_theme_manager = DiscordThemeManager(
-        time_light_theme_start=datetime.time(7, 0),
-        time_light_theme_end=datetime.time(20, 0))
+        time_light_theme_start=datetime.time(4, 0),
+        time_light_theme_end=datetime.time(19, 0))
 discord_theme_manager.set_theme(now.time())
