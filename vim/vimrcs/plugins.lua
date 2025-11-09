@@ -211,6 +211,7 @@ require("lazy").setup({
                     end
                 },
                 { 'ts_ls' },
+                { 'clangd' },
             }
 
             local lsp = require('lspconfig')
