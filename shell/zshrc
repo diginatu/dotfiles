@@ -116,7 +116,13 @@ function __update_theme () {
         export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS_PRE' --color=fg:-1,bg:-1,hl:#6099c0 --color=fg+:#d0d0d0,bg+:#3d3839,hl+:#61abda --color=info:#bbbbbb,prompt:#de6e7c,pointer:#d68c67 --color=marker:#8bae68,spinner:#b279a7,header:#66a5ad'
     fi
     if [[ $TERM == "xterm-kitty" ]]; then
-        kitten @ set-colors --all "~/.config/kitty/themes/${kitty_theme_file}"
+        if [[ $KITTY_LISTEN_ON == unix:/tmp/kitty.sock* ]]; then
+            for sock in /tmp/kitty.sock*; do
+                kitten @ set-colors --all --to unix:$sock "~/.config/kitty/themes/${kitty_theme_file}"
+            done
+        else
+            kitten @ set-colors --all "~/.config/kitty/themes/${kitty_theme_file}"
+        fi
     fi
 }
 
