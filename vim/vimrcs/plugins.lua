@@ -130,49 +130,11 @@ require("lazy").setup({
         enabled = not is_fast_launch,
     },
     {
-        'neoclide/coc.nvim',
-        enabled = false,
-        branch = 'release',
-        init = function ()
-            local opts = {silent = true, noremap = false, expr = true, replace_keycodes = false}
-            vim.keymap.set('n', '<leader>ac', '<Plug>(coc-codeaction)')
-            vim.keymap.set('n', '<leader>fx', '<Plug>(coc-fix-current)')
-            vim.keymap.set('n', '<leader>if', '<Plug>(coc-diagnostic-info)')
-            vim.keymap.set('n', '<leader>dn', ':<C-u>CocDiagnostics<CR>')
-            vim.keymap.set('n', '<leader>fm', '<Plug>(coc-format)')
-            vim.keymap.set('n', '<leader>nm', '<Plug>(coc-rename)')
-            vim.keymap.set('n', '<leader>us', '<Plug>(coc-references)')
-            vim.keymap.set('n', '<leader>dc', '<Plug>(coc-declaration)')
-            vim.keymap.set('n', '<leader>ip', '<Plug>(coc-implementation)')
-            vim.keymap.set('n', '<leader>rf', '<Plug>(coc-refactor)')
-            vim.keymap.set('n', '<leader>ln', '<Plug>(coc-codelens-action)')
-            vim.keymap.set('n', '<leader>im', ':<C-u>silent call CocAction("runCommand", "editor.action.organizeImport")<CR>', { nowait = true })
-            vim.keymap.set('n', '<leader>?', ':call CocActionAsync("doHover")<CR>', { nowait = true })
-            vim.keymap.set('n', '<C-w>u', '<Plug>(coc-float-jump)')
-            vim.keymap.set('n', '<C-]>', 'CocHasProvider("definition") ? "<Plug>(coc-definition)" : "<C-]>"', opts)
-            vim.keymap.set('n', '<C-w><C-]>', 'CocHasProvider("definition") ? ":call CocAction("jumpDefinition", "vsplit")<CR>" : "<C-w><C-]>"', opts)
-            vim.keymap.set('i', '<CR>', 'coc#pum#visible() ? coc#_select_confirm() : "<C-g>u<CR><c-r>=coc#on_enter()<CR>"', opts)
-            vim.g.coc_snippet_next = '<C-l>'
-            vim.g.coc_snippet_prev = '<C-k>'
-
-            local aug = vim.api.nvim_create_augroup('vimrc_coc_keymap', { clear = true })
-            vim.api.nvim_create_autocmd('FileType', {
-                group = aug,
-                pattern = 'go',
-                callback = function ()
-                    vim.keymap.set('n', '<leader>ts', ':<C-u>CocCommand go.test.toggle<CR>')
-                end
-            })
-        end
-    },
-    {
         'neovim/nvim-lspconfig',
         enabled = not is_fast_launch,
         init = function ()
-            local aug = vim.api.nvim_create_augroup('vimrc_lspconfig', { clear = true })
-
             vim.api.nvim_create_autocmd('LspAttach', {
-                group = aug,
+                group = vim.api.nvim_create_augroup('vimrc_lspconfig', { clear = true }),
                 callback = function(args)
                     local client = vim.lsp.get_client_by_id(args.data.client_id)
                     if client.supports_method('textDocument/codeAction') then
@@ -184,69 +146,37 @@ require("lazy").setup({
                     if client.supports_method('textDocument/references') then
                         vim.keymap.set('n', '<leader>us', '<Cmd>lua vim.lsp.buf.references()<CR>')
                     end
+                    if client.supports_method('textDocument/declaration') then
+                        vim.keymap.set('n', '<leader>dc', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
+                    end
                     if client.supports_method('textDocument/implementation') then
                         vim.keymap.set('n', '<leader>ip', '<Cmd>lua vim.lsp.buf.implementation()<CR>')
                     end
                     if client.supports_method('textDocument/codeLens') then
                         vim.keymap.set('n', '<leader>ln', '<Cmd>lua vim.lsp.codelens.run()<CR>')
                     end
-                    if client.supports_method('textDocument/formatting') then
+                    if not client:supports_method('textDocument/willSaveWaitUntil') and 
+                        client.supports_method('textDocument/formatting') then
                         -- Format the current buffer on save
                         vim.api.nvim_create_autocmd('BufWritePre', {
+                            group = vim.api.nvim_create_augroup('vimrc.lspconfig.keybind', { clear = false }),
                             buffer = args.buf,
                             callback = function()
-                                vim.lsp.buf.format({bufnr = args.buf, id = client.id})
+                                vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
                             end,
                         })
+                    end
+
+                    if client.name == 'pyright' then
+                        vim.keymap.set('n', '<leader>im', ':<C-u>LspPyrightOrganizeImports<CR>')
                     end
                 end,
             })
 
-            local servers = {
-                { 'gopls' },
-                {
-                    'pyright',
-                    config_func = function ()
-                        vim.keymap.set('n', '<leader>im', ':<C-u>PyrightOrganizeImports<CR>')
-                    end
-                },
-                { 'ts_ls' },
-                { 'clangd' },
-            }
-
-            local lsp = require('lspconfig')
-            for _, server in pairs(servers) do
-                local config = lsp[server[1]]
-                -- use settings.cmd then fall back to document_config.default_config.cmd
-                local bin_path = server.cmd and server.cmd[1] or config.document_config.default_config.cmd[1]
-
-                -- Only setup a language server if we have the binary available
-                if (vim.fn.executable(bin_path) == 1) then
-                    local setup_config = {}
-
-                    -- Add custom config if available
-                    for k, v in pairs(server) do
-                        if k == 'config_func' then
-                            v()
-                        else
-                            setup_config[k] = v
-                        end
-                    end
-
-                    config.setup(setup_config)
-                end
-            end
-        end
-    },
-    {
-        'antoinemadec/coc-fzf',
-        enabled = false,
-        branch = 'release',
-        dependencies = { 'junegunn/fzf' },
-        init = function ()
-            vim.keymap.set('n', '<leader>ou', ':<C-u>CocFzfList outline<cr>')
-            vim.keymap.set('n', '<leader>oc', ':<C-u>CocFzfList commands<cr>')
-            vim.keymap.set('n', '<leader>ol', ':<C-u>CocFzfList<cr>')
+            vim.lsp.enable('gopls')
+            vim.lsp.enable('pyright')
+            vim.lsp.enable('ts_ls')
+            vim.lsp.enable('clangd')
         end
     },
     {
