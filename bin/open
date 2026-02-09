@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 
-# Avoids recursive call
-if [ -n "$IS_IN_OPEN_WRAPPER" ]; then
-    echo "Recursive call to open"
-    exit 1
-fi
+echo "Proxy open called with args: $*"
 
-if type '/usr/bin/open' > /dev/null 2>&1; then
+if [ -z "$IS_IN_OPEN_WRAPPER" ] && type '/usr/bin/open' > /dev/null 2>&1; then
+    echo "trying /usr/bin/open"
     IS_IN_OPEN_WRAPPER=1 /usr/bin/open "$@"
-elif type 'xdg-open' > /dev/null 2>&1; then
-    xdg-open "$@"
+elif [ -z "$IS_IN_XDGOPEN_WRAPPER" ] && type 'xdg-open' > /dev/null 2>&1; then
+    echo "trying xdg-open"
+    IS_IN_XDGOPEN_WRAPPER=1 xdg-open "$@"
 elif type 'kitten' > /dev/null 2>&1; then
     if [ -z "$1" ]; then
         echo "open { file | URL }"
