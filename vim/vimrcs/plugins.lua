@@ -237,6 +237,16 @@ require("lazy").setup({
         lazy = true,
         ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
     },
+    {
+        'davidgranstrom/scnvim',
+        ft = 'supercollider',
+        config = function()
+            local scnvim = require 'scnvim'
+            local map = scnvim.map
+            local map_expr = scnvim.map_expr
+            scnvim.setup { }
+        end
+    },
 
     -----------------------
     --  Auto completion  --
