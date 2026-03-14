@@ -1,0 +1,110 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "ollama": {
+      "models": {
+        "glm-4.7-flash": {
+          "_launch": true,
+          "name": "glm-4.7-flash"
+        },
+        "qwen3-coder": {
+          "name": "qwen3-coder"
+        }
+      },
+      "name": "Ollama (local)",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://127.0.0.1:11434/v1"
+      }
+    }
+  },
+  "permission": {
+    "*": "ask",
+    "bash": {
+      "*": "ask",
+
+      // --- Filesystem: read-only ---
+      "ls": "allow",
+      "ls *": "allow",
+      "pwd": "allow",
+      "cat *": "allow",
+      "head *": "allow",
+      "tail *": "allow",
+      "find *": "allow",
+      "du *": "allow",
+      "df *": "allow",
+      "file *": "allow",
+      "stat *": "allow",
+      "wc *": "allow",
+      "tree *": "allow",
+
+      // --- Text processing ---
+      "echo *": "allow",
+      "grep *": "allow",
+      "rg *": "allow",
+      "awk *": "allow",
+      "cut *": "allow",
+      "sort *": "allow",
+      "uniq *": "allow",
+      "tr *": "allow",
+
+      // --- Git: read-only ---
+      "git remote": "allow",
+      "git remote -v": "allow",
+      "git remote *": "allow",
+      "git status": "allow",
+      "git status *": "allow",
+      "git log": "allow",
+      "git log *": "allow",
+      "git diff": "allow",
+      "git diff *": "allow",
+      "git branch": "allow",
+      "git branch *": "allow",
+      "git show *": "allow",
+      "git stash list": "allow",
+      "git tag": "allow",
+      "git tag *": "allow",
+      "git describe *": "allow",
+      "git rev-parse *": "allow",
+      "git config --list": "allow",
+      "git ls-files *": "allow",
+      "git ls-tree *": "allow",
+      "git blame *": "allow",
+      "git grep *": "allow",
+      "git shortlog *": "allow",
+
+      // --- System info ---
+      "which *": "allow",
+      "whereis *": "allow",
+      "whoami": "allow",
+      "hostname": "allow",
+      "uname *": "allow",
+      "date": "allow",
+      "uptime": "allow",
+      "ps *": "allow",
+      "type *": "allow",
+
+      // --- Runtime/package info ---
+      "node --version": "allow",
+      "node -v": "allow",
+      "npm --version": "allow",
+      "npm -v": "allow",
+      "npm list": "allow",
+      "npm list *": "allow",
+      "npm info *": "allow",
+      "npm outdated": "allow",
+      "pip list": "allow",
+      "pip show *": "allow",
+      "pip freeze": "allow",
+      "python --version": "allow",
+      "python3 --version": "allow",
+      "python -V": "allow",
+      "python3 -V": "allow",
+      "go version": "allow",
+      "rustc --version": "allow",
+      "cargo --version": "allow",
+      "java --version": "allow",
+      "ruby --version": "allow"
+    }
+  }
+}

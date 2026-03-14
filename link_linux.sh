@@ -65,3 +65,7 @@ mkdir -p ${DISTDIR}/.local/share/nautilus/scripts/
 ln -fs ${FROMDIR}/nautilus-scripts/* ${DISTDIR}/.local/share/nautilus/scripts/
 
 ln -fs ${FROMDIR}/etc/xbindkeysrc ${DISTDIR}/.xbindkeysrc
+
+# ai
+mkdir -p ${DISTDIR}/.config/opencode
+ln -fs ${FROMDIR}/ai/opencode/opencode.json ${DISTDIR}/.config/opencode/opencode.json
