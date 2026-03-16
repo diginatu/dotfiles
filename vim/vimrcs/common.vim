@@ -188,6 +188,12 @@ nnoremap <Leader>pl :<C-u>let @+=printf("%s:%d", expand("%"), line('.'))<CR>
 vnoremap <Leader>pl :<C-u>let @+=printf("%s:%d-%d", expand("%"), line("'<"), line("'>"))<CR>
 nnoremap <Leader>pc :<C-u>let @+=printf("%s:%d:%d", expand("%"), line('.'), col('.'))<CR>
 
+" Yank file path commands
+command! YankFilePath let @+=expand("%")
+command! YankFileLine let @+=printf("%s:%d", expand("%"), line('.'))
+command! -range YankFileLines let @+=printf("%s:%d-%d", expand("%"), line("'<"), line("'>"))
+command! YankFileCol let @+=printf("%s:%d:%d", expand("%"), line('.'), col('.'))
+
 nnoremap <Leader>e :<C-u>Explore<CR>
 nnoremap <Leader>nl :<C-u>Lexplore<CR>
 nnoremap <Leader>nt :<C-u>Texplore<CR>
