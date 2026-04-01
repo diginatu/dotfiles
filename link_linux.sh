@@ -68,8 +68,7 @@ ln -fs ${FROMDIR}/etc/xbindkeysrc ${DISTDIR}/.xbindkeysrc
 
 # ai
 mkdir -p ${DISTDIR}/.config/opencode
-ln -fs ${FROMDIR}/ai/opencode/opencode.json ${DISTDIR}/.config/opencode/opencode.json
+ln -fs ${FROMDIR}/ai/opencode/opencode.jsonc ${DISTDIR}/.config/opencode/opencode.jsonc
 ## ai/AGENTS.md
 mkdir -p ${DISTDIR}/.claude
 ln -fs ${FROMDIR}/ai/AGENTS.md ${DISTDIR}/.claude/CLAUDE.md
-ln -fs ${FROMDIR}/ai/AGENTS.md ${DISTDIR}/.config/opencode/AGENTS.md

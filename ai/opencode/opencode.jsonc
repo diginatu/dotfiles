@@ -1,5 +1,8 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "~/dotfiles/ai/AGENTS.md"
+  ],
   "provider": {
     "ollama": {
       "models": {
@@ -20,9 +23,28 @@
   },
   "permission": {
     "*": "ask",
+    "read": {
+      "*": "allow",
+      "*.env": "ask",
+      "*.env.*": "ask",
+      "*.env.example": "allow"
+    },
+    "glob": {
+      "*": "allow"
+    },
+    "grep": {
+      "*": "allow"
+    },
+    "list": {
+      "*": "allow"
+    },
+    "edit": {
+      "*": "ask"
+    },
+    "todoread": "allow",
+    "todowrite": "allow",
     "bash": {
       "*": "ask",
-
       // --- Filesystem: read-only ---
       "ls": "allow",
       "ls *": "allow",
@@ -32,12 +54,10 @@
       "tail *": "allow",
       "find *": "allow",
       "du *": "allow",
-      "df *": "allow",
       "file *": "allow",
       "stat *": "allow",
       "wc *": "allow",
       "tree *": "allow",
-
       // --- Text processing ---
       "echo *": "allow",
       "grep *": "allow",
@@ -47,7 +67,6 @@
       "sort *": "allow",
       "uniq *": "allow",
       "tr *": "allow",
-
       // --- Git: read-only ---
       "git remote": "allow",
       "git remote -v": "allow",
@@ -72,7 +91,6 @@
       "git blame *": "allow",
       "git grep *": "allow",
       "git shortlog *": "allow",
-
       // --- System info ---
       "which *": "allow",
       "whereis *": "allow",
@@ -83,7 +101,6 @@
       "uptime": "allow",
       "ps *": "allow",
       "type *": "allow",
-
       // --- Runtime/package info ---
       "node --version": "allow",
       "node -v": "allow",
