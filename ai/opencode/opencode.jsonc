@@ -41,6 +41,7 @@
     "edit": {
       "*": "ask"
     },
+    "task": "allow",
     "todoread": "allow",
     "todowrite": "allow",
     "bash": {
@@ -102,6 +103,7 @@
       "ps *": "allow",
       "type *": "allow",
       // --- Runtime/package info ---
+      "bash -n *": "allow",
       "node --version": "allow",
       "node -v": "allow",
       "npm --version": "allow",
@@ -113,15 +115,21 @@
       "pip list": "allow",
       "pip show *": "allow",
       "pip freeze": "allow",
+      "uv run pytest *": "allow",
+      "uv run python -m py_compile *": "allow",
       "python --version": "allow",
       "python3 --version": "allow",
       "python -V": "allow",
       "python3 -V": "allow",
+      "python -m py_compile *": "allow",
+      "python3 -m py_compile *": "allow",
       "go version": "allow",
       "rustc --version": "allow",
       "cargo --version": "allow",
       "java --version": "allow",
-      "ruby --version": "allow"
+      "ruby --version": "allow",
+      "bun --version": "allow",
+      "bun test *": "allow"
     }
   }
 }
