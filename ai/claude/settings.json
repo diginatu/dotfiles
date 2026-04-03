@@ -1,0 +1,132 @@
+{
+  "env": {
+    "BUN_TMPDIR": "/tmp/claude"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(ls:*)",
+      "Bash(pwd)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(find:*)",
+      "Bash(du:*)",
+      "Bash(df:*)",
+      "Bash(file:*)",
+      "Bash(stat:*)",
+      "Bash(wc:*)",
+      "Bash(tree:*)",
+      "Bash(echo:*)",
+      "Bash(grep:*)",
+      "Bash(rg:*)",
+      "Bash(awk:*)",
+      "Bash(cut:*)",
+      "Bash(sort:*)",
+      "Bash(uniq:*)",
+      "Bash(tr:*)",
+      "Bash(git remote:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git branch:*)",
+      "Bash(git show:*)",
+      "Bash(git stash list)",
+      "Bash(git tag:*)",
+      "Bash(git describe:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(git config --list)",
+      "Bash(git ls-files:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(git blame:*)",
+      "Bash(git grep:*)",
+      "Bash(git shortlog:*)",
+      "Bash(which:*)",
+      "Bash(whereis:*)",
+      "Bash(whoami)",
+      "Bash(hostname)",
+      "Bash(uname:*)",
+      "Bash(date)",
+      "Bash(uptime)",
+      "Bash(ps:*)",
+      "Bash(type:*)",
+      "Bash(bash -n:*)",
+      "Bash(node --version)",
+      "Bash(node -v)",
+      "Bash(npm --version)",
+      "Bash(npm -v)",
+      "Bash(npm list:*)",
+      "Bash(npm info:*)",
+      "Bash(npm outdated)",
+      "Bash(pip list)",
+      "Bash(pip show:*)",
+      "Bash(pip freeze)",
+      "Bash(uv run pytest:*)",
+      "Bash(uv run python -m py_compile:*)",
+      "Bash(python --version)",
+      "Bash(python3 --version)",
+      "Bash(python -V)",
+      "Bash(python3 -V)",
+      "Bash(python -m py_compile:*)",
+      "Bash(python3 -m py_compile:*)",
+      "Bash(go version)",
+      "Bash(rustc --version)",
+      "Bash(cargo --version)",
+      "Bash(java --version)",
+      "Bash(ruby --version)",
+      "Bash(bun --version)",
+      "Bash(bun test:*)",
+      "Bash(ollama --version)",
+      "Bash(ffmpeg -version)",
+      "WebFetch(domain:docs.blender.org)",
+      "WebFetch(domain:docs.langchain.com)",
+      "WebSearch"
+    ],
+    "defaultMode": "default"
+  },
+  "model": "opus",
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "play /usr/share/sounds/speech-dispatcher/test.wav"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "unalias rm"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "sh /home/diginah/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true
+  },
+  "sandbox": {
+    "enabled": true,
+    "failIfUnavailable": true,
+    "seccomp": {
+      "bpfPath": "~/.local/user-nodejs-packages/node_modules/@anthropic-ai/sandbox-runtime/vendor/seccomp/x64"
+    }
+  }
+}

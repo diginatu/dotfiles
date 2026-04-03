@@ -72,3 +72,5 @@ ln -fs ${FROMDIR}/ai/opencode/opencode.jsonc ${DISTDIR}/.config/opencode/opencod
 ## ai/AGENTS.md
 mkdir -p ${DISTDIR}/.claude
 ln -fs ${FROMDIR}/ai/AGENTS.md ${DISTDIR}/.claude/CLAUDE.md
+ln -fs ${FROMDIR}/ai/claude/agents/* ${DISTDIR}/.claude/agents/
+ln -fs ${FROMDIR}/ai/claude/settings.json ${DISTDIR}/.claude/
