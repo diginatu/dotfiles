@@ -125,6 +125,7 @@
       "python3 -m py_compile *": "allow",
       "go version": "allow",
       "go test *": "allow",
+      "go build *": "allow",
       "rustc --version": "allow",
       "cargo --version": "allow",
       "java --version": "allow",
