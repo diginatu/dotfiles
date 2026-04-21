@@ -39,7 +39,7 @@
       "*": "allow"
     },
     "edit": {
-      "*": "ask"
+      "*": "allow"
     },
     "task": "allow",
     "todoread": "allow",
