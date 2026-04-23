@@ -10,7 +10,10 @@ Basically, prefer to follow the TDD approach.
 * Confirm that tests fail
 * Write code to make tests pass
 * Refactor code if necessary
+* Update memory files and documents (this file, README.md and repository local AGENTS.md or CLAUDE.md) if necessary
 * Repeat the process
+
+When you cannot write tests first (e.g. implementation already exists), you MUST still verify that each new test would fail against a broken implementation. Briefly mutate the implementation (return wrong value, remove a clamp/branch, change a constant, etc.), run the affected test, confirm it fails, then revert. Do this for every behavior the test is meant to guard. A passing test proves nothing unless you have seen it fail. Report the mutation-catch evidence alongside the final green result, not just the green result.
 
 ## Agents
 

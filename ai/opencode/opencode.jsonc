@@ -6,9 +6,8 @@
   "provider": {
     "ollama": {
       "models": {
-        "glm-4.7-flash": {
-          "_launch": true,
-          "name": "glm-4.7-flash"
+        "qwen3.6:27b": {
+          "name": "qwen3.6:27b"
         },
         "qwen3-coder": {
           "name": "qwen3-coder"
