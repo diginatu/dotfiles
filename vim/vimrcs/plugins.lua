@@ -400,7 +400,15 @@ require("lazy").setup({
         enabled = not is_fast_launch,
     },
     'tpope/vim-repeat',
-    'tpope/vim-surround',
+    {
+        'tpope/vim-surround',
+        init = function ()
+            vim.keymap.set('x', 's', '<Plug>VSurround', { remap = true })
+
+            -- Video editing - Nagare Clip
+            vim.g.surround_114 = "{{\r->}}"
+        end,
+    },
     'tpope/vim-speeddating',
     {
         'tpope/vim-fugitive',
