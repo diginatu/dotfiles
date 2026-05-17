@@ -91,6 +91,7 @@ require("lazy").setup({
         dependencies = { 'nvim-treesitter/nvim-treesitter'},
         lazy = true,
         ft = 'markdown',
+        enabled = false,
     },
 
     ------------------------
@@ -98,7 +99,7 @@ require("lazy").setup({
     ------------------------
     {
         "nvim-treesitter/nvim-treesitter",
-        enabled = not is_fast_launch,
+        enabled = false and not is_fast_launch,
         build = ":TSUpdate",
         main = "nvim-treesitter.configs",
         init = function ()
@@ -127,7 +128,7 @@ require("lazy").setup({
     },
     {
         'nvim-treesitter/nvim-treesitter-textobjects',
-        enabled = not is_fast_launch,
+        enabled = false and not is_fast_launch,
     },
     {
         'neovim/nvim-lspconfig',
@@ -137,26 +138,26 @@ require("lazy").setup({
                 group = vim.api.nvim_create_augroup('vimrc_lspconfig', { clear = true }),
                 callback = function(args)
                     local client = vim.lsp.get_client_by_id(args.data.client_id)
-                    if client.supports_method('textDocument/codeAction') then
+                    if client:supports_method('textDocument/codeAction') then
                         vim.keymap.set('n', '<leader>ac', '<Cmd>lua vim.lsp.buf.code_action()<CR>')
                     end
-                    if client.supports_method('textDocument/rename') then
+                    if client:supports_method('textDocument/rename') then
                         vim.keymap.set('n', '<leader>nm', '<Cmd>lua vim.lsp.buf.rename()<CR>')
                     end
-                    if client.supports_method('textDocument/references') then
+                    if client:supports_method('textDocument/references') then
                         vim.keymap.set('n', '<leader>us', '<Cmd>lua vim.lsp.buf.references()<CR>')
                     end
-                    if client.supports_method('textDocument/declaration') then
+                    if client:supports_method('textDocument/declaration') then
                         vim.keymap.set('n', '<leader>dc', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
                     end
-                    if client.supports_method('textDocument/implementation') then
+                    if client:supports_method('textDocument/implementation') then
                         vim.keymap.set('n', '<leader>ip', '<Cmd>lua vim.lsp.buf.implementation()<CR>')
                     end
-                    if client.supports_method('textDocument/codeLens') then
+                    if client:supports_method('textDocument/codeLens') then
                         vim.keymap.set('n', '<leader>ln', '<Cmd>lua vim.lsp.codelens.run()<CR>')
                     end
                     if not client:supports_method('textDocument/willSaveWaitUntil') and 
-                        client.supports_method('textDocument/formatting') then
+                        client:supports_method('textDocument/formatting') then
                         -- Format the current buffer on save
                         vim.api.nvim_create_autocmd('BufWritePre', {
                             group = vim.api.nvim_create_augroup('vimrc.lspconfig.keybind', { clear = false }),
