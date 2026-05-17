@@ -460,10 +460,22 @@ require("lazy").setup({
                 'call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)',
                 { bang = true, nargs = '?', complete = 'dir' }
             )
-            vim.api.nvim_create_user_command('FzfGGrep',
-                'call fzf#vim#grep(\'git grep --line-number -- \'.shellescape(<q-args>), 0, fzf#vim#with_preview({\'dir\': systemlist(\'git rev-parse --show-toplevel\')[0]}), <bang>0)',
-                { bang = true, nargs = '*' }
-            )
+            vim.api.nvim_create_user_command('FzfGGrep', function(opts)
+                -- 2>/dev/null to suppress error when not in a git repository
+                local git_root_list = vim.fn.systemlist('git rev-parse --show-toplevel 2>/dev/null')
+                local git_root = (git_root_list and #git_root_list > 0) and git_root_list[1] or ''
+
+                -- If we are not in a git repository, fallback to current working directory
+                if git_root == '' then
+                    git_root = vim.fn.getcwd()
+                end
+
+                local preview = vim.fn['fzf#vim#with_preview']({ dir = git_root })
+                local cmd = 'git grep --line-number -- ' .. vim.fn.shellescape(opts.args)
+                local bang = opts.bang and 1 or 0
+
+                vim.fn['fzf#vim#grep'](cmd, 0, preview, bang)
+            end, { bang = true, nargs = '*' })
         end,
         keys = {
             { '<leader>ul', '<Cmd>FzfLines<CR>', desc = 'Fzf lines in the buffer' },
