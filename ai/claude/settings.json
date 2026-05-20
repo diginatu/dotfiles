@@ -50,6 +50,7 @@
       "Bash(git fetch:*)",
       "Bash(gh pr view:*)",
       "Bash(gh pr list:*)",
+      "Bash(gh pr diff:*)",
       "Bash(which:*)",
       "Bash(whereis:*)",
       "Bash(whoami)",
