@@ -94,7 +94,6 @@
     ],
     "defaultMode": "default"
   },
-  "model": "opus",
   "hooks": {
     "Notification": [
       {
@@ -106,12 +105,12 @@
         ]
       }
     ],
-    "SessionStart": [
+    "PermissionRequest": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "unalias rm"
+            "command": "play /usr/share/sounds/speech-dispatcher/test.wav"
           }
         ]
       }
@@ -124,7 +123,8 @@
   "enabledPlugins": {
     "typescript-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
-    "commit-commands@claude-plugins-official": true
+    "commit-commands@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true
   },
   "sandbox": {
     "enabled": true,
