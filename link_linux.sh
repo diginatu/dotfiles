@@ -74,3 +74,4 @@ mkdir -p ${DISTDIR}/.claude
 ln -fs ${FROMDIR}/ai/AGENTS.md ${DISTDIR}/.claude/CLAUDE.md
 ln -fs ${FROMDIR}/ai/claude/agents/* ${DISTDIR}/.claude/agents/
 ln -fs ${FROMDIR}/ai/claude/settings.json ${DISTDIR}/.claude/
+ln -fs ${FROMDIR}/ai/claude/keybindings.json ${DISTDIR}/.claude/

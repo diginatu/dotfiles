@@ -132,5 +132,6 @@
     "seccomp": {
       "bpfPath": "~/.local/user-nodejs-packages/node_modules/@anthropic-ai/sandbox-runtime/vendor/seccomp/x64"
     }
-  }
+  },
+  "skipAutoPermissionPrompt": true
 }

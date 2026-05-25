@@ -1,0 +1,70 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-keybindings.json",
+  "$docs": "https://code.claude.com/docs/en/keybindings",
+  "bindings": [
+    {
+      "context": "Global",
+      "bindings": {
+        "ctrl+x ctrl+q": "app:exit",
+        "ctrl+x ctrl+t": "app:toggleTodos",
+        "ctrl+x ctrl+o": "app:toggleTranscript"
+      }
+    },
+    {
+      "context": "Chat",
+      "bindings": {
+        "ctrl+x e": "chat:externalEditor",
+        "ctrl+x b": "chat:thinkingToggle",
+        "ctrl+t": "modelPicker:increaseEffort",
+        "ctrl+shift+t": "modelPicker:decreaseEffort",
+        "ctrl+x m": "chat:modelPicker",
+        "ctrl+x s": "chat:stash",
+        "ctrl+x u": "chat:undo",
+        "enter":     "chat:submit",
+        "ctrl+v":    "chat:imagePaste",
+        "escape":    "chat:cancel",
+        "tab":       "chat:cycleMode"
+      }
+    },
+    {
+      "context": "Tabs",
+      "bindings": {
+        "tab":       "tabs:next",
+        "shift+tab": "tabs:previous"
+      }
+    },
+    {
+      "context": "HistorySearch",
+      "bindings": {
+        "ctrl+r":  "historySearch:next",
+        "escape":  "historySearch:accept",
+        "enter":   "historySearch:execute"
+      }
+    },
+    {
+      "context": "MessageSelector",
+      "bindings": {
+        "ctrl+g":     "messageSelector:top",
+        "ctrl+alt+g": "messageSelector:bottom",
+        "up":         "messageSelector:up",
+        "down":       "messageSelector:down",
+        "enter":      "messageSelector:select"
+      }
+    },
+    {
+      "context": "Task",
+      "bindings": {
+        "ctrl+b": "task:background"
+      }
+    },
+    {
+      "context": "Confirmation",
+      "bindings": {
+        "enter":     "confirm:yes",
+        "escape":    "confirm:no",
+        "tab":       "confirm:nextField",
+        "shift+tab": "confirm:cycleMode"
+      }
+    }
+  ]
+}
