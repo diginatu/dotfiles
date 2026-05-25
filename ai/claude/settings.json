@@ -110,7 +110,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "play /usr/share/sounds/speech-dispatcher/test.wav"
+            "command": "kitten notify -s system -i claude-code \"Claude Code\""
           }
         ]
       }
