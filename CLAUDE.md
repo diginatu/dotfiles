@@ -41,6 +41,10 @@ Because almost everything is installed via symlink, **editing a file in this rep
 - **Vim config that should work in both Vim and Neovim:** put it in `vimrcs/common.vim`. Neovim-only plugin config goes in `vimrcs/plugins.lua`.
 - **Personal scripts:** drop into `bin/` and add a symlink line if the bulk `ln -fs ${FROMDIR}/bin/*` glob does not already cover it (it does, for top-level files).
 
+## Git workflow
+
+Always commit and push directly to `master` — no feature branches, no PRs.
+
 ## Environment quirks to know
 
 - `rm` is aliased to a "Do you mean tp?" message in `shell/shell_common.sh` (where `tp` = `gio trash`). To actually delete in a shell, use `\rm`. This only affects interactive shells — scripts and tool calls that invoke `rm` directly are unaffected.
