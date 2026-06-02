@@ -51,6 +51,7 @@
       "Bash(gh pr view:*)",
       "Bash(gh pr list:*)",
       "Bash(gh pr diff:*)",
+      "Bash(gh issue view:*)",
       "Bash(which:*)",
       "Bash(whereis:*)",
       "Bash(whoami)",
