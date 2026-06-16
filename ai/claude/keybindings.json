@@ -27,6 +27,12 @@
       }
     },
     {
+      "context": "Autocomplete",
+      "bindings": {
+        "tab": "autocomplete:accept"
+      }
+    },
+    {
       "context": "Tabs",
       "bindings": {
         "tab":       "tabs:next",

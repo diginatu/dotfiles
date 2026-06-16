@@ -95,6 +95,7 @@
     ],
     "defaultMode": "default"
   },
+  "model": "haiku",
   "hooks": {
     "Notification": [
       {
@@ -122,17 +123,29 @@
     "command": "sh /home/diginah/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
+    "superpowers@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
-    "commit-commands@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true
+    "clangd-lsp@claude-plugins-official": true
   },
   "sandbox": {
     "enabled": true,
     "failIfUnavailable": true,
+    "filesystem": {
+      "allowWrite": [
+        "~/.cache/uv"
+      ],
+      "denyRead": [
+        "~/.password-store",
+        "~/.ssh"
+      ]
+    },
     "seccomp": {
       "bpfPath": "~/.local/user-nodejs-packages/node_modules/@anthropic-ai/sandbox-runtime/vendor/seccomp/x64"
     }
   },
+  "theme": "auto",
   "skipAutoPermissionPrompt": true
 }
