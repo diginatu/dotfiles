@@ -95,7 +95,7 @@
     ],
     "defaultMode": "default"
   },
-  "model": "haiku",
+  "model": "sonnet",
   "hooks": {
     "Notification": [
       {
