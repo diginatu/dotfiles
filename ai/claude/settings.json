@@ -95,7 +95,7 @@
     ],
     "defaultMode": "default"
   },
-  "model": "sonnet",
+  "model": "haiku",
   "hooks": {
     "Notification": [
       {
@@ -142,10 +142,14 @@
         "~/.ssh"
       ]
     },
+    "excludedCommands": [
+      "gh"
+    ],
     "seccomp": {
       "bpfPath": "~/.local/user-nodejs-packages/node_modules/@anthropic-ai/sandbox-runtime/vendor/seccomp/x64"
     }
   },
+  "tui": "fullscreen",
   "theme": "auto",
   "skipAutoPermissionPrompt": true
 }
