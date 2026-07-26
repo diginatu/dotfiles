@@ -133,13 +133,17 @@
   "sandbox": {
     "enabled": true,
     "failIfUnavailable": true,
+    "allowUnsandboxedCommands": false,
     "filesystem": {
       "allowWrite": [
         "~/.cache/uv"
       ],
       "denyRead": [
         "~/.password-store",
-        "~/.ssh"
+        "~/.ssh",
+        ".env",
+        "langfuse-cli",
+        "~/.cache/ms-playwright/*"
       ]
     },
     "excludedCommands": [
