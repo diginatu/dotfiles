@@ -91,6 +91,10 @@
       "git blame *": "allow",
       "git grep *": "allow",
       "git shortlog *": "allow",
+      "gh pr view *": "allow",
+      "gh pr list *": "allow",
+      "gh pr diff *": "allow",
+      "gh issue view *": "allow",
       // --- System info ---
       "which *": "allow",
       "whereis *": "allow",
