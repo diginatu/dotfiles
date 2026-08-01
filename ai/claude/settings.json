@@ -112,16 +112,19 @@
     "enabled": true,
     "failIfUnavailable": true,
     "allowUnsandboxedCommands": false,
+    "network": {
+      "allowAllUnixSockets": true
+    },
     "filesystem": {
       "allowWrite": [
-        "~/.cache/uv"
+        "~/.cache/uv",
+        "~/.cache/ms-playwright"
       ],
       "denyRead": [
         "~/.password-store",
         "~/.ssh",
         ".env",
-        "langfuse-cli",
-        "~/.cache/ms-playwright/*"
+        "langfuse-cli"
       ]
     },
     "excludedCommands": [

@@ -18,7 +18,9 @@ Basically, prefer to follow the TDD approach.
 * Repeat the process
 
 When you cannot write tests first (e.g. implementation already exists), you MUST still verify that each new test would fail against a broken implementation. Briefly mutate the implementation (return wrong value, remove a clamp/branch, change a constant, etc.), run the affected test, confirm it fails, then revert. Do this for every behavior the test is meant to guard. A passing test proves nothing unless you have seen it fail. Report the mutation-catch evidence alongside the final green result, not just the green result.
+日本語の場合はタメ口で返答する。
 
 ## Environment
 
 * `rm` is disabled by aliasing. Use \rm instead.
+* Sandbox permission errors: report and ask, don't attempt workarounds
