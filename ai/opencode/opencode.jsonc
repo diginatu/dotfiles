@@ -58,6 +58,7 @@
       "stat *": "allow",
       "wc *": "allow",
       "tree *": "allow",
+      "diff *": "allow",
       // --- Text processing ---
       "echo *": "allow",
       "grep *": "allow",
