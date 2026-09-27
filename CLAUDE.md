@@ -12,7 +12,7 @@ Personal Linux dotfiles. Configuration is grouped by tool under top-level direct
 sh link_linux.sh
 ```
 
-`link_linux.sh` does not run APM. Afterwards run `apm install -g && apm compile -g` (add `--update` to `apm install` to pick up newer package versions, including edits to the personal package). `APM_MANIFEST=/path/to/apm.yml sh link_linux.sh` places a different user-scope APM manifest instead of `ai/apm/global/apm.yml`. Other environments (e.g. the company machine) use this with their own manifest, which should list the personal package `diginatu/dotfiles/ai/apm/personal#master` plus their own packages.
+`link_linux.sh` does not run APM. Afterwards run `apm install -g && apm compile -g` (add `--update` to `apm install` to pick up newer package versions, including edits to the personal package).
 
 `link_linux.sh` sources `link_config.sh` (which sets `FROMDIR=$HOME/dotfiles` and `DISTDIR=$HOME`) and then runs `ln -fs` for every config file. There is no build, lint, or test command — this repo is config-only.
 
@@ -23,7 +23,7 @@ Because almost everything is installed via symlink, **editing a file in this rep
 - `shell/` — bash + zsh rc/profile files. `shell_common.sh` is sourced by both; aliases and shared logic go there. `shell_env_common.sh` is for env vars (locale, etc.).
 - `vim/` — `vimrc` is used by both Vim and Neovim (linked to `~/.vimrc` and `~/.config/nvim/init.vim`). Plugin config lives in `vimrcs/plugins.lua` (Neovim only, gated on `$HOME/.vim_plug` existing); shared config lives in `vimrcs/common.vim`.
 - `ai/` — AI tool configuration.
-  - **Global AI context is managed by [APM](https://github.com/microsoft/apm)** and deployed to Claude Code, Codex and OpenCode. `ai/apm/global/apm.yml` is the personal user-scope manifest: `link_linux.sh` **copies** it (or `$APM_MANIFEST` if set) to `~/.apm/apm.yml` (APM rejects a symlinked manifest); running `apm install -g && apm compile -g` is manual. It declares:
+  - **Global AI context is managed by [APM](https://github.com/microsoft/apm)** and deployed to Claude Code, Codex and OpenCode. `ai/apm/global/apm.yml` is the personal user-scope manifest: `link_linux.sh` **copies** it to `~/.apm/apm.yml` (APM rejects a symlinked manifest); running `apm install -g && apm compile -g` is manual. It declares:
     - `ai/apm/personal/` — the personal APM package. `.apm/instructions/personal.instructions.md` holds the personal global guidance (edit it for guidance that should apply to every project; do NOT duplicate its contents into this file). Personal skills / agents / commands / hooks go under `.apm/skills/`, `.apm/agents/`, `.apm/commands/`, `.apm/hooks/`.
     - Third-party packages (superpowers, `commit-commands`, `code-simplifier`) — installed via APM instead of Claude Code plugins, so they reach every target. Their Claude plugins are set to `false` in `ai/claude/settings.json` to avoid duplicates.
     - LSP servers (`dependencies.lsp`, Claude Code only) — replacing the `*-lsp` Claude plugins.

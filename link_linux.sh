@@ -79,9 +79,8 @@ ln -fs ${FROMDIR}/ai/claude/statusline-command.sh ${DISTDIR}/.claude/
 # yourself (add --update to pull newer packages). The manifest must be a real
 # file, not a symlink. apm install re-merges hooks into the copied
 # settings.json above, so re-run it after this script.
-# APM_MANIFEST overrides the manifest (e.g. a company one on a work machine).
 mkdir -p ${DISTDIR}/.apm
-cp "${APM_MANIFEST:-${FROMDIR}/ai/apm/global/apm.yml}" ${DISTDIR}/.apm/apm.yml
+cp ${FROMDIR}/ai/apm/global/apm.yml ${DISTDIR}/.apm/apm.yml
 # Claude reads APM instructions from ~/.claude/rules/. Keep a hand-authored
 # CLAUDE.md (copied: compile -g errors on symlinks) so compile -g skips it
 # instead of duplicating the same instructions.

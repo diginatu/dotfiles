@@ -1,6 +1,6 @@
 # Personal user-scope APM manifest. link_linux.sh copies this to
-# ~/.apm/apm.yml (APM rejects a symlinked manifest) unless APM_MANIFEST points
-# to another one, then runs `apm install -g` and `apm compile -g`.
+# ~/.apm/apm.yml (APM rejects a symlinked manifest); then run
+# `apm install -g && apm compile -g` manually.
 name: diginatu-global
 version: 1.0.0
 description: User-scope AI agent context for diginatu
