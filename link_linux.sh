@@ -85,6 +85,12 @@ cp "${APM_MANIFEST:-${FROMDIR}/ai/apm/global/apm.yml}" ${DISTDIR}/.apm/apm.yml
 # instead of duplicating the same instructions.
 rm -f ${DISTDIR}/.claude/CLAUDE.md
 cp ${FROMDIR}/ai/claude/CLAUDE.md ${DISTDIR}/.claude/CLAUDE.md
+# compile -g refuses to write through symlinks (e.g. old links to ai/AGENTS.md).
+for f in ${DISTDIR}/.codex/AGENTS.md ${DISTDIR}/.config/opencode/AGENTS.md; do
+    if [ -L "$f" ]; then
+        rm -f "$f"
+    fi
+done
 if command -v apm >/dev/null 2>&1; then
     apm install -g && apm compile -g
 else
