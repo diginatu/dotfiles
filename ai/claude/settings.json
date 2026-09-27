@@ -96,39 +96,17 @@
     "defaultMode": "default"
   },
   "model": "haiku",
-  "hooks": {
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "kitten notify -s system -i claude-code \"Claude Code\""
-          }
-        ]
-      }
-    ],
-    "PermissionRequest": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "kitten notify -s system -i claude-code \"Claude Code\""
-          }
-        ]
-      }
-    ]
-  },
   "statusLine": {
     "type": "command",
     "command": "sh /home/diginah/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
-    "superpowers@claude-plugins-official": true,
-    "commit-commands@claude-plugins-official": true,
-    "code-simplifier@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true,
-    "pyright-lsp@claude-plugins-official": true,
-    "clangd-lsp@claude-plugins-official": true
+    "superpowers@claude-plugins-official": false,
+    "commit-commands@claude-plugins-official": false,
+    "code-simplifier@claude-plugins-official": false,
+    "typescript-lsp@claude-plugins-official": false,
+    "pyright-lsp@claude-plugins-official": false,
+    "clangd-lsp@claude-plugins-official": false
   },
   "sandbox": {
     "enabled": true,

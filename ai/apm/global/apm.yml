@@ -13,8 +13,42 @@ targets:
 
 dependencies:
   apm:
-    # Company / team instruction packages go here, e.g.:
-    # - my-company/ai-instructions#v1.0.0
-    # - my-company/my-team-instructions#v1.0.0
     - diginatu/dotfiles/ai/apm/personal#master
+    - obra/superpowers#v6.4.2
+    - anthropics/claude-plugins-official/plugins/commit-commands#main
+    - anthropics/claude-plugins-official/plugins/code-simplifier#main
   mcp: []
+  # Same servers as the official typescript-lsp / pyright-lsp / clangd-lsp
+  # Claude plugins. The language server binaries must be on PATH.
+  lsp:
+    - name: typescript
+      command: typescript-language-server
+      args: ["--stdio"]
+      extensionToLanguage:
+        ".ts": typescript
+        ".tsx": typescriptreact
+        ".js": javascript
+        ".jsx": javascriptreact
+        ".mts": typescript
+        ".cts": typescript
+        ".mjs": javascript
+        ".cjs": javascript
+    - name: pyright
+      command: pyright-langserver
+      args: ["--stdio"]
+      extensionToLanguage:
+        ".py": python
+        ".pyi": python
+    - name: clangd
+      command: clangd
+      args: ["--background-index"]
+      extensionToLanguage:
+        ".c": c
+        ".h": c
+        ".cpp": cpp
+        ".cc": cpp
+        ".cxx": cpp
+        ".hpp": cpp
+        ".hxx": cpp
+        ".C": cpp
+        ".H": cpp
