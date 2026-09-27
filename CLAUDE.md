@@ -14,14 +14,15 @@ sh link_linux.sh
 
 `link_linux.sh` sources `link_config.sh` (which sets `FROMDIR=$HOME/dotfiles` and `DISTDIR=$HOME`) and then runs `ln -fs` for every config file. There is no build, lint, or test command — this repo is config-only.
 
-Because almost everything is installed via symlink, **editing a file in this repo immediately changes the live system** (next shell/editor invocation picks it up). The only file that is copied rather than symlinked is `git/gitconfig` → `~/.gitconfig` (because `gitconfig` does not follow include semantics through symlinks reliably in some setups); re-run `link_linux.sh` after editing it.
+Because almost everything is installed via symlink, **editing a file in this repo immediately changes the live system** (next shell/editor invocation picks it up). Files that are copied rather than symlinked: `git/gitconfig` → `~/.gitconfig` (because `gitconfig` does not follow include semantics through symlinks reliably in some setups), `ai/apm/global/apm.yml` → `~/.apm/apm.yml`, and `ai/claude/CLAUDE.md` → `~/.claude/CLAUDE.md`; re-run `link_linux.sh` after editing them.
 
 ## Layout (where each tool's config lives)
 
 - `shell/` — bash + zsh rc/profile files. `shell_common.sh` is sourced by both; aliases and shared logic go there. `shell_env_common.sh` is for env vars (locale, etc.).
 - `vim/` — `vimrc` is used by both Vim and Neovim (linked to `~/.vimrc` and `~/.config/nvim/init.vim`). Plugin config lives in `vimrcs/plugins.lua` (Neovim only, gated on `$HOME/.vim_plug` existing); shared config lives in `vimrcs/common.vim`.
 - `ai/` — AI tool configuration.
-  - `ai/AGENTS.md` is the **user-global** prompt; `link_linux.sh` symlinks it to `~/.claude/CLAUDE.md`. Edit it for guidance that should apply to every project, not just this one. Do NOT duplicate its contents into this file.
+  - **User-global prompt is managed by [APM](https://github.com/microsoft/apm).** `ai/apm/personal/` is an APM package whose `.apm/instructions/personal.instructions.md` holds the personal global guidance (edit it for guidance that should apply to every project; do NOT duplicate its contents into this file). `ai/apm/global/apm.yml` is the user-scope manifest: `link_linux.sh` **copies** it to `~/.apm/apm.yml` (APM rejects a symlinked manifest) and runs `apm install -g && apm compile -g`. Company/team instruction packages are added as dependencies there. The personal package is referenced remotely (`diginatu/dotfiles/ai/apm/personal#master`), so edits take effect only after pushing to `master` and re-running `apm install -g --update && apm compile -g`.
+  - Claude Code gets the instructions via `~/.claude/rules/`; `ai/claude/CLAUDE.md` is a hand-authored placeholder copied to `~/.claude/CLAUDE.md` so that `apm compile -g` skips it instead of duplicating the rules. Codex / OpenCode / Gemini get APM-generated `AGENTS.md` / `GEMINI.md`.
   - `ai/claude/settings.json` → `~/.claude/settings.json` (Claude Code permissions, hooks, plugins).
   - `ai/claude/agents/` → individual files symlinked into `~/.claude/agents/`.
   - `ai/opencode/opencode.jsonc` → `~/.config/opencode/opencode.jsonc`.

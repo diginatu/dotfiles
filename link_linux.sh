@@ -78,10 +78,11 @@ ln -fs ${FROMDIR}/ai/claude/statusline-command.sh ${DISTDIR}/.claude/
 ## APM (global instructions). The manifest must be a real file, not a symlink.
 mkdir -p ${DISTDIR}/.apm
 cp ${FROMDIR}/ai/apm/global/apm.yml ${DISTDIR}/.apm/apm.yml
-# Old setup symlinked ai/AGENTS.md here; APM never overwrites a hand-authored file.
-if [ -L ${DISTDIR}/.claude/CLAUDE.md ]; then
-    rm -f ${DISTDIR}/.claude/CLAUDE.md
-fi
+# Claude reads APM instructions from ~/.claude/rules/. Keep a hand-authored
+# CLAUDE.md (copied: compile -g errors on symlinks) so compile -g skips it
+# instead of duplicating the same instructions.
+rm -f ${DISTDIR}/.claude/CLAUDE.md
+cp ${FROMDIR}/ai/claude/CLAUDE.md ${DISTDIR}/.claude/CLAUDE.md
 if command -v apm >/dev/null 2>&1; then
     apm install -g && apm compile -g
 else
