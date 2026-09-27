@@ -1,6 +1,10 @@
-# Gloval prompt
+---
+description: diginatu's personal global guidelines
+---
 
-This file is at `~/dotfiles/ai/AGENTS.md` and is given every time.
+# Global prompt
+
+This file is at `~/dotfiles/ai/apm/personal/.apm/instructions/personal.instructions.md` and is given every time (installed via APM).
 You don't need to add content in this file to the project prompt.
 
 ## Guidelines

@@ -1,0 +1,10 @@
+name: diginatu-personal
+version: 1.0.0
+description: diginatu's personal global instructions for AI coding agents
+author: diginatu
+
+dependencies:
+  apm: []
+  mcp: []
+includes: auto
+scripts: {}
