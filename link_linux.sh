@@ -86,3 +86,5 @@ cp ${FROMDIR}/ai/apm/global/apm.yml ${DISTDIR}/.apm/apm.yml
 # instead of duplicating the same instructions.
 rm -f ${DISTDIR}/.claude/CLAUDE.md
 cp ${FROMDIR}/ai/claude/CLAUDE.md ${DISTDIR}/.claude/CLAUDE.md
+
+echo "Next, run: apm install -g --update && apm compile -g"
