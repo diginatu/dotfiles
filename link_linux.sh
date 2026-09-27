@@ -48,11 +48,6 @@ ln -fs ${FROMDIR}/bin/open ${DISTDIR}/bin/xdg-open
 
 ln -fs ${FROMDIR}/cli/aider.conf.yml ${DISTDIR}/.aider.conf.yml
 
-mkdir -p ${DISTDIR}/.gemini
-# Copied: APM merges hooks into it (see APM section below).
-rm -f ${DISTDIR}/.gemini/settings.json
-cp ${FROMDIR}/cli/gemini/settings.json ${DISTDIR}/.gemini/settings.json
-
 # GUI
 
 mkdir -p ${DISTDIR}/.config/kitty
@@ -72,7 +67,8 @@ ln -fs ${FROMDIR}/etc/xbindkeysrc ${DISTDIR}/.xbindkeysrc
 mkdir -p ${DISTDIR}/.config/opencode
 ln -fs ${FROMDIR}/ai/opencode/opencode.jsonc ${DISTDIR}/.config/opencode/opencode.jsonc
 mkdir -p ${DISTDIR}/.claude
-# Copied: APM merges hooks into it (see APM section below).
+# Copied: APM merges package hooks (e.g. superpowers) into it; a symlink would
+# let APM write into this repo.
 rm -f ${DISTDIR}/.claude/settings.json
 cp ${FROMDIR}/ai/claude/settings.json ${DISTDIR}/.claude/settings.json
 ln -fs ${FROMDIR}/ai/claude/keybindings.json ${DISTDIR}/.claude/
@@ -80,7 +76,7 @@ ln -fs ${FROMDIR}/ai/claude/statusline-command.sh ${DISTDIR}/.claude/
 
 ## APM: global instructions, skills, agents, commands, hooks and LSP servers.
 # The manifest must be a real file, not a symlink. apm install re-merges hooks
-# into the freshly copied settings.json files above.
+# into the freshly copied settings.json above.
 mkdir -p ${DISTDIR}/.apm
 cp ${FROMDIR}/ai/apm/global/apm.yml ${DISTDIR}/.apm/apm.yml
 # Claude reads APM instructions from ~/.claude/rules/. Keep a hand-authored
