@@ -75,8 +75,10 @@ ln -fs ${FROMDIR}/ai/claude/keybindings.json ${DISTDIR}/.claude/
 ln -fs ${FROMDIR}/ai/claude/statusline-command.sh ${DISTDIR}/.claude/
 
 ## APM: global instructions, skills, agents, commands, hooks and LSP servers.
-# The manifest must be a real file, not a symlink. apm install re-merges hooks
-# into the freshly copied settings.json above.
+# Only the manifest is placed here; run `apm install -g && apm compile -g`
+# yourself (add --update to pull newer packages). The manifest must be a real
+# file, not a symlink. apm install re-merges hooks into the copied
+# settings.json above, so re-run it after this script.
 # APM_MANIFEST overrides the manifest (e.g. a company one on a work machine).
 mkdir -p ${DISTDIR}/.apm
 cp "${APM_MANIFEST:-${FROMDIR}/ai/apm/global/apm.yml}" ${DISTDIR}/.apm/apm.yml
@@ -85,8 +87,3 @@ cp "${APM_MANIFEST:-${FROMDIR}/ai/apm/global/apm.yml}" ${DISTDIR}/.apm/apm.yml
 # instead of duplicating the same instructions.
 rm -f ${DISTDIR}/.claude/CLAUDE.md
 cp ${FROMDIR}/ai/claude/CLAUDE.md ${DISTDIR}/.claude/CLAUDE.md
-if command -v apm >/dev/null 2>&1; then
-    apm install -g && apm compile -g
-else
-    echo "apm not found; install it (e.g. pip install apm-cli) and re-run this script"
-fi
