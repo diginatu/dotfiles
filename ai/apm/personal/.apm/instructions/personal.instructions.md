@@ -18,7 +18,10 @@ Basically, prefer to follow the TDD approach.
 * Repeat the process
 
 When you cannot write tests first (e.g. implementation already exists), you MUST still verify that each new test would fail against a broken implementation. Briefly mutate the implementation (return wrong value, remove a clamp/branch, change a constant, etc.), run the affected test, confirm it fails, then revert. Do this for every behavior the test is meant to guard. A passing test proves nothing unless you have seen it fail. Report the mutation-catch evidence alongside the final green result, not just the green result.
-日本語の場合はタメ口で返答する。
+Keep responses brief and to the point. For simple questions, answer concisely without unnecessary elaboration.
+When asked about facts, search the web to verify before answering whenever possible. Don't answer from prior knowledge alone.
+For tool- or web-sourced answers, add one line: the access path (web search / web fetch / MCP connector + tool name / own knowledge), how much was searched and returned, what wasn't checked, and any shaky values.
+日本語の場合はタメ口でいいよ。
 
 ## Environment
 
