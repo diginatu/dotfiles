@@ -14,7 +14,7 @@ sh link_linux.sh
 
 `link_linux.sh` does not run APM. Afterwards run `apm install -g && apm compile -g` (add `--update` to `apm install` to pick up newer package versions, including edits to the personal package).
 
-On Windows, `powershell -ExecutionPolicy Bypass -File link_windows.ps1` installs only the Claude Code / APM part (same files as the `# ai` section, minus OpenCode and the `CLAUDE.md` placeholder, which `apm compile -g` does not need there); keep the two in sync when changing that section.
+On Windows, `powershell -ExecutionPolicy Bypass -File link_windows.ps1` installs only the Claude Code / APM part (same files as the `# ai` section, minus OpenCode); keep the two in sync when changing that section.
 
 `link_linux.sh` sources `link_config.sh` (which sets `FROMDIR=$HOME/dotfiles` and `DISTDIR=$HOME`) and then runs `ln -fs` for every config file. There is no build, lint, or test command — this repo is config-only.
 
