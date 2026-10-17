@@ -44,8 +44,8 @@ if (Test-Path $SettingsDest) { Remove-Item -Force $SettingsDest }
 Link-File (Join-Path $FromDir 'ai\claude\keybindings.json') (Join-Path $ClaudeDir 'keybindings.json')
 Link-File (Join-Path $FromDir 'ai\claude\statusline-command.sh') (Join-Path $ClaudeDir 'statusline-command.sh')
 
-## APM: see link_linux.sh. The manifest and CLAUDE.md must be real files.
+## APM: see link_linux.sh. The manifest must be a real file. No CLAUDE.md
+## placeholder: compile -g does not generate ~/.claude/CLAUDE.md here.
 Copy-File (Join-Path $FromDir 'ai\apm\global\apm.yml') (Join-Path $ApmDir 'apm.yml')
-Copy-File (Join-Path $FromDir 'ai\claude\CLAUDE.md') (Join-Path $ClaudeDir 'CLAUDE.md')
 
 Write-Output 'Next, run: apm install -g --update; apm compile -g'
