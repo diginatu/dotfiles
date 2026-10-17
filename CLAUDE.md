@@ -14,6 +14,8 @@ sh link_linux.sh
 
 `link_linux.sh` does not run APM. Afterwards run `apm install -g && apm compile -g` (add `--update` to `apm install` to pick up newer package versions, including edits to the personal package).
 
+On Windows, `powershell -ExecutionPolicy Bypass -File link_windows.ps1` installs only the Claude Code / APM part (same files as the `# ai` section, minus OpenCode); keep the two in sync when changing that section.
+
 `link_linux.sh` sources `link_config.sh` (which sets `FROMDIR=$HOME/dotfiles` and `DISTDIR=$HOME`) and then runs `ln -fs` for every config file. There is no build, lint, or test command — this repo is config-only.
 
 Because almost everything is installed via symlink, **editing a file in this repo immediately changes the live system** (next shell/editor invocation picks it up). Files that are copied rather than symlinked: `git/gitconfig` → `~/.gitconfig` (because `gitconfig` does not follow include semantics through symlinks reliably in some setups), `ai/apm/global/apm.yml` → `~/.apm/apm.yml`, `ai/claude/CLAUDE.md` → `~/.claude/CLAUDE.md`, and `ai/claude/settings.json` → `~/.claude/settings.json` (APM merges package hooks into it, which would otherwise write through the symlink into this repo); re-run `link_linux.sh` after editing them. Changes Claude Code makes to its own settings file are not written back here.
