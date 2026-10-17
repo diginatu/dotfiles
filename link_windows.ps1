@@ -37,9 +37,9 @@ New-Item -ItemType Directory -Force $ClaudeDir, $ApmDir | Out-Null
 $Settings = [IO.File]::ReadAllText((Join-Path $FromDir 'ai\claude\settings.json'))
 $ClaudeDirPosix = $ClaudeDir -replace '\\', '/'
 $Settings = $Settings -replace '/home/[^/"]+/\.claude/', "$ClaudeDirPosix/"
-# The Claude Code sandbox is not available on Windows; requiring it would
-# make claude refuse to start.
-$Settings = $Settings -replace '"failIfUnavailable":\s*true', '"failIfUnavailable": false'
+# The Claude Code sandbox is not available on Windows; leaving it enabled
+# makes claude refuse to start or reject every shell command.
+$Settings = $Settings -replace '("sandbox":\s*\{\s*"enabled":\s*)true', '${1}false'
 $SettingsDest = Join-Path $ClaudeDir 'settings.json'
 if (Test-Path $SettingsDest) { Remove-Item -Force $SettingsDest }
 [IO.File]::WriteAllText($SettingsDest, $Settings, (New-Object Text.UTF8Encoding $false))
