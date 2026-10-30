@@ -27,3 +27,4 @@ For tool- or web-sourced answers, add one line: the access path (web search / we
 
 * `rm` is disabled by aliasing. Use \rm instead.
 * Sandbox permission errors: report and ask, don't attempt workarounds
+* When modifying a repository other than the current one, work in a separate worktree (e.g. via Orca) instead of editing its main checkout directly
