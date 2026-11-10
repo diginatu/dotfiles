@@ -13,7 +13,6 @@ targets:
 dependencies:
   apm:
     - diginatu/dotfiles/ai/apm/personal#master
-    - obra/superpowers#v6.4.2
     - anthropics/claude-plugins-official/plugins/commit-commands#main
     - anthropics/claude-plugins-official/plugins/code-simplifier#main
   mcp: []

@@ -140,16 +140,6 @@
     ],
     "SessionStart": [
       {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash '/home/diginah/.claude/hooks/herdr-agent-state.sh' session",
-            "timeout": 10
-          }
-        ]
-      },
-      {
         "hooks": [
           {
             "type": "command",
@@ -289,7 +279,6 @@
     "command": "sh /home/diginah/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
-    "superpowers@claude-plugins-official": false,
     "commit-commands@claude-plugins-official": false,
     "code-simplifier@claude-plugins-official": false,
     "typescript-lsp@claude-plugins-official": false,

@@ -67,7 +67,7 @@ ln -fs ${FROMDIR}/etc/xbindkeysrc ${DISTDIR}/.xbindkeysrc
 mkdir -p ${DISTDIR}/.config/opencode
 ln -fs ${FROMDIR}/ai/opencode/opencode.jsonc ${DISTDIR}/.config/opencode/opencode.jsonc
 mkdir -p ${DISTDIR}/.claude
-# Copied: APM merges package hooks (e.g. superpowers) into it; a symlink would
+# Copied: APM merges package hooks into it; a symlink would
 # let APM write into this repo.
 rm -f ${DISTDIR}/.claude/settings.json
 cp ${FROMDIR}/ai/claude/settings.json ${DISTDIR}/.claude/settings.json

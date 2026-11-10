@@ -31,7 +31,7 @@ $ClaudeDir = Join-Path $DistDir '.claude'
 $ApmDir = Join-Path $DistDir '.apm'
 New-Item -ItemType Directory -Force $ClaudeDir, $ApmDir | Out-Null
 
-# Copied: APM merges package hooks (e.g. superpowers) into it; a symlink would
+# Copied: APM merges package hooks into it; a symlink would
 # let APM write into this repo. The statusline path is hard-coded for Linux,
 # so point it at this home directory instead.
 $Settings = [IO.File]::ReadAllText((Join-Path $FromDir 'ai\claude\settings.json'))
